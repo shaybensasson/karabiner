@@ -265,7 +265,9 @@ const rules: KarabinerRules[] = [
       // m: open("https://music.youtube.com"),                     // YouTube "M"usic
       m: open("https://app.meckano.co.il/"), // M"E"ckano
 
+      u: open("https://app.clickup.com/3843235/v/b/7-3843235-2"), // Click"U"p
       t: open("https://my.timeless.day/"),
+      b: open("raycast://extensions/raycast/browser-bookmarks/index"),
     },
     // q = "Q"uery
     // Should all be deep links
@@ -294,6 +296,8 @@ const rules: KarabinerRules[] = [
     o: {
       l: app("LastPass for Desktop"),
       g: app("Google Chrome"),
+      // Local
+      d: open("~/Downloads"),                                    // "O"pen Downloads
       // c: app("Calendar"),
       c: app("ChatGPT"), 
       // v: app("Zed"),
@@ -316,6 +320,8 @@ const rules: KarabinerRules[] = [
       m: app("Spotify"),
       // a: app("iA Presenter"),
       w: app("WhatsApp"),
+
+      o: app("Obsidian"),
       // l: open(
       //   "raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink"
       // ),
@@ -536,7 +542,8 @@ const rules: KarabinerRules[] = [
       ),
       p: open("raycast://extensions/raycast/raycast/confetti"),
       // a: open("raycast://extensions/raycast/raycast-ai/ai-chat"),
-      s: open("raycast://extensions/peduarte/silent-mention/index"),
+      // s: open("raycast://extensions/peduarte/silent-mention/index"),
+      s: open("/Users/shay/.config/raycast/scripts/"),          // "R"aycast Scripts (Cursor)
       h: open(
         "raycast://extensions/raycast/clipboard-history/clipboard-history"
       ),
