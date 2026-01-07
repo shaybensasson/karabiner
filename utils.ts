@@ -86,7 +86,13 @@ export function createHyperSubLayer(
       // This enables us to press other sublayer keys in the current sublayer
       // (e.g. Hyper + O > M even though Hyper + M is also a sublayer)
       // basically, only trigger a sublayer if no other sublayer is active
+      // Also check that THIS sublayer is not already active (for double-tap same key)
       conditions: [
+        {
+          type: "variable_if",
+          name: subLayerVariableName,
+          value: 0,
+        },
         ...allSubLayerVariables
           .filter(
             (subLayerVariable) => subLayerVariable !== subLayerVariableName
