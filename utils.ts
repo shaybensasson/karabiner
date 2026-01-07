@@ -167,6 +167,18 @@ export function open(...what: string[]): LayerCommand {
 }
 
 /**
+ * Shortcut for "osascript" shell command (AppleScript)
+ */
+export function osascript(...scripts: string[]): LayerCommand {
+  return {
+    to: scripts.map((script) => ({
+      shell_command: `osascript -e '${script}'`,
+    })),
+    description: `Run AppleScript: ${scripts.join(" & ")}`,
+  };
+}
+
+/**
  * Utility function to create a LayerCommand from a tagged template literal
  * where each line is a shell command to be executed.
  */
@@ -209,5 +221,7 @@ export function window(name: string): LayerCommand {
  * Shortcut for "Open an app" command (of which there are a bunch)
  */
 export function app(name: string): LayerCommand {
-  return open(`-a '${name}.app'`);
+  const result = open(`-a '${name}.app'`)
+  osascript(`tell application "${name}" to activate`)
+  return result
 }
