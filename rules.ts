@@ -256,18 +256,23 @@ const rules: KarabinerRules[] = [
     // ),
     // b = "B"rowse
     b: {
-      x: open("https://x.com"),
-      // Quarterly "P"lan
       c: open("https://calendar.google.com/calendar/u/2/r?pli=1"), // Google NeuroHelp "C"alendar
-      // f: open("https://facebook.com"),
       r: open("https://reddit.com"),
       h: open("https://www.youtube.com/feed/history"), // YouTube "H"istory
-      // m: open("https://music.youtube.com"),                     // YouTube "M"usic
       m: open("https://app.meckano.co.il/"), // M"E"ckano
+      
+      y: open("https://www.youtube.com"), // "Y"outube
+      
+      x: open("https://x.com"),
+      // m: open("https://music.youtube.com"),                     // YouTube "M"usic
 
       u: open("https://app.clickup.com/3843235/v/b/7-3843235-2"), // Click"U"p
       t: open("https://my.timeless.day/"),
       b: open("raycast://extensions/raycast/browser-bookmarks/index"),
+      p: open("https://neurohelp-pitch.vercel.app/?log=debug"), // NeuroHelp Pitch (e"X"perimental)
+      
+      o: open("https://chat.openai.com/chat"),                  // "C"hatGPT
+      g: open("https://gemini.google.com/u/1/app?pageId=none"), // Gemini
     },
     // q = "Q"uery
     // Should all be deep links
@@ -284,16 +289,11 @@ const rules: KarabinerRules[] = [
         ],
       },
       f: open("raycast://extensions/raycast/file-search/search-files"), // "F"ind Files
-      // todo: create it in raycastq
-      // a: open("https://www.google.com/search?q={Query}&udm=14"), // Google without "A"I
-      // todo: need to be created as command in raycast, so we'd have deep link
-      //y: open("https://www.youtube.com/results?search_query={Query}"), // "Y"ouTube Search
-      // p: open("https://mail.google.com/mail/u/0/#search/{Query}"), // "P"rivate Gmail
-      // n: open("https://mail.google.com/mail/u/2/#search/{Query}"), // "N"eurohelp Gmail
-      // c: open("https://app.clickup.com/t/{argument name=\"Task ID\"}"), // "C"lickUp Task
+      // todo: create it in raycast
     },
     // o = "Open" applications
     o: {
+      a: app("Safari"),
       l: app("LastPass for Desktop"),
       g: app("Google Chrome"),
       // Local
@@ -322,6 +322,8 @@ const rules: KarabinerRules[] = [
       w: app("WhatsApp"),
 
       o: app("Obsidian"),
+      y: shell`open -a Safari https://music.youtube.com`,          // "Y"outube Music (Safari)
+
       // l: open(
       //   "raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink"
       // ),
