@@ -156,6 +156,96 @@
             ]
           },
           {
+            "description": "Double-tap Cmd+Q to quit",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "q",
+                  "modifiers": {
+                    "mandatory": [
+                      "command"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "cmd_q_pressed",
+                      "value": 1
+                    }
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "cmd_q_pressed",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "cmd_q_pressed",
+                        "value": 1
+                      }
+                    }
+                  ]
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "cmd_q_pressed",
+                    "value": 0
+                  }
+                ],
+                "parameters": {
+                  "basic.to_delayed_action_delay_milliseconds": 300
+                }
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "q",
+                  "modifiers": {
+                    "mandatory": [
+                      "command"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "q",
+                    "modifiers": [
+                      "left_command"
+                    ]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "cmd_q_pressed",
+                      "value": 0
+                    }
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "cmd_q_pressed",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Disable command-h (except VSCode/Cursor)",
             "manipulators": [
               {
