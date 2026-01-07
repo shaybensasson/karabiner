@@ -1,6 +1,6 @@
 import fs from "fs";
 import { KarabinerRules } from "./types";
-import { createHyperSubLayers, app, open, window, shell, osascript, LEADER_KEY_TIMEOUT_MS } from "./utils";
+import { createHyperSubLayers, app, open, window, shell, osascript, LEADER_KEY_TIMEOUT_MS, DOUBLE_TAP_DELAY_MS } from "./utils";
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself (leader key style - tap and release, then press next key within timeout)
@@ -138,6 +138,172 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
+  // Double-tap Hyper+O to open Obsidian (requires capslock held, fast double-tap)
+  {
+    description: "Double-tap Hyper+O to open Obsidian",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "o",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          {
+            set_variable: {
+              name: "hyper_o_pressed",
+              value: 1,
+            },
+          },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            {
+              set_variable: {
+                name: "hyper_o_pressed",
+                value: 0,
+              },
+            },
+          ],
+          to_if_canceled: [
+            {
+              set_variable: {
+                name: "hyper_o_pressed",
+                value: 1,
+              },
+            },
+          ],
+        },
+        conditions: [
+          {
+            type: "variable_if",
+            name: "hyper_o_pressed",
+            value: 0,
+          },
+        ],
+        parameters: {
+          "basic.to_delayed_action_delay_milliseconds": DOUBLE_TAP_DELAY_MS, // double-tap window
+        },
+      },
+      {
+        type: "basic",
+        from: {
+          key_code: "o",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          {
+            shell_command: "open -a 'Obsidian.app'",
+          },
+          {
+            set_variable: {
+              name: "hyper_o_pressed",
+              value: 0,
+            },
+          },
+        ],
+        conditions: [
+          {
+            type: "variable_if",
+            name: "hyper_o_pressed",
+            value: 1,
+          },
+          {
+            type: "variable_if",
+            name: "hyper",
+            value: 1,
+          },
+        ],
+      },
+    ],
+  },
+  // Double-tap Hyper+B to open browser bookmarks (requires capslock held, fast double-tap)
+  {
+    description: "Double-tap Hyper+B to open browser bookmarks",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "b",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          {
+            set_variable: {
+              name: "hyper_b_pressed",
+              value: 1,
+            },
+          },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            {
+              set_variable: {
+                name: "hyper_b_pressed",
+                value: 0,
+              },
+            },
+          ],
+          to_if_canceled: [
+            {
+              set_variable: {
+                name: "hyper_b_pressed",
+                value: 1,
+              },
+            },
+          ],
+        },
+        conditions: [
+          {
+            type: "variable_if",
+            name: "hyper_b_pressed",
+            value: 0,
+          },
+        ],
+        parameters: {
+          "basic.to_delayed_action_delay_milliseconds": DOUBLE_TAP_DELAY_MS, // double-tap window
+        },
+      },
+      {
+        type: "basic",
+        from: {
+          key_code: "b",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          {
+            shell_command: "open raycast://extensions/raycast/browser-bookmarks/index",
+          },
+          {
+            set_variable: {
+              name: "hyper_b_pressed",
+              value: 0,
+            },
+          },
+        ],
+        conditions: [
+          {
+            type: "variable_if",
+            name: "hyper_b_pressed",
+            value: 1,
+          },
+          {
+            type: "variable_if",
+            name: "hyper",
+            value: 1,
+          },
+        ],
+      },
+    ],
+  },
   // Require double-tap cmd+q to quit apps (prevents accidental quits)
   {
     description: "Double-tap Cmd+Q to quit",
@@ -268,7 +434,7 @@ const rules: KarabinerRules[] = [
 
       u: open("https://app.clickup.com/3843235/v/b/7-3843235-2"), // Click"U"p
       t: open("https://my.timeless.day/"),
-      b: open("raycast://extensions/raycast/browser-bookmarks/index"),
+      // b: open("raycast://extensions/raycast/browser-bookmarks/index"), // Moved to double-tap hyper+b rule
       p: open("https://neurohelp-pitch.vercel.app/?log=debug"), // NeuroHelp Pitch (e"X"perimental)
       
       o: open("https://chat.openai.com/chat"),                  // "C"hatGPT
@@ -320,8 +486,7 @@ const rules: KarabinerRules[] = [
       m: app("Spotify"),
       // a: app("iA Presenter"),
       w: app("WhatsApp"),
-
-      o: app("Obsidian"),
+      // o: app("Obsidian"), // Moved to double-tap hyper+o rule
       y: shell`open -a Safari https://music.youtube.com`,          // "Y"outube Music (Safari)
 
       // l: open(
