@@ -8,7 +8,7 @@ const rules: KarabinerRules[] = [
     description: "Hyper Key (⌃⌥⇧⌘)",
     manipulators: [
       {
-        description: "Caps Lock -> Hyper Key (leader key style)",
+        description: "Caps Lock -> Hyper Key (leader key style + modifiers for instant arrow keys)",
         from: {
           key_code: "caps_lock",
           modifiers: {
@@ -21,6 +21,11 @@ const rules: KarabinerRules[] = [
               name: "hyper",
               value: 1,
             },
+          },
+          // Also send actual hyper modifiers for instant key detection
+          {
+            key_code: "left_shift",
+            modifiers: ["left_command", "left_control", "left_option"],
           },
         ],
         // Leader key style: don't reset immediately on key up, use delayed action instead
@@ -44,6 +49,14 @@ const rules: KarabinerRules[] = [
             },
           ],
         },
+        to_after_key_up: [
+          {
+            set_variable: {
+              name: "hyper",
+              value: 0,
+            },
+          },
+        ],
         to_if_alone: [
           {
             key_code: "escape",
@@ -69,6 +82,60 @@ const rules: KarabinerRules[] = [
       //          },
       //        ],
       //      },
+    ],
+  },
+  // Window management with hyper + arrow keys (instant, uses actual modifiers)
+  {
+    description: "Hyper + Arrow keys for window management",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "left_arrow",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          { shell_command: "open -g raycast://extensions/raycast/window-management/left-half" },
+        ],
+      },
+      {
+        type: "basic",
+        from: {
+          key_code: "right_arrow",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          { shell_command: "open -g raycast://extensions/raycast/window-management/right-half" },
+        ],
+      },
+      {
+        type: "basic",
+        from: {
+          key_code: "up_arrow",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          { shell_command: "open -g raycast://extensions/raycast/window-management/maximize" },
+        ],
+      },
+      {
+        type: "basic",
+        from: {
+          key_code: "down_arrow",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          { shell_command: "open -g raycast://extensions/raycast/window-management/restore" },
+        ],
+      },
     ],
   },
   // Disable cmd+h (hide app) except in VSCode/Cursor where it's used for search & replace
@@ -98,6 +165,8 @@ const rules: KarabinerRules[] = [
     ],
   },
   ...createHyperSubLayers({
+    // Note: Arrow keys for window management are handled above with simultaneous detection (instant, no delay)
+
     // TODO: shayb | 03-01-26 | replace
     // spacebar: open(
     //   "raycast://extensions/stellate/mxstbr-commands/create-notion-todo"
@@ -199,12 +268,7 @@ const rules: KarabinerRules[] = [
       d: window("next-display"),
       // k: window("top-half"),
       // j: window("bottom-half"),
-      left_arrow: window("left-half"),
-      right_arrow: window("right-half"),
-      // up_arrow: window("top-half"),
-      // down_arrow: window("bottom-half"),
-      up_arrow: window("maximize"),
-      down_arrow: window("restore"),
+      // Arrow keys moved to direct hyper shortcuts (capslock+arrow)
       
       u: {
         description: "Window: Previous Tab",
@@ -439,6 +503,12 @@ fs.writeFileSync(
           name: "Default",
           complex_modifications: {
             rules,
+          },
+          virtual_hid_keyboard: {
+            keyboard_type_v2: "iso",
+          },
+          parameters: {
+            "basic.to_delayed_action_delay_milliseconds": 500,
           },
         },
       ],
