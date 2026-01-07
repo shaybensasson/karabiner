@@ -1,6 +1,12 @@
 import { To, KeyCode, Manipulator, KarabinerRules } from "./types";
 
 /**
+ * Leader key timeout in milliseconds.
+ * After pressing the hyper key (or a sublayer key), you have this many ms to press the next key.
+ */
+export const LEADER_KEY_TIMEOUT_MS = 500;
+
+/**
  * Custom way to describe a command in a layer
  */
 export interface LayerCommand {
@@ -17,6 +23,8 @@ type HyperKeySublayer = {
  * Create a Hyper Key sublayer, where every command is prefixed with a key
  * e.g. Hyper + O ("Open") is the "open applications" layer, I can press
  * e.g. Hyper + O + G ("Google Chrome") to open Chrome
+ *
+ * Leader key style: tap hyper, release, tap sublayer key, release, tap command key
  */
 export function createHyperSubLayer(
   sublayer_key: KeyCode,
@@ -26,9 +34,10 @@ export function createHyperSubLayer(
   const subLayerVariableName = generateSubLayerVariableName(sublayer_key);
 
   return [
-    // When Hyper + sublayer_key is pressed, set the variable to 1; on key_up, set it to 0 again
+    // When Hyper + sublayer_key is pressed, set the variable to 1
+    // Leader key style: use delayed action instead of immediate reset on key_up
     {
-      description: `Toggle Hyper sublayer ${sublayer_key}`,
+      description: `Toggle Hyper sublayer ${sublayer_key} (leader key style)`,
       type: "basic",
       from: {
         key_code: sublayer_key,
@@ -36,16 +45,6 @@ export function createHyperSubLayer(
           optional: ["any"],
         },
       },
-      to_after_key_up: [
-        {
-          set_variable: {
-            name: subLayerVariableName,
-            // The default value of a variable is 0: https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition/conditions/variable/
-            // That means by using 0 and 1 we can filter for "0" in the conditions below and it'll work on startup
-            value: 0,
-          },
-        },
-      ],
       to: [
         {
           set_variable: {
@@ -54,6 +53,36 @@ export function createHyperSubLayer(
           },
         },
       ],
+      // Leader key style: don't reset immediately on key up, use delayed action instead
+      to_delayed_action: {
+        // If timeout expires without pressing another key, reset sublayer and hyper
+        to_if_invoked: [
+          {
+            set_variable: {
+              name: subLayerVariableName,
+              value: 0,
+            },
+          },
+          {
+            set_variable: {
+              name: "hyper",
+              value: 0,
+            },
+          },
+        ],
+        // If another key is pressed, keep sublayer active (the command will handle cleanup)
+        to_if_canceled: [
+          {
+            set_variable: {
+              name: subLayerVariableName,
+              value: 1,
+            },
+          },
+        ],
+      },
+      parameters: {
+        "basic.to_delayed_action_delay_milliseconds": LEADER_KEY_TIMEOUT_MS,
+      },
       // This enables us to press other sublayer keys in the current sublayer
       // (e.g. Hyper + O > M even though Hyper + M is also a sublayer)
       // basically, only trigger a sublayer if no other sublayer is active
@@ -76,24 +105,43 @@ export function createHyperSubLayer(
     },
     // Define the individual commands that are meant to trigger in the sublayer
     ...(Object.keys(commands) as (keyof typeof commands)[]).map(
-      (command_key): Manipulator => ({
-        ...commands[command_key],
-        type: "basic" as const,
-        from: {
-          key_code: command_key,
-          modifiers: {
-            optional: ["any"],
+      (command_key): Manipulator => {
+        const command = commands[command_key]!;
+        return {
+          ...command,
+          // Add cleanup: reset sublayer and hyper after command execution
+          to: [
+            ...(command.to || []),
+            {
+              set_variable: {
+                name: subLayerVariableName,
+                value: 0,
+              },
+            },
+            {
+              set_variable: {
+                name: "hyper",
+                value: 0,
+              },
+            },
+          ],
+          type: "basic" as const,
+          from: {
+            key_code: command_key,
+            modifiers: {
+              optional: ["any"],
+            },
           },
-        },
-        // Only trigger this command if the variable is 1 (i.e., if Hyper + sublayer is held)
-        conditions: [
-          {
-            type: "variable_if",
-            name: subLayerVariableName,
-            value: 1,
-          },
-        ],
-      })
+          // Only trigger this command if the variable is 1 (i.e., if sublayer is active)
+          conditions: [
+            {
+              type: "variable_if",
+              name: subLayerVariableName,
+              value: 1,
+            },
+          ],
+        };
+      }
     ),
   ];
 }
@@ -117,6 +165,16 @@ export function createHyperSubLayers(subLayers: {
           manipulators: [
             {
               ...value,
+              // Add cleanup: reset hyper after command execution
+              to: [
+                ...(value.to || []),
+                {
+                  set_variable: {
+                    name: "hyper",
+                    value: 0,
+                  },
+                },
+              ],
               type: "basic" as const,
               from: {
                 key_code: key as KeyCode,

@@ -1,14 +1,14 @@
 import fs from "fs";
 import { KarabinerRules } from "./types";
-import { createHyperSubLayers, app, open, window, shell, osascript } from "./utils";
+import { createHyperSubLayers, app, open, window, shell, osascript, LEADER_KEY_TIMEOUT_MS } from "./utils";
 
 const rules: KarabinerRules[] = [
-  // Define the Hyper key itself
+  // Define the Hyper key itself (leader key style - tap and release, then press next key within timeout)
   {
     description: "Hyper Key (⌃⌥⇧⌘)",
     manipulators: [
       {
-        description: "Caps Lock -> Hyper Key",
+        description: "Caps Lock -> Hyper Key (leader key style)",
         from: {
           key_code: "caps_lock",
           modifiers: {
@@ -23,19 +23,35 @@ const rules: KarabinerRules[] = [
             },
           },
         ],
-        to_after_key_up: [
-          {
-            set_variable: {
-              name: "hyper",
-              value: 0,
+        // Leader key style: don't reset immediately on key up, use delayed action instead
+        to_delayed_action: {
+          // If timeout expires without pressing another key, reset hyper
+          to_if_invoked: [
+            {
+              set_variable: {
+                name: "hyper",
+                value: 0,
+              },
             },
-          },
-        ],
+          ],
+          // If another key is pressed, keep hyper active (the sublayer/command will handle cleanup)
+          to_if_canceled: [
+            {
+              set_variable: {
+                name: "hyper",
+                value: 1,
+              },
+            },
+          ],
+        },
         to_if_alone: [
           {
             key_code: "escape",
           },
         ],
+        parameters: {
+          "basic.to_delayed_action_delay_milliseconds": LEADER_KEY_TIMEOUT_MS,
+        },
         type: "basic",
       },
       //      {
