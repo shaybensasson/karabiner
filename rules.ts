@@ -138,6 +138,89 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
+  // Require double-tap cmd+q to quit apps (prevents accidental quits)
+  {
+    description: "Double-tap Cmd+Q to quit",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "q",
+          modifiers: {
+            mandatory: ["command"],
+            optional: ["caps_lock"],
+          },
+        },
+        to: [
+          {
+            set_variable: {
+              name: "cmd_q_pressed",
+              value: 1,
+            },
+          },
+        ],
+        to_delayed_action: {
+          // Timeout expired without second press - reset
+          to_if_invoked: [
+            {
+              set_variable: {
+                name: "cmd_q_pressed",
+                value: 0,
+              },
+            },
+          ],
+          // Another key pressed - keep variable active so second Cmd+Q can match
+          to_if_canceled: [
+            {
+              set_variable: {
+                name: "cmd_q_pressed",
+                value: 1,
+              },
+            },
+          ],
+        },
+        conditions: [
+          {
+            type: "variable_if",
+            name: "cmd_q_pressed",
+            value: 0,
+          },
+        ],
+        parameters: {
+          "basic.to_delayed_action_delay_milliseconds": 300,
+        },
+      },
+      {
+        type: "basic",
+        from: {
+          key_code: "q",
+          modifiers: {
+            mandatory: ["command"],
+            optional: ["caps_lock"],
+          },
+        },
+        to: [
+          {
+            key_code: "q",
+            modifiers: ["left_command"],
+          },
+          {
+            set_variable: {
+              name: "cmd_q_pressed",
+              value: 0,
+            },
+          },
+        ],
+        conditions: [
+          {
+            type: "variable_if",
+            name: "cmd_q_pressed",
+            value: 1,
+          },
+        ],
+      },
+    ],
+  },
   // Disable cmd+h (hide app) except in VSCode/Cursor where it's used for search & replace
   {
     description: "Disable command-h (except VSCode/Cursor)",
