@@ -7,6 +7,13 @@ import { To, KeyCode, Manipulator, KarabinerRules } from "./types";
 export const LEADER_KEY_TIMEOUT_MS = 500;
 
 /**
+ * Double tap delay in milliseconds.
+ * After pressing the hyper key and a sublayer key, you have this many ms to press the sublayer key again.
+ */
+
+export const DOUBLE_TAP_DELAY_MS = 500;
+
+/**
  * Custom way to describe a command in a layer
  */
 export interface LayerCommand {
