@@ -55,16 +55,10 @@ const rules: KarabinerRules[] = [
       //      },
     ],
   },
-  // Require double command-h to hide window (prevents accidental hide)
-  // How it works:
-  // 1. First cmd+h: sets variable to 1, starts 500ms timer (no visible action)
-  // 2. Second cmd+h (within 500ms): variable is 1, so sends actual cmd+h to hide
-  // 3. If no second press within 500ms: timer resets variable to 0
-  // Note: Second-press handler must come first (Karabiner evaluates in order)
+  // Disable cmd+h (hide app) except in VSCode/Cursor where it's used for search & replace
   {
-    description: "Prevent unintended command-h (double-tap to hide)",
+    description: "Disable command-h (except VSCode/Cursor)",
     manipulators: [
-      // Second press: variable is 1, reset it and send the actual cmd+h
       {
         type: "basic",
         from: {
@@ -74,48 +68,16 @@ const rules: KarabinerRules[] = [
             optional: ["caps_lock"],
           },
         },
-        to: [
-          {
-            set_variable: {
-              name: "command_h_pressed",
-              value: 0,
-            },
-          },
-          {
-            key_code: "h",
-            modifiers: ["command"],
-          },
-        ],
+        to: [{ key_code: "vk_none" }],
         conditions: [
           {
-            type: "variable_if",
-            name: "command_h_pressed",
-            value: 1,
+            type: "frontmost_application_unless",
+            bundle_identifiers: [
+              "^com\\.microsoft\\.VSCode$",
+              "^com\\.todesktop\\.230313mzl4w4u92$", // Cursor
+            ],
           },
         ],
-      },
-      // First press (fallback): set variable to 1, timer resets to 0 after 500ms
-      {
-        type: "basic",
-        from: {
-          key_code: "h",
-          modifiers: {
-            mandatory: ["command"],
-            optional: ["caps_lock"],
-          },
-        },
-        to: [
-          {
-            set_variable: {
-              name: "command_h_pressed",
-              value: 1,
-            },
-          },
-        ],
-        to_delayed_action: {
-          to_if_invoked: [{ set_variable: { name: "command_h_pressed", value: 0 } }],
-          to_if_canceled: [{ set_variable: { name: "command_h_pressed", value: 0 } }],
-        },
       },
     ],
   },
