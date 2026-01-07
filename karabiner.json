@@ -8,11 +8,12 @@
                         "description": "Hyper Key (⌃⌥⇧⌘)",
                         "manipulators": [
                             {
-                                "description": "Caps Lock -> Hyper Key",
+                                "description": "Caps Lock -> Hyper Key (leader key style)",
                                 "from": {
                                     "key_code": "caps_lock",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -21,14 +22,24 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper",
-                                            "value": 0
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 1
+                                            }
                                         }
-                                    }
-                                ],
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
                                 "to_if_alone": [{ "key_code": "escape" }],
                                 "type": "basic"
                             }
@@ -105,11 +116,12 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Toggle Hyper sublayer b",
+                                "description": "Toggle Hyper sublayer b (leader key style)",
                                 "from": {
                                     "key_code": "b",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -118,14 +130,30 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper_sublayer_b",
-                                            "value": 0
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_b",
+                                                "value": 1
+                                            }
                                         }
-                                    }
-                                ],
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_b",
+                                                "value": 0
+                                            }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
                                 "type": "basic"
                             },
                             {
@@ -141,7 +169,21 @@
                                     "key_code": "x",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open https://x.com" }],
+                                "to": [
+                                    { "shell_command": "open https://x.com" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_b",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -157,7 +199,21 @@
                                     "key_code": "c",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open https://calendar.google.com/calendar/u/2/r?pli=1" }],
+                                "to": [
+                                    { "shell_command": "open https://calendar.google.com/calendar/u/2/r?pli=1" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_b",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -173,7 +229,21 @@
                                     "key_code": "r",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open https://reddit.com" }],
+                                "to": [
+                                    { "shell_command": "open https://reddit.com" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_b",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -189,7 +259,21 @@
                                     "key_code": "h",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open https://www.youtube.com/feed/history" }],
+                                "to": [
+                                    { "shell_command": "open https://www.youtube.com/feed/history" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_b",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -205,7 +289,21 @@
                                     "key_code": "m",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open https://app.meckano.co.il/" }],
+                                "to": [
+                                    { "shell_command": "open https://app.meckano.co.il/" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_b",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -221,7 +319,21 @@
                                     "key_code": "t",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open https://my.timeless.day/" }],
+                                "to": [
+                                    { "shell_command": "open https://my.timeless.day/" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_b",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -272,11 +384,12 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Toggle Hyper sublayer q",
+                                "description": "Toggle Hyper sublayer q (leader key style)",
                                 "from": {
                                     "key_code": "q",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -285,14 +398,30 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper_sublayer_q",
-                                            "value": 0
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_q",
+                                                "value": 1
+                                            }
                                         }
-                                    }
-                                ],
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_q",
+                                                "value": 0
+                                            }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
                                 "type": "basic"
                             },
                             {
@@ -308,7 +437,21 @@
                                     "key_code": "g",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/mblode/google-search/index" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/mblode/google-search/index" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_q",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -324,7 +467,21 @@
                                     "key_code": "e",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/raycast/emoji-symbols/search-emoji-symbols" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/raycast/emoji-symbols/search-emoji-symbols" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_q",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -344,6 +501,18 @@
                                     {
                                         "key_code": "5",
                                         "modifiers": ["left_control", "left_shift"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_q",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -361,7 +530,21 @@
                                     "key_code": "f",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/raycast/file-search/search-files" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/raycast/file-search/search-files" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_q",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -412,11 +595,12 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Toggle Hyper sublayer o",
+                                "description": "Toggle Hyper sublayer o (leader key style)",
                                 "from": {
                                     "key_code": "o",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -425,14 +609,30 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper_sublayer_o",
-                                            "value": 0
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_o",
+                                                "value": 1
+                                            }
                                         }
-                                    }
-                                ],
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_o",
+                                                "value": 0
+                                            }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
                                 "type": "basic"
                             },
                             {
@@ -448,7 +648,21 @@
                                     "key_code": "l",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'LastPass for Desktop.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'LastPass for Desktop.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -464,7 +678,21 @@
                                     "key_code": "g",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'Google Chrome.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'Google Chrome.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -480,7 +708,21 @@
                                     "key_code": "c",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'ChatGPT.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'ChatGPT.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -496,7 +738,21 @@
                                     "key_code": "s",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'Slack.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'Slack.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -512,7 +768,21 @@
                                     "key_code": "t",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'Ghostty.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'Ghostty.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -528,7 +798,21 @@
                                     "key_code": "z",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'zoom.us.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'zoom.us.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -544,7 +828,21 @@
                                     "key_code": "f",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'Finder.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'Finder.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -560,7 +858,21 @@
                                     "key_code": "m",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'Spotify.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'Spotify.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -576,7 +888,21 @@
                                     "key_code": "w",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'WhatsApp.app'" }],
+                                "to": [
+                                    { "shell_command": "open -a 'WhatsApp.app'" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_o",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -627,11 +953,12 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Toggle Hyper sublayer w",
+                                "description": "Toggle Hyper sublayer w (leader key style)",
                                 "from": {
                                     "key_code": "w",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -640,14 +967,30 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper_sublayer_w",
-                                            "value": 0
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_w",
+                                                "value": 1
+                                            }
                                         }
-                                    }
-                                ],
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_w",
+                                                "value": 0
+                                            }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
                                 "type": "basic"
                             },
                             {
@@ -667,6 +1010,18 @@
                                     {
                                         "key_code": "h",
                                         "modifiers": ["right_command"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -684,7 +1039,21 @@
                                     "key_code": "d",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -g raycast://extensions/raycast/window-management/next-display" }],
+                                "to": [
+                                    { "shell_command": "open -g raycast://extensions/raycast/window-management/next-display" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -700,7 +1069,21 @@
                                     "key_code": "left_arrow",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -g raycast://extensions/raycast/window-management/left-half" }],
+                                "to": [
+                                    { "shell_command": "open -g raycast://extensions/raycast/window-management/left-half" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -716,7 +1099,21 @@
                                     "key_code": "right_arrow",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -g raycast://extensions/raycast/window-management/right-half" }],
+                                "to": [
+                                    { "shell_command": "open -g raycast://extensions/raycast/window-management/right-half" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -732,7 +1129,21 @@
                                     "key_code": "up_arrow",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -g raycast://extensions/raycast/window-management/maximize" }],
+                                "to": [
+                                    { "shell_command": "open -g raycast://extensions/raycast/window-management/maximize" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -748,7 +1159,21 @@
                                     "key_code": "down_arrow",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open -g raycast://extensions/raycast/window-management/restore" }],
+                                "to": [
+                                    { "shell_command": "open -g raycast://extensions/raycast/window-management/restore" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -768,6 +1193,18 @@
                                     {
                                         "key_code": "tab",
                                         "modifiers": ["right_control", "right_shift"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -789,6 +1226,18 @@
                                     {
                                         "key_code": "tab",
                                         "modifiers": ["right_control"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -810,6 +1259,18 @@
                                     {
                                         "key_code": "grave_accent_and_tilde",
                                         "modifiers": ["right_command"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -831,6 +1292,18 @@
                                     {
                                         "key_code": "open_bracket",
                                         "modifiers": ["right_command"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -852,6 +1325,18 @@
                                     {
                                         "key_code": "close_bracket",
                                         "modifiers": ["right_command"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_w",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -904,11 +1389,12 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Toggle Hyper sublayer s",
+                                "description": "Toggle Hyper sublayer s (leader key style)",
                                 "from": {
                                     "key_code": "s",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -917,10 +1403,55 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_s",
+                                                "value": 1
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_s",
+                                                "value": 0
+                                            }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_s",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "u",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "key_code": "volume_increment" },
                                     {
                                         "set_variable": {
                                             "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
                                             "value": 0
                                         }
                                     }
@@ -936,25 +1467,24 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "u",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "volume_increment" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "hyper_sublayer_s",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
                                     "key_code": "j",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "volume_decrement" }],
+                                "to": [
+                                    { "key_code": "volume_decrement" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -973,6 +1503,18 @@
                                     {
                                         "key_code": "q",
                                         "modifiers": ["right_control", "right_command"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -989,7 +1531,21 @@
                                     "key_code": "p",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "play_or_pause" }],
+                                "to": [
+                                    { "key_code": "play_or_pause" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1004,7 +1560,21 @@
                                     "key_code": "semicolon",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "fastforward" }],
+                                "to": [
+                                    { "key_code": "fastforward" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1020,7 +1590,21 @@
                                     "key_code": "d",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1036,7 +1620,21 @@
                                     "key_code": "t",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/raycast/system/toggle-system-appearance" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/raycast/system/toggle-system-appearance" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1052,7 +1650,21 @@
                                     "key_code": "c",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/raycast/system/open-camera" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/raycast/system/open-camera" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1071,6 +1683,18 @@
                                     {
                                         "key_code": "spacebar",
                                         "modifiers": ["left_option"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_s",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1123,11 +1747,12 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Toggle Hyper sublayer v",
+                                "description": "Toggle Hyper sublayer v (leader key style)",
                                 "from": {
                                     "key_code": "v",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -1136,10 +1761,55 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_v",
+                                                "value": 1
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_v",
+                                                "value": 0
+                                            }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_v",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "h",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "key_code": "left_arrow" },
                                     {
                                         "set_variable": {
                                             "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
                                             "value": 0
                                         }
                                     }
@@ -1155,25 +1825,24 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "h",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "left_arrow" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "hyper_sublayer_v",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
                                     "key_code": "j",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "down_arrow" }],
+                                "to": [
+                                    { "key_code": "down_arrow" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1188,7 +1857,21 @@
                                     "key_code": "k",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "up_arrow" }],
+                                "to": [
+                                    { "key_code": "up_arrow" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1203,7 +1886,21 @@
                                     "key_code": "l",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "right_arrow" }],
+                                "to": [
+                                    { "key_code": "right_arrow" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1222,6 +1919,18 @@
                                     {
                                         "key_code": "f",
                                         "modifiers": ["right_control"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1242,6 +1951,18 @@
                                     {
                                         "key_code": "j",
                                         "modifiers": ["right_control"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1262,6 +1983,18 @@
                                     {
                                         "key_code": "d",
                                         "modifiers": ["right_shift", "right_command"]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1278,7 +2011,21 @@
                                     "key_code": "u",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "page_down" }],
+                                "to": [
+                                    { "key_code": "page_down" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1293,7 +2040,21 @@
                                     "key_code": "i",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "page_up" }],
+                                "to": [
+                                    { "key_code": "page_up" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_v",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -1344,11 +2105,12 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Toggle Hyper sublayer c",
+                                "description": "Toggle Hyper sublayer c (leader key style)",
                                 "from": {
                                     "key_code": "c",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -1357,10 +2119,55 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_c",
+                                                "value": 1
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_c",
+                                                "value": 0
+                                            }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_c",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "key_code": "play_or_pause" },
                                     {
                                         "set_variable": {
                                             "name": "hyper_sublayer_c",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
                                             "value": 0
                                         }
                                     }
@@ -1376,25 +2183,24 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "p",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "play_or_pause" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "hyper_sublayer_c",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
                                     "key_code": "n",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "fastforward" }],
+                                "to": [
+                                    { "key_code": "fastforward" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_c",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1409,7 +2215,21 @@
                                     "key_code": "b",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "rewind" }],
+                                "to": [
+                                    { "key_code": "rewind" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_c",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -1460,11 +2280,12 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Toggle Hyper sublayer r",
+                                "description": "Toggle Hyper sublayer r (leader key style)",
                                 "from": {
                                     "key_code": "r",
                                     "modifiers": { "optional": ["any"] }
                                 },
+                                "parameters": { "basic.to_delayed_action_delay_milliseconds": 500 },
                                 "to": [
                                     {
                                         "set_variable": {
@@ -1473,14 +2294,30 @@
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "hyper_sublayer_r",
-                                            "value": 0
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_r",
+                                                "value": 1
+                                            }
                                         }
-                                    }
-                                ],
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper_sublayer_r",
+                                                "value": 0
+                                            }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "hyper",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
                                 "type": "basic"
                             },
                             {
@@ -1496,7 +2333,21 @@
                                     "key_code": "c",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/thomas/color-picker/pick-color" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/thomas/color-picker/pick-color" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_r",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1512,7 +2363,21 @@
                                     "key_code": "n",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://script-commands/dismiss-notifications" }],
+                                "to": [
+                                    { "shell_command": "open raycast://script-commands/dismiss-notifications" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_r",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1528,7 +2393,21 @@
                                     "key_code": "l",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_r",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1544,7 +2423,21 @@
                                     "key_code": "e",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/raycast/emoji-symbols/search-emoji-symbols" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/raycast/emoji-symbols/search-emoji-symbols" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_r",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1560,7 +2453,21 @@
                                     "key_code": "p",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/raycast/raycast/confetti" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/raycast/raycast/confetti" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_r",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1576,7 +2483,21 @@
                                     "key_code": "s",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/peduarte/silent-mention/index" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/peduarte/silent-mention/index" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_r",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -1592,7 +2513,21 @@
                                     "key_code": "h",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "shell_command": "open raycast://extensions/raycast/clipboard-history/clipboard-history" }],
+                                "to": [
+                                    { "shell_command": "open raycast://extensions/raycast/clipboard-history/clipboard-history" },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_sublayer_r",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
