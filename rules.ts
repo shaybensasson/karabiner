@@ -139,171 +139,171 @@ const rules: KarabinerRules[] = [
     ],
   },
   // Double-tap Hyper+O to open Obsidian (requires capslock held, fast double-tap)
-  {
-    description: "Double-tap Hyper+O to open Obsidian",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "o",
-          modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-          },
-        },
-        to: [
-          {
-            set_variable: {
-              name: "hyper_o_pressed",
-              value: 1,
-            },
-          },
-        ],
-        to_delayed_action: {
-          to_if_invoked: [
-            {
-              set_variable: {
-                name: "hyper_o_pressed",
-                value: 0,
-              },
-            },
-          ],
-          to_if_canceled: [
-            {
-              set_variable: {
-                name: "hyper_o_pressed",
-                value: 1,
-              },
-            },
-          ],
-        },
-        conditions: [
-          {
-            type: "variable_if",
-            name: "hyper_o_pressed",
-            value: 0,
-          },
-        ],
-        parameters: {
-          "basic.to_delayed_action_delay_milliseconds": DOUBLE_TAP_DELAY_MS, // double-tap window
-        },
-      },
-      {
-        type: "basic",
-        from: {
-          key_code: "o",
-          modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-          },
-        },
-        to: [
-          {
-            shell_command: "open -a 'Obsidian.app'",
-          },
-          {
-            set_variable: {
-              name: "hyper_o_pressed",
-              value: 0,
-            },
-          },
-        ],
-        conditions: [
-          {
-            type: "variable_if",
-            name: "hyper_o_pressed",
-            value: 1,
-          },
-          {
-            type: "variable_if",
-            name: "hyper",
-            value: 1,
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   description: "Double-tap Hyper+O to open Obsidian",
+  //   manipulators: [
+  //     {
+  //       type: "basic",
+  //       from: {
+  //         key_code: "o",
+  //         modifiers: {
+  //           mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+  //         },
+  //       },
+  //       to: [
+  //         {
+  //           set_variable: {
+  //             name: "hyper_o_pressed",
+  //             value: 1,
+  //           },
+  //         },
+  //       ],
+  //       to_delayed_action: {
+  //         to_if_invoked: [
+  //           {
+  //             set_variable: {
+  //               name: "hyper_o_pressed",
+  //               value: 0,
+  //             },
+  //           },
+  //         ],
+  //         to_if_canceled: [
+  //           {
+  //             set_variable: {
+  //               name: "hyper_o_pressed",
+  //               value: 1,
+  //             },
+  //           },
+  //         ],
+  //       },
+  //       conditions: [
+  //         {
+  //           type: "variable_if",
+  //           name: "hyper_o_pressed",
+  //           value: 0,
+  //         },
+  //       ],
+  //       parameters: {
+  //         "basic.to_delayed_action_delay_milliseconds": DOUBLE_TAP_DELAY_MS, // double-tap window
+  //       },
+  //     },
+  //     {
+  //       type: "basic",
+  //       from: {
+  //         key_code: "o",
+  //         modifiers: {
+  //           mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+  //         },
+  //       },
+  //       to: [
+  //         {
+  //           shell_command: "open -a 'Obsidian.app'",
+  //         },
+  //         {
+  //           set_variable: {
+  //             name: "hyper_o_pressed",
+  //             value: 0,
+  //           },
+  //         },
+  //       ],
+  //       conditions: [
+  //         {
+  //           type: "variable_if",
+  //           name: "hyper_o_pressed",
+  //           value: 1,
+  //         },
+  //         {
+  //           type: "variable_if",
+  //           name: "hyper",
+  //           value: 1,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   // Double-tap Hyper+B to open browser bookmarks (requires capslock held, fast double-tap)
-  {
-    description: "Double-tap Hyper+B to open browser bookmarks",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "b",
-          modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-          },
-        },
-        to: [
-          {
-            set_variable: {
-              name: "hyper_b_pressed",
-              value: 1,
-            },
-          },
-        ],
-        to_delayed_action: {
-          to_if_invoked: [
-            {
-              set_variable: {
-                name: "hyper_b_pressed",
-                value: 0,
-              },
-            },
-          ],
-          to_if_canceled: [
-            {
-              set_variable: {
-                name: "hyper_b_pressed",
-                value: 1,
-              },
-            },
-          ],
-        },
-        conditions: [
-          {
-            type: "variable_if",
-            name: "hyper_b_pressed",
-            value: 0,
-          },
-        ],
-        parameters: {
-          "basic.to_delayed_action_delay_milliseconds": DOUBLE_TAP_DELAY_MS, // double-tap window
-        },
-      },
-      {
-        type: "basic",
-        from: {
-          key_code: "b",
-          modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-          },
-        },
-        to: [
-          {
-            shell_command: "open raycast://extensions/raycast/browser-bookmarks/index",
-          },
-          {
-            set_variable: {
-              name: "hyper_b_pressed",
-              value: 0,
-            },
-          },
-        ],
-        conditions: [
-          {
-            type: "variable_if",
-            name: "hyper_b_pressed",
-            value: 1,
-          },
-          {
-            type: "variable_if",
-            name: "hyper",
-            value: 1,
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   description: "Double-tap Hyper+B to open browser bookmarks",
+  //   manipulators: [
+  //     {
+  //       type: "basic",
+  //       from: {
+  //         key_code: "b",
+  //         modifiers: {
+  //           mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+  //         },
+  //       },
+  //       to: [
+  //         {
+  //           set_variable: {
+  //             name: "hyper_b_pressed",
+  //             value: 1,
+  //           },
+  //         },
+  //       ],
+  //       to_delayed_action: {
+  //         to_if_invoked: [
+  //           {
+  //             set_variable: {
+  //               name: "hyper_b_pressed",
+  //               value: 0,
+  //             },
+  //           },
+  //         ],
+  //         to_if_canceled: [
+  //           {
+  //             set_variable: {
+  //               name: "hyper_b_pressed",
+  //               value: 1,
+  //             },
+  //           },
+  //         ],
+  //       },
+  //       conditions: [
+  //         {
+  //           type: "variable_if",
+  //           name: "hyper_b_pressed",
+  //           value: 0,
+  //         },
+  //       ],
+  //       parameters: {
+  //         "basic.to_delayed_action_delay_milliseconds": DOUBLE_TAP_DELAY_MS, // double-tap window
+  //       },
+  //     },
+  //     {
+  //       type: "basic",
+  //       from: {
+  //         key_code: "b",
+  //         modifiers: {
+  //           mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+  //         },
+  //       },
+  //       to: [
+  //         {
+  //           shell_command: "open raycast://extensions/raycast/browser-bookmarks/index",
+  //         },
+  //         {
+  //           set_variable: {
+  //             name: "hyper_b_pressed",
+  //             value: 0,
+  //           },
+  //         },
+  //       ],
+  //       conditions: [
+  //         {
+  //           type: "variable_if",
+  //           name: "hyper_b_pressed",
+  //           value: 1,
+  //         },
+  //         {
+  //           type: "variable_if",
+  //           name: "hyper",
+  //           value: 1,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   // Require double-tap cmd+q to quit apps (prevents accidental quits)
   {
     description: "Double-tap Cmd+Q to quit",
@@ -416,10 +416,14 @@ const rules: KarabinerRules[] = [
   ...createHyperSubLayers({
     // Note: Arrow keys for window management are handled above with simultaneous detection (instant, no delay)
 
-    // TODO: shayb | 03-01-26 | replace
     // spacebar: open(
     //   "raycast://extensions/stellate/mxstbr-commands/create-notion-todo"
     // ),
+    // NOTE: shayb | 08-01-26 | we are using this for
+    
+    // NOTE: shayb | 08-01-26 | we use caps-lock+F to Bring all windows to front in our System Settings -> Keyboard shortcuts
+    // see https://gemini.google.com/u/1/app/bc1eb29aedd643ec?pageId=none
+    
     // b = "B"rowse
     b: {
       c: open("https://calendar.google.com/calendar/u/2/r?pli=1"), // Google NeuroHelp "C"alendar
@@ -461,7 +465,7 @@ const rules: KarabinerRules[] = [
     o: {
       a: app("Safari"),
       l: app("LastPass for Desktop"),
-      g: app("Google Chrome"),
+      b: app("Google Chrome"),
       // Local
       d: open("~/Downloads"),                                    // "O"pen Downloads
       // c: app("Calendar"),
@@ -488,6 +492,9 @@ const rules: KarabinerRules[] = [
       w: app("WhatsApp"),
       // o: app("Obsidian"), // Moved to double-tap hyper+o rule
       y: shell`open -a Safari https://music.youtube.com`,          // "Y"outube Music (Safari)
+
+      i: app("raycast://script-commands/run-vlc-with-iptv"),
+      v: app("VLC"),
 
       // l: open(
       //   "raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink"
