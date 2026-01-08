@@ -138,6 +138,24 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
+  // Direct Hyper+M for email (instant, uses actual modifiers)
+  {
+    description: "Hyper+M for Email",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "m",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          { shell_command: "open 'https://mail.google.com/mail/u/2/#inbox'" },
+        ],
+      },
+    ],
+  },
   // Double-tap Hyper+O to open Obsidian (requires capslock held, fast double-tap)
   // {
   //   description: "Double-tap Hyper+O to open Obsidian",
@@ -443,6 +461,7 @@ const rules: KarabinerRules[] = [
       
       o: open("https://chat.openai.com/chat"),                  // "C"hatGPT
       g: open("https://gemini.google.com/u/1/app?pageId=none"), // Gemini
+      d: open("app.dropbox.com")
     },
     // q = "Q"uery
     // Should all be deep links
@@ -459,7 +478,6 @@ const rules: KarabinerRules[] = [
         ],
       },
       f: open("raycast://extensions/raycast/file-search/search-files"), // "F"ind Files
-      // todo: create it in raycast
     },
     // o = "Open" applications
     o: {
@@ -484,7 +502,8 @@ const rules: KarabinerRules[] = [
       // "M"arkdown (Reflect.app)
       // m: app("Reflect"),
       // r: app("Reflect"),
-      f: app("Finder"),
+      // f: app("Finder"),
+      f: app("raycast://script-commands/new-finder-instance"),
       // "i"Message
       // i: app("Texts"),
       m: app("Spotify"),

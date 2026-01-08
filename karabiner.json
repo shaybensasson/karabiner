@@ -156,6 +156,30 @@
             ]
           },
           {
+            "description": "Hyper+M for Email",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "m",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command",
+                      "left_control",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open 'https://mail.google.com/mail/u/2/#inbox'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Double-tap Cmd+Q to quit",
             "manipulators": [
               {
@@ -757,6 +781,42 @@
                 "type": "basic",
                 "from": {
                   "key_code": "g",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_b",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "to": [
+                  {
+                    "shell_command": "open app.dropbox.com"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_b",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  }
+                ],
+                "description": "Open app.dropbox.com",
+                "type": "basic",
+                "from": {
+                  "key_code": "d",
                   "modifiers": {
                     "optional": [
                       "any"
@@ -1408,7 +1468,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open -a 'Finder.app'"
+                    "shell_command": "open -a 'raycast://script-commands/new-finder-instance.app'"
                   },
                   {
                     "set_variable": {
@@ -1423,7 +1483,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'Finder.app'",
+                "description": "Open -a 'raycast://script-commands/new-finder-instance.app'",
                 "type": "basic",
                 "from": {
                   "key_code": "f",
