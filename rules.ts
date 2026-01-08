@@ -426,6 +426,28 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
+  // Option+Tab for previous tab (useful for switching tabs in VSCode, Cursor, Chrome, etc.)
+  {
+    description: "Option+Tab -> Ctrl+Shift+Tab (Previous Tab)",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "tab",
+          modifiers: {
+            mandatory: ["option"],
+            optional: ["caps_lock"],
+          },
+        },
+        to: [
+          {
+            key_code: "tab",
+            modifiers: ["left_control", "left_shift"],
+          },
+        ],
+      },
+    ],
+  },
   // Disable cmd+h (hide app) except in VSCode/Cursor where it's used for search & replace
   {
     description: "Disable command-h (except VSCode/Cursor)",

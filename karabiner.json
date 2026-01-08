@@ -294,6 +294,34 @@
             ]
           },
           {
+            "description": "Option+Tab -> Ctrl+Shift+Tab (Previous Tab)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "tab",
+                  "modifiers": {
+                    "mandatory": [
+                      "option"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "tab",
+                    "modifiers": [
+                      "left_control",
+                      "left_shift"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Disable command-h (except VSCode/Cursor)",
             "manipulators": [
               {
