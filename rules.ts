@@ -1,6 +1,15 @@
 import fs from "fs";
 import { KarabinerRules } from "./types";
-import { createHyperSubLayers, app, open, window, shell, osascript, LEADER_KEY_TIMEOUT_MS, DOUBLE_TAP_DELAY_MS } from "./utils";
+import {
+  createHyperSubLayers,
+  app,
+  open,
+  window,
+  shell,
+  osascript,
+  LEADER_KEY_TIMEOUT_MS,
+  DOUBLE_TAP_DELAY_MS,
+} from "./utils";
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself (leader key style - tap and release, then press next key within timeout)
@@ -8,7 +17,8 @@ const rules: KarabinerRules[] = [
     description: "Hyper Key (⌃⌥⇧⌘)",
     manipulators: [
       {
-        description: "Caps Lock -> Hyper Key (leader key style + modifiers for instant arrow keys)",
+        description:
+          "Caps Lock -> Hyper Key (leader key style + modifiers for instant arrow keys)",
         from: {
           key_code: "caps_lock",
           modifiers: {
@@ -93,11 +103,19 @@ const rules: KarabinerRules[] = [
         from: {
           key_code: "left_arrow",
           modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
           },
         },
         to: [
-          { shell_command: "open -g raycast://extensions/raycast/window-management/left-half" },
+          {
+            shell_command:
+              "open -g raycast://extensions/raycast/window-management/left-half",
+          },
         ],
       },
       {
@@ -105,11 +123,19 @@ const rules: KarabinerRules[] = [
         from: {
           key_code: "right_arrow",
           modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
           },
         },
         to: [
-          { shell_command: "open -g raycast://extensions/raycast/window-management/right-half" },
+          {
+            shell_command:
+              "open -g raycast://extensions/raycast/window-management/right-half",
+          },
         ],
       },
       {
@@ -117,11 +143,19 @@ const rules: KarabinerRules[] = [
         from: {
           key_code: "up_arrow",
           modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
           },
         },
         to: [
-          { shell_command: "open -g raycast://extensions/raycast/window-management/maximize" },
+          {
+            shell_command:
+              "open -g raycast://extensions/raycast/window-management/maximize",
+          },
         ],
       },
       {
@@ -129,16 +163,24 @@ const rules: KarabinerRules[] = [
         from: {
           key_code: "down_arrow",
           modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
           },
         },
         to: [
-          { shell_command: "open -g raycast://extensions/raycast/window-management/restore" },
+          {
+            shell_command:
+              "open -g raycast://extensions/raycast/window-management/restore",
+          },
         ],
       },
     ],
   },
-  
+
   // NOTE: shayb | 08-01-26 | use 1,2,3 these get confused with downstream hyper keys
   // Direct Hyper+1 for calendar (instant, uses actual modifiers)
   {
@@ -149,11 +191,19 @@ const rules: KarabinerRules[] = [
         from: {
           key_code: "1",
           modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
           },
         },
         to: [
-          { shell_command: "open 'https://calendar.google.com/calendar/u/2/r?pli=1'" },
+          {
+            shell_command:
+              "open 'https://calendar.google.com/calendar/u/2/r?pli=1'",
+          },
         ],
       },
     ],
@@ -168,11 +218,88 @@ const rules: KarabinerRules[] = [
         from: {
           key_code: "2",
           modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
           },
         },
         to: [
           { shell_command: "open 'https://mail.google.com/mail/u/2/#inbox'" },
+        ],
+      },
+    ],
+  },
+
+  // Direct Hyper+3 for ClickUp Inbox
+  {
+    description: "Hyper+3 for ClickUp Inbox",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "3",
+          modifiers: {
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
+          },
+        },
+        to: [
+          { shell_command: "open 'https://app.clickup.com/3843235/inbox?tab=primary'" },
+        ],
+      },
+    ],
+  },
+
+  // Direct Hyper+` for Noiseless (Raycast)
+  {
+    description: "Hyper+` for Noiseless",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "grave_accent_and_tilde",
+          modifiers: {
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
+          },
+        },
+        to: [
+          { shell_command: "open 'raycast://script-commands/noiseless'" },
+        ],
+      },
+    ],
+  },
+
+  // Direct Hyper+Escape for Meckano
+  {
+    description: "Hyper+Escape for Meckano",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "escape",
+          modifiers: {
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
+          },
+        },
+        to: [
+          { shell_command: "open 'https://app.meckano.co.il'" },
         ],
       },
     ],
@@ -481,19 +608,19 @@ const rules: KarabinerRules[] = [
     //   "raycast://extensions/stellate/mxstbr-commands/create-notion-todo"
     // ),
     // NOTE: shayb | 08-01-26 | we are using this for
-    
+
     // NOTE: shayb | 08-01-26 | we use caps-lock+F to Bring all windows to front in our System Settings -> Keyboard shortcuts
     // see https://gemini.google.com/u/1/app/bc1eb29aedd643ec?pageId=none
-    
+
     // b = "B"rowse
     b: {
       c: open("https://calendar.google.com/calendar/u/2/r?pli=1"), // Google NeuroHelp "C"alendar
       r: open("https://reddit.com"),
       h: open("https://www.youtube.com/feed/history"), // YouTube "H"istory
       m: open("https://app.meckano.co.il/"), // M"E"ckano
-      
+
       y: open("https://www.youtube.com"), // "Y"outube
-      
+
       x: open("https://x.com"),
       // m: open("https://music.youtube.com"),                     // YouTube "M"usic
 
@@ -501,16 +628,18 @@ const rules: KarabinerRules[] = [
       t: open("https://my.timeless.day/"),
       // b: open("raycast://extensions/raycast/browser-bookmarks/index"), // Moved to double-tap hyper+b rule
       p: open("https://neurohelp-pitch.vercel.app/?log=debug"), // NeuroHelp Pitch (e"X"perimental)
-      
-      o: open("https://chat.openai.com/chat"),                  // "C"hatGPT
+
+      o: open("https://chat.openai.com/chat"), // "C"hatGPT
       g: open("https://gemini.google.com/u/1/app?pageId=none"), // Gemini
-      d: open("app.dropbox.com")
+      d: open("app.dropbox.com"),
     },
     // q = "Q"uery
     // Should all be deep links
     q: {
       g: open("raycast://extensions/mblode/google-search/index"), // "G"oogle Search
-      e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"), // "E"moji Search
+      e: open(
+        "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
+      ), // "E"moji Search
       l: {
         description: "Find: LastPass",
         to: [
@@ -528,9 +657,9 @@ const rules: KarabinerRules[] = [
       l: app("LastPass for Desktop"),
       b: app("Google Chrome"),
       // Local
-      d: open("~/Downloads"),                                    // "O"pen Downloads
+      d: open("~/Downloads"), // "O"pen Downloads
       // c: app("Calendar"),
-      c: app("ChatGPT"), 
+      c: app("ChatGPT"),
       // v: app("Zed"),
       // d: app("Discord"),
       s: app("Slack"),
@@ -553,7 +682,7 @@ const rules: KarabinerRules[] = [
       // a: app("iA Presenter"),
       w: app("WhatsApp"),
       // o: app("Obsidian"), // Moved to double-tap hyper+o rule
-      y: shell`open -a Safari https://music.youtube.com`,          // "Y"outube Music (Safari)
+      y: shell`open -a Safari https://music.youtube.com`, // "Y"outube Music (Safari)
 
       i: app("raycast://script-commands/run-vlc-with-iptv"),
       v: app("VLC"),
@@ -563,142 +692,16 @@ const rules: KarabinerRules[] = [
       // ),
     },
 
-    // TODO: This doesn't quite work yet.
-    // l = "Layouts" via Raycast's custom window management
-    // l: {
-    //   // Coding layout
-    //   c: shell`
-    //     open -a "Visual Studio Code.app"
-    //     sleep 0.2
-    //     open -g "raycast://customWindowManagementCommand?position=topLeft&relativeWidth=0.5"
-
-    //     open -a "Terminal.app"
-    //     sleep 0.2
-    //     open -g "raycast://customWindowManagementCommand?position=topRight&relativeWidth=0.5"
-    //   `,
-    // },
-
     // w = "Window"
     w: {
-      semicolon: {
-        description: "Window: Hide",
-        to: [
-          {
-            key_code: "h",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      // y: window("previous-display"),
       d: window("next-display"),
-      // k: window("top-half"),
-      // j: window("bottom-half"),
+      t: window("top-half"),
+      b: window("bottom-half"),
       // Arrow keys moved to direct hyper shortcuts (capslock+arrow)
-      
-      u: {
-        description: "Window: Previous Tab",
-        to: [
-          {
-            key_code: "tab",
-            modifiers: ["right_control", "right_shift"],
-          },
-        ],
-      },
-      i: {
-        description: "Window: Next Tab",
-        to: [
-          {
-            key_code: "tab",
-            modifiers: ["right_control"],
-          },
-        ],
-      },
-      // TODO: shayb | 07-01-26 | fix
-      n: {
-        description: "Window: Next Window",
-        to: [
-          {
-          key_code: "grave_accent_and_tilde",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      b: {
-        description: "Window: Back",
-        to: [
-          {
-            key_code: "open_bracket",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      // Note: No literal connection. Both f and n are already taken.
-      m: {
-        description: "Window: Forward",
-        to: [
-          {
-            key_code: "close_bracket",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
     },
 
     // s = "System"
     s: {
-      // u: {
-      //   to: [
-      //     {
-      //       key_code: "volume_increment",
-      //     },
-      //   ],
-      // },
-      // j: {
-      //   to: [
-      //     {
-      //       key_code: "volume_decrement",
-      //     },
-      //   ],
-      // },
-      // i: {
-      //   to: [
-      //     {
-      //       key_code: "display_brightness_increment",
-      //     },
-      //   ],
-      // },
-      // k: {
-      //   to: [
-      //     {
-      //       key_code: "display_brightness_decrement",
-      //     },
-      //   ],
-      // },
-      // l: {
-      //   to: [
-      //     {
-      //       key_code: "q",
-      //       modifiers: ["right_control", "right_command"],
-      //     },
-      //   ],
-      // },
-      // p: {
-      //   to: [
-      //     {
-      //       key_code: "play_or_pause",
-      //     },
-      //   ],
-      // },
-      // semicolon: {
-      //   to: [
-      //     {
-      //       key_code: "fastforward",
-      //     },
-      //   ],
-      // },
-      // e: open(
-      //   `raycast://extensions/thomas/elgato-key-light/toggle?launchType=background`
-      // ),
       // "D"o not disturb toggle
       d: open(
         `raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background`
@@ -706,9 +709,10 @@ const rules: KarabinerRules[] = [
       // "T"heme
       t: open(`raycast://extensions/raycast/system/toggle-system-appearance`),
       c: open("raycast://extensions/raycast/system/open-camera"),
-      b: open("raycast://extensions/raycast/system/toggle-bluetooth") // Toggle "B"luetooth
+      b: open("raycast://extensions/raycast/system/toggle-bluetooth"), // Toggle "B"luetooth
     },
 
+    // FUTURE: shayb | 08-01-26 | maybe use this or remove
     // v = "moVe" which isn't "m" because we want it to be on the left hand
     // so that hjkl work like they do in vim
     v: {
@@ -727,7 +731,6 @@ const rules: KarabinerRules[] = [
       // Magicmove via homerow.app
       m: {
         to: [{ key_code: "f", modifiers: ["right_control"] }],
-        // TODO: Trigger Vim Easymotion when VSCode is focused
       },
       // Scroll mode via homerow.app
       s: {
@@ -744,19 +747,6 @@ const rules: KarabinerRules[] = [
       },
     },
 
-    // c = Musi*c* which isn't "m" because we want it to be on the left hand
-    // c: {
-    //   p: {
-    //     to: [{ key_code: "play_or_pause" }],
-    //   },
-    //   n: {
-    //     to: [{ key_code: "fastforward" }],
-    //   },
-    //   b: {
-    //     to: [{ key_code: "rewind" }],
-    //   },
-    // },
-
     // r = "Raycast"
     r: {
       c: open("raycast://extensions/thomas/color-picker/pick-color"),
@@ -770,7 +760,7 @@ const rules: KarabinerRules[] = [
       p: open("raycast://extensions/raycast/raycast/confetti"),
       // a: open("raycast://extensions/raycast/raycast-ai/ai-chat"),
       // s: open("raycast://extensions/peduarte/silent-mention/index"),
-      s: open("/Users/shay/.config/raycast/scripts/"),          // "R"aycast Scripts (Cursor)
+      s: open("/Users/shay/.config/raycast/scripts/"), // "R"aycast Scripts (Cursor)
       h: open(
         "raycast://extensions/raycast/clipboard-history/clipboard-history"
       ),
@@ -782,30 +772,6 @@ const rules: KarabinerRules[] = [
       // ),
     },
   }),
-  // {
-  //   description: "Change Backspace to Spacebar when Minecraft is focused",
-  //   manipulators: [
-  //     {
-  //       type: "basic",
-  //       from: {
-  //         key_code: "delete_or_backspace",
-  //       },
-  //       to: [
-  //         {
-  //           key_code: "spacebar",
-  //         },
-  //       ],
-  //       conditions: [
-  //         {
-  //           type: "frontmost_application_if",
-  //           file_paths: [
-  //             "^/Users/mxstbr/Library/Application Support/minecraft/runtime/java-runtime-gamma/mac-os-arm64/java-runtime-gamma/jre.bundle/Contents/Home/bin/java$",
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
 ];
 
 fs.writeFileSync(
