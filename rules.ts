@@ -305,6 +305,30 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
+
+  // Direct Hyper+F3 for Google Chrome (moved from ◆+O B to avoid mirror pair conflict)
+  {
+    description: "Hyper+F3 for Google Chrome",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "f3",
+          modifiers: {
+            mandatory: [
+              "left_command",
+              "left_control",
+              "left_option",
+              "left_shift",
+            ],
+          },
+        },
+        to: [
+          { shell_command: "open -a 'Google Chrome.app'" },
+        ],
+      },
+    ],
+  },
   // Double-tap Hyper+O to open Obsidian (requires capslock held, fast double-tap)
   // {
   //   description: "Double-tap Hyper+O to open Obsidian",
@@ -618,7 +642,6 @@ const rules: KarabinerRules[] = [
       c: open("https://calendar.google.com/calendar/u/2/r?pli=1"), // Google NeuroHelp "C"alendar
       r: open("https://reddit.com"),
       h: open("https://www.youtube.com/feed/history"), // YouTube "H"istory
-      m: open("https://app.meckano.co.il/"), // M"E"ckano
 
       y: open("https://www.youtube.com"), // "Y"outube
 
@@ -656,7 +679,7 @@ const rules: KarabinerRules[] = [
     o: {
       a: app("Safari"),
       l: app("LastPass for Desktop"),
-      b: app("Google Chrome"),
+      // b: app("Google Chrome"),
       // Local
       d: open("~/Downloads"), // "O"pen Downloads
       // c: app("Calendar"),

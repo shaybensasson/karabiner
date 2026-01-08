@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karabiner Keyboard Shortcuts for macOS</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 15mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.4;
+      color: #333;
+      background: white;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #ff6b35;
+      padding-bottom: 10px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      border-radius: 8px;
+      margin-right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 23px;
+    }
+
+    .title h1 {
+      font-size: 25px;
+      font-weight: 300;
+      color: #333;
+    }
+
+    .title h2 {
+      font-size: 15px;
+      font-weight: 400;
+      color: #666;
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .category {
+      margin-bottom: 12px;
+    }
+
+    .category-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 3px;
+    }
+
+    .leader-key {
+      color: #ff6b35;
+      font-weight: 600;
+    }
+
+    .shortcut-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 4px;
+      gap: 8px;
+    }
+
+    .shortcut-row:nth-child(odd) {
+      background-color: #f5f5f5;
+    }
+
+    .shortcut-keys {
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+      font-size: 11.5px;
+      color: #555;
+      white-space: nowrap;
+      min-width: 70px;
+    }
+
+    /* Scale up modifier symbols to match letter size */
+    .mod {
+      font-size: 16px;
+      vertical-align: middle;
+      line-height: 1;
+    }
+
+    .shortcut-desc {
+      font-size: 11.5px;
+      color: #333;
+      text-align: right;
+      flex: 1;
+    }
+
+    .note {
+      font-size: 11px;
+      color: #888;
+      margin-top: 15px;
+      text-align: center;
+      grid-column: span 4;
+    }
+
+    kbd {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 1px 4px;
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">K</div>
+    <div class="title">
+      <h1>Karabiner Elements</h1>
+      <h2>Keyboard shortcuts for macOS</h2>
+    </div>
+  </div>
+
+  <div class="columns">
+    <!-- Column 1 -->
+    <div>
+      <div class="category">
+        <div class="category-title">General</div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> (alone)</span>
+          <span class="shortcut-desc">Escape</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⌘</span>Q <span class="mod">⌘</span>Q</span>
+          <span class="shortcut-desc">Quit App (double-tap)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⌥</span>Tab</span>
+          <span class="shortcut-desc">Previous Tab</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⌘</span>H</span>
+          <span class="shortcut-desc">Disabled (except IDE)</span>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-title">Direct Hyper <span class="leader-key">(<span class="mod">◆</span> + key)</span></div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> ←</span>
+          <span class="shortcut-desc">Window Left Half</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> →</span>
+          <span class="shortcut-desc">Window Right Half</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> ↑</span>
+          <span class="shortcut-desc">Maximize Window</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> ↓</span>
+          <span class="shortcut-desc">Restore Window</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> 1</span>
+          <span class="shortcut-desc">Google Calendar</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> 2</span>
+          <span class="shortcut-desc">Gmail</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> 3</span>
+          <span class="shortcut-desc">ClickUp Inbox</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> F3</span>
+          <span class="shortcut-desc">Google Chrome</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> §</span>
+          <span class="shortcut-desc">Noiseless</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> Esc</span>
+          <span class="shortcut-desc">Meckano</span>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-title">Browse <span class="leader-key">(<span class="mod">◆</span> B)</span></div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B C</span>
+          <span class="shortcut-desc">Google Calendar</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B D</span>
+          <span class="shortcut-desc">Dropbox</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B G</span>
+          <span class="shortcut-desc">Gemini</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B H</span>
+          <span class="shortcut-desc">YouTube History</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B O</span>
+          <span class="shortcut-desc">ChatGPT (Web)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B P</span>
+          <span class="shortcut-desc">NeuroHelp Pitch</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B R</span>
+          <span class="shortcut-desc">Reddit</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B T</span>
+          <span class="shortcut-desc">Timeless</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B U</span>
+          <span class="shortcut-desc">ClickUp</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B X</span>
+          <span class="shortcut-desc">X (Twitter)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B Y</span>
+          <span class="shortcut-desc">YouTube</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 2 -->
+    <div>
+      <div class="category">
+        <div class="category-title">Query <span class="leader-key">(<span class="mod">◆</span> Q)</span></div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> Q E</span>
+          <span class="shortcut-desc">Emoji Search</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> Q F</span>
+          <span class="shortcut-desc">Find Files</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> Q G</span>
+          <span class="shortcut-desc">Google Search</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> Q L</span>
+          <span class="shortcut-desc">LastPass</span>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-title">Open Apps <span class="leader-key">(<span class="mod">◆</span> O)</span></div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O A</span>
+          <span class="shortcut-desc">Safari</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O C</span>
+          <span class="shortcut-desc">ChatGPT</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O D</span>
+          <span class="shortcut-desc">Downloads Folder</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O F</span>
+          <span class="shortcut-desc">Finder (new)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O I</span>
+          <span class="shortcut-desc">VLC + IPTV</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O L</span>
+          <span class="shortcut-desc">LastPass</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O M</span>
+          <span class="shortcut-desc">Spotify</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O S</span>
+          <span class="shortcut-desc">Slack</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O T</span>
+          <span class="shortcut-desc">Ghostty</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O V</span>
+          <span class="shortcut-desc">VLC</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O W</span>
+          <span class="shortcut-desc">WhatsApp</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O Y</span>
+          <span class="shortcut-desc">YouTube Music</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> O Z</span>
+          <span class="shortcut-desc">Zoom</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 3 -->
+    <div>
+      <div class="category">
+        <div class="category-title">Window <span class="leader-key">(<span class="mod">◆</span> W)</span></div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> W B</span>
+          <span class="shortcut-desc">Bottom Half</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> W D</span>
+          <span class="shortcut-desc">Next Display</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> W T</span>
+          <span class="shortcut-desc">Top Half</span>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-title">System <span class="leader-key">(<span class="mod">◆</span> S)</span></div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> S B</span>
+          <span class="shortcut-desc">Toggle Bluetooth</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> S C</span>
+          <span class="shortcut-desc">Open Camera</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> S D</span>
+          <span class="shortcut-desc">Do Not Disturb</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> S T</span>
+          <span class="shortcut-desc">Toggle Theme</span>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-title">Move / Vim <span class="leader-key">(<span class="mod">◆</span> V)</span></div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V D</span>
+          <span class="shortcut-desc"><span class="mod">⇧⌘</span>D</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V H</span>
+          <span class="shortcut-desc">← Left Arrow</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V I</span>
+          <span class="shortcut-desc">Page Up</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V J</span>
+          <span class="shortcut-desc">↓ Down Arrow</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V K</span>
+          <span class="shortcut-desc">↑ Up Arrow</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V L</span>
+          <span class="shortcut-desc">→ Right Arrow</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V M</span>
+          <span class="shortcut-desc">Magicmove (Homerow)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V S</span>
+          <span class="shortcut-desc">Scroll Mode (Homerow)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> V U</span>
+          <span class="shortcut-desc">Page Down</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 4 -->
+    <div>
+      <div class="category">
+        <div class="category-title">Raycast <span class="leader-key">(<span class="mod">◆</span> R)</span></div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> R C</span>
+          <span class="shortcut-desc">Color Picker</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> R E</span>
+          <span class="shortcut-desc">Emoji Search</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> R H</span>
+          <span class="shortcut-desc">Clipboard History</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> R L</span>
+          <span class="shortcut-desc">Create Shortlink</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> R N</span>
+          <span class="shortcut-desc">Dismiss Notifications</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> R P</span>
+          <span class="shortcut-desc">Confetti</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> R S</span>
+          <span class="shortcut-desc">Raycast Scripts</span>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-title">Legend</div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span></span>
+          <span class="shortcut-desc">Caps Lock (Hyper Key)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⌘</span></span>
+          <span class="shortcut-desc">Command</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⌥</span></span>
+          <span class="shortcut-desc">Option / Alt</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⌃</span></span>
+          <span class="shortcut-desc">Control</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⇧</span></span>
+          <span class="shortcut-desc">Shift</span>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-title">How It Works</div>
+        <p style="font-size: 9px; color: #666; line-height: 1.5;">
+          <strong>Leader key style:</strong> Tap Caps Lock, release,
+          then tap sublayer key (e.g., O), release, then tap command key (e.g., S for Slack).
+          <br><br>
+          <strong>Direct shortcuts:</strong> Hold Caps Lock + press key simultaneously (arrows, 1/2/3, F3).
+          <br><br>
+          <strong>Timeout:</strong> 500ms window between key presses.
+        </p>
+      </div>
+    </div>
+
+    <div class="note">
+      Generated from Karabiner TypeScript config • <span class="mod">◆</span> = Caps Lock acts as Hyper Key (<span class="mod">⌃⌥⇧⌘</span>)
+    </div>
+  </div>
+</body>
+</html>

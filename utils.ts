@@ -160,6 +160,51 @@ export function createHyperSubLayer(
 }
 
 /**
+ * Validate that no mirror pairs exist (e.g., if ◆+A B exists, then ◆+B A should not exist).
+ * This prevents confusing shortcuts where the order of keys could be mixed up.
+ */
+function validateSubLayerKeyConflicts(subLayers: {
+  [key_code in KeyCode]?: HyperKeySublayer | LayerCommand;
+}): void {
+  // Build a map of all pairs: leader -> secondary[]
+  const pairs = new Map<string, Set<string>>();
+  for (const [leaderKey, sublayer] of Object.entries(subLayers)) {
+    // Skip direct commands (they have a 'to' property)
+    if ("to" in sublayer) continue;
+    pairs.set(leaderKey, new Set(Object.keys(sublayer)));
+  }
+
+  // Check for mirror pairs
+  const conflicts: string[] = [];
+  const checked = new Set<string>();
+
+  for (const [leaderA, secondaryKeys] of pairs) {
+    for (const secondaryB of secondaryKeys) {
+      // Check if the mirror exists: leaderB has secondaryA
+      const leaderBSecondaries = pairs.get(secondaryB);
+      if (leaderBSecondaries?.has(leaderA)) {
+        // Create a unique key to avoid duplicate reports
+        const pairKey = [leaderA, secondaryB].sort().join("-");
+        if (!checked.has(pairKey)) {
+          checked.add(pairKey);
+          conflicts.push(
+            `  - Mirror pair conflict: ◆+${leaderA.toUpperCase()} ${secondaryB.toUpperCase()} and ◆+${secondaryB.toUpperCase()} ${leaderA.toUpperCase()}`
+          );
+        }
+      }
+    }
+  }
+
+  if (conflicts.length > 0) {
+    throw new Error(
+      `Karabiner config validation failed!\n` +
+        `Mirror pairs are not allowed (could cause confusion):\n` +
+        conflicts.join("\n")
+    );
+  }
+}
+
+/**
  * Create all hyper sublayers. This needs to be a single function, as well need to
  * have all the hyper variable names in order to filter them and make sure only one
  * activates at a time
@@ -167,6 +212,9 @@ export function createHyperSubLayer(
 export function createHyperSubLayers(subLayers: {
   [key_code in KeyCode]?: HyperKeySublayer | LayerCommand;
 }): KarabinerRules[] {
+  // Validate that leader keys aren't used as secondary keys
+  validateSubLayerKeyConflicts(subLayers);
+
   const allSubLayerVariables = (
     Object.keys(subLayers) as (keyof typeof subLayers)[]
   ).map((sublayer_key) => generateSubLayerVariableName(sublayer_key));
