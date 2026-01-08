@@ -156,6 +156,24 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
+  // Direct Hyper+C for calendar (instant, uses actual modifiers)
+  {
+    description: "Hyper+C for Calendar",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "c",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          { shell_command: "open 'https://calendar.google.com/calendar/u/2/r?pli=1'" },
+        ],
+      },
+    ],
+  },
   // Double-tap Hyper+O to open Obsidian (requires capslock held, fast double-tap)
   // {
   //   description: "Double-tap Hyper+O to open Obsidian",
@@ -711,17 +729,17 @@ const rules: KarabinerRules[] = [
     },
 
     // c = Musi*c* which isn't "m" because we want it to be on the left hand
-    c: {
-      p: {
-        to: [{ key_code: "play_or_pause" }],
-      },
-      n: {
-        to: [{ key_code: "fastforward" }],
-      },
-      b: {
-        to: [{ key_code: "rewind" }],
-      },
-    },
+    // c: {
+    //   p: {
+    //     to: [{ key_code: "play_or_pause" }],
+    //   },
+    //   n: {
+    //     to: [{ key_code: "fastforward" }],
+    //   },
+    //   b: {
+    //     to: [{ key_code: "rewind" }],
+    //   },
+    // },
 
     // r = "Raycast"
     r: {
