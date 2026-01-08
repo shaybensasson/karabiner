@@ -138,38 +138,41 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
-  // Direct Hyper+M for email (instant, uses actual modifiers)
+  
+  // NOTE: shayb | 08-01-26 | use 1,2,3 these get confused with downstream hyper keys
+  // Direct Hyper+1 for calendar (instant, uses actual modifiers)
   {
-    description: "Hyper+M for Email",
+    description: "Hyper+1 for Calendar",
     manipulators: [
       {
         type: "basic",
         from: {
-          key_code: "m",
-          modifiers: {
-            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-          },
-        },
-        to: [
-          { shell_command: "open 'https://mail.google.com/mail/u/2/#inbox'" },
-        ],
-      },
-    ],
-  },
-  // Direct Hyper+C for calendar (instant, uses actual modifiers)
-  {
-    description: "Hyper+C for Calendar",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "c",
+          key_code: "1",
           modifiers: {
             mandatory: ["left_command", "left_control", "left_option", "left_shift"],
           },
         },
         to: [
           { shell_command: "open 'https://calendar.google.com/calendar/u/2/r?pli=1'" },
+        ],
+      },
+    ],
+  },
+
+  // Direct Hyper+2 for email (instant, uses actual modifiers)
+  {
+    description: "Hyper+2 for Email",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "2",
+          modifiers: {
+            mandatory: ["left_command", "left_control", "left_option", "left_shift"],
+          },
+        },
+        to: [
+          { shell_command: "open 'https://mail.google.com/mail/u/2/#inbox'" },
         ],
       },
     ],
@@ -621,20 +624,20 @@ const rules: KarabinerRules[] = [
 
     // s = "System"
     s: {
-      u: {
-        to: [
-          {
-            key_code: "volume_increment",
-          },
-        ],
-      },
-      j: {
-        to: [
-          {
-            key_code: "volume_decrement",
-          },
-        ],
-      },
+      // u: {
+      //   to: [
+      //     {
+      //       key_code: "volume_increment",
+      //     },
+      //   ],
+      // },
+      // j: {
+      //   to: [
+      //     {
+      //       key_code: "volume_decrement",
+      //     },
+      //   ],
+      // },
       // i: {
       //   to: [
       //     {
@@ -649,29 +652,28 @@ const rules: KarabinerRules[] = [
       //     },
       //   ],
       // },
-      l: {
-        to: [
-          {
-            key_code: "q",
-            modifiers: ["right_control", "right_command"],
-          },
-        ],
-      },
-      p: {
-        to: [
-          {
-            key_code: "play_or_pause",
-          },
-        ],
-      },
-      semicolon: {
-        to: [
-          {
-            key_code: "fastforward",
-          },
-        ],
-      },
-      // FUTURE: shayb | 07-01-26 | Should we?
+      // l: {
+      //   to: [
+      //     {
+      //       key_code: "q",
+      //       modifiers: ["right_control", "right_command"],
+      //     },
+      //   ],
+      // },
+      // p: {
+      //   to: [
+      //     {
+      //       key_code: "play_or_pause",
+      //     },
+      //   ],
+      // },
+      // semicolon: {
+      //   to: [
+      //     {
+      //       key_code: "fastforward",
+      //     },
+      //   ],
+      // },
       // e: open(
       //   `raycast://extensions/thomas/elgato-key-light/toggle?launchType=background`
       // ),
@@ -682,15 +684,7 @@ const rules: KarabinerRules[] = [
       // "T"heme
       t: open(`raycast://extensions/raycast/system/toggle-system-appearance`),
       c: open("raycast://extensions/raycast/system/open-camera"),
-      // 'v'oice
-      v: {
-        to: [
-          {
-            key_code: "spacebar",
-            modifiers: ["left_option"],
-          },
-        ],
-      },
+      b: open("raycast://extensions/raycast/system/toggle-bluetooth") // Toggle "B"luetooth
     },
 
     // v = "moVe" which isn't "m" because we want it to be on the left hand
