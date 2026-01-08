@@ -156,190 +156,6 @@
             ]
           },
           {
-            "description": "Double-tap Hyper+O to open Obsidian",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "o",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_command",
-                      "left_control",
-                      "left_option",
-                      "left_shift"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "set_variable": {
-                      "name": "hyper_o_pressed",
-                      "value": 1
-                    }
-                  }
-                ],
-                "to_delayed_action": {
-                  "to_if_invoked": [
-                    {
-                      "set_variable": {
-                        "name": "hyper_o_pressed",
-                        "value": 0
-                      }
-                    }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "hyper_o_pressed",
-                        "value": 1
-                      }
-                    }
-                  ]
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper_o_pressed",
-                    "value": 0
-                  }
-                ],
-                "parameters": {
-                  "basic.to_delayed_action_delay_milliseconds": 500
-                }
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "o",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_command",
-                      "left_control",
-                      "left_option",
-                      "left_shift"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "open -a 'Obsidian.app'"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "hyper_o_pressed",
-                      "value": 0
-                    }
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper_o_pressed",
-                    "value": 1
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "hyper",
-                    "value": 1
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "description": "Double-tap Hyper+B to open browser bookmarks",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "b",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_command",
-                      "left_control",
-                      "left_option",
-                      "left_shift"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "set_variable": {
-                      "name": "hyper_b_pressed",
-                      "value": 1
-                    }
-                  }
-                ],
-                "to_delayed_action": {
-                  "to_if_invoked": [
-                    {
-                      "set_variable": {
-                        "name": "hyper_b_pressed",
-                        "value": 0
-                      }
-                    }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "hyper_b_pressed",
-                        "value": 1
-                      }
-                    }
-                  ]
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper_b_pressed",
-                    "value": 0
-                  }
-                ],
-                "parameters": {
-                  "basic.to_delayed_action_delay_milliseconds": 500
-                }
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "b",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_command",
-                      "left_control",
-                      "left_option",
-                      "left_shift"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "open raycast://extensions/raycast/browser-bookmarks/index"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "hyper_b_pressed",
-                      "value": 0
-                    }
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper_b_pressed",
-                    "value": 1
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "hyper",
-                    "value": 1
-                  }
-                ]
-              }
-            ]
-          },
-          {
             "description": "Double-tap Cmd+Q to quit",
             "manipulators": [
               {
@@ -1394,7 +1210,7 @@
                 "description": "Open -a 'Google Chrome.app'",
                 "type": "basic",
                 "from": {
-                  "key_code": "g",
+                  "key_code": "b",
                   "modifiers": {
                     "optional": [
                       "any"
@@ -1719,6 +1535,78 @@
                 "type": "basic",
                 "from": {
                   "key_code": "y",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_o",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "to": [
+                  {
+                    "shell_command": "open -a 'raycast://script-commands/run-vlc-with-iptv.app'"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_o",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  }
+                ],
+                "description": "Open -a 'raycast://script-commands/run-vlc-with-iptv.app'",
+                "type": "basic",
+                "from": {
+                  "key_code": "i",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_o",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "to": [
+                  {
+                    "shell_command": "open -a 'VLC.app'"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_o",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  }
+                ],
+                "description": "Open -a 'VLC.app'",
+                "type": "basic",
+                "from": {
+                  "key_code": "v",
                   "modifiers": {
                     "optional": [
                       "any"
