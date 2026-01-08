@@ -259,12 +259,13 @@ const rules: KarabinerRules[] = [
 
   // Direct Hyper+` for Noiseless (Raycast)
   {
-    description: "Hyper+` for Noiseless",
+    description: "Hyper+§ for Noiseless",
     manipulators: [
       {
         type: "basic",
         from: {
-          key_code: "grave_accent_and_tilde",
+          // key_code: "grave_accent_and_tilde",
+          key_code: "non_us_backslash",
           modifiers: {
             mandatory: [
               "left_command",
