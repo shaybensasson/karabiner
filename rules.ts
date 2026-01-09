@@ -1,15 +1,183 @@
 import fs from "fs";
-import { KarabinerRules } from "./types";
+import { KarabinerRules, KeyCode } from "./types";
 import {
   createHyperSubLayers,
   app,
   open,
   window,
   shell,
-  osascript,
   LEADER_KEY_TIMEOUT_MS,
-  DOUBLE_TAP_DELAY_MS,
+  HyperSubLayerInput,
 } from "./utils";
+
+// ============================================================================
+// Exported Configuration (for documentation generation)
+// ============================================================================
+
+/**
+ * All hyper sublayers configuration.
+ * This is exported so generate_map.ts can read the shortcuts for HTML generation.
+ */
+export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
+  // Note: Arrow keys for window management are handled above with simultaneous detection (instant, no delay)
+  // Note: We use caps-lock+F to Bring all windows to front in System Settings -> Keyboard shortcuts
+
+  b: {
+    title: "Browse",
+    commands: {
+      c: open("https://calendar.google.com/calendar/u/2/r?pli=1"),
+      d: open("app.dropbox.com"),
+      g: open("https://gemini.google.com/u/1/app?pageId=none"),
+      h: open("https://www.youtube.com/feed/history"),
+      o: open("https://chat.openai.com/chat"),
+      p: open("https://neurohelp-pitch.vercel.app/?log=debug"),
+      r: open("https://reddit.com"),
+      t: open("https://my.timeless.day/"),
+      u: open("https://app.clickup.com/3843235/v/b/7-3843235-2"),
+      x: open("https://x.com"),
+      y: open("https://www.youtube.com"),
+    },
+  },
+
+  q: {
+    title: "Query",
+    commands: {
+      e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"),
+      f: open("raycast://extensions/raycast/file-search/search-files"),
+      g: open("raycast://extensions/mblode/google-search/index"),
+      l: {
+        description: "LastPass",
+        to: [{ key_code: "5", modifiers: ["left_control", "left_shift"] }],
+      },q
+    },
+  },
+
+  o: {
+    title: "Open Apps",
+    commands: {
+      c: app("ChatGPT"),
+      d: open("~/Downloads"),
+      f: app("raycast://script-commands/new-finder-instance"),
+      i: app("raycast://script-commands/run-vlc-with-iptv"),
+      l: app("LastPass for Desktop"),
+      m: app("Spotify"),
+      s: app("Slack"),
+      t: app("Ghostty"),
+      v: app("VLC"),
+      w: app("WhatsApp"),
+      y: shell`open -a Safari https://music.youtube.com`,
+      z: app("zoom.us"),
+    },
+  },
+
+  w: {
+    title: "Window",
+    commands: {
+      b: window("bottom-half"),
+      d: window("next-display"),
+      t: window("top-half"),
+    },
+  },
+
+  s: {
+    title: "System",
+    commands: {
+      b: open("raycast://extensions/raycast/system/toggle-bluetooth"),
+      c: open("raycast://extensions/raycast/system/open-camera"),
+      d: open("raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background"),
+      t: open("raycast://extensions/raycast/system/toggle-system-appearance"),
+    },
+  },
+
+  v: {
+    title: "Move / Vim",
+    commands: {
+      d: { description: "⇧⌘D", to: [{ key_code: "d", modifiers: ["right_shift", "right_command"] }] },
+      h: { description: "← Left Arrow", to: [{ key_code: "left_arrow" }] },
+      i: { description: "Page Up", to: [{ key_code: "page_up" }] },
+      j: { description: "↓ Down Arrow", to: [{ key_code: "down_arrow" }] },
+      k: { description: "↑ Up Arrow", to: [{ key_code: "up_arrow" }] },
+      l: { description: "→ Right Arrow", to: [{ key_code: "right_arrow" }] },
+      m: { description: "Magicmove (Homerow)", to: [{ key_code: "f", modifiers: ["right_control"] }] },
+      s: { description: "Scroll Mode (Homerow)", to: [{ key_code: "j", modifiers: ["right_control"] }] },
+      u: { description: "Page Down", to: [{ key_code: "page_down" }] },
+    },
+  },
+
+  r: {
+    title: "Raycast",
+    commands: {
+      c: open("raycast://extensions/thomas/color-picker/pick-color"),
+      e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"),
+      h: open("raycast://extensions/raycast/clipboard-history/clipboard-history"),
+      l: open("raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink"),
+      n: open("raycast://script-commands/dismiss-notifications"),
+      p: open("raycast://extensions/raycast/raycast/confetti"),
+      s: open("/Users/shay/.config/raycast/scripts/"),
+    },
+  },
+};
+
+/**
+ * Direct hyper shortcuts (non-sublayer, instant with modifiers).
+ * Single source of truth for both rule generation and documentation.
+ */
+export const directHyperShortcuts: {
+  key: KeyCode;
+  keyDisplay: string;
+  description: string;
+  action: string; // shell_command
+}[] = [
+  { key: "left_arrow", keyDisplay: "←", description: "Window Left Half", action: "open -g raycast://extensions/raycast/window-management/left-half" },
+  { key: "right_arrow", keyDisplay: "→", description: "Window Right Half", action: "open -g raycast://extensions/raycast/window-management/right-half" },
+  { key: "up_arrow", keyDisplay: "↑", description: "Maximize Window", action: "open -g raycast://extensions/raycast/window-management/maximize" },
+  { key: "down_arrow", keyDisplay: "↓", description: "Restore Window", action: "open -g raycast://extensions/raycast/window-management/restore" },
+  { key: "1", keyDisplay: "1", description: "Google Calendar", action: "open 'https://calendar.google.com/calendar/u/2/r?pli=1'" },
+  { key: "2", keyDisplay: "2", description: "Gmail", action: "open 'https://mail.google.com/mail/u/2/#inbox'" },
+  { key: "3", keyDisplay: "3", description: "ClickUp Inbox", action: "open 'https://app.clickup.com/3843235/inbox?tab=primary'" },
+  { key: "f3", keyDisplay: "F3", description: "Google Chrome", action: "open -a 'Google Chrome.app'" },
+  { key: "non_us_backslash", keyDisplay: "§", description: "Noiseless", action: "open 'raycast://script-commands/noiseless'" },
+  { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
+];
+
+/**
+ * General (non-hyper) shortcuts - for documentation only.
+ * These rules have complex structures that don't fit a simple pattern.
+ */
+export const generalShortcuts: { keys: string; description: string }[] = [
+  { keys: "◆ (alone)", description: "Escape" },
+  { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
+  { keys: "⌥Tab", description: "Previous Tab" },
+  { keys: "⌘H", description: "Disabled (except IDE)" },
+];
+
+/**
+ * Generate Karabiner rules from directHyperShortcuts.
+ */
+function createDirectHyperRules(): KarabinerRules {
+  return {
+    description: "Direct Hyper shortcuts (instant)",
+    manipulators: directHyperShortcuts.map((shortcut) => ({
+      type: "basic" as const,
+      from: {
+        key_code: shortcut.key,
+        modifiers: {
+          mandatory: [
+            "left_command",
+            "left_control",
+            "left_option",
+            "left_shift",
+          ] as const,
+        },
+      },
+      to: [{ shell_command: shortcut.action }],
+    })),
+  };
+}
+
+// ============================================================================
+// Karabiner Rules
+// ============================================================================
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself (leader key style - tap and release, then press next key within timeout)
@@ -94,407 +262,9 @@ const rules: KarabinerRules[] = [
       //      },
     ],
   },
-  // Window management with hyper + arrow keys (instant, uses actual modifiers)
-  {
-    description: "Hyper + Arrow keys for window management",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "left_arrow",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          {
-            shell_command:
-              "open -g raycast://extensions/raycast/window-management/left-half",
-          },
-        ],
-      },
-      {
-        type: "basic",
-        from: {
-          key_code: "right_arrow",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          {
-            shell_command:
-              "open -g raycast://extensions/raycast/window-management/right-half",
-          },
-        ],
-      },
-      {
-        type: "basic",
-        from: {
-          key_code: "up_arrow",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          {
-            shell_command:
-              "open -g raycast://extensions/raycast/window-management/maximize",
-          },
-        ],
-      },
-      {
-        type: "basic",
-        from: {
-          key_code: "down_arrow",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          {
-            shell_command:
-              "open -g raycast://extensions/raycast/window-management/restore",
-          },
-        ],
-      },
-    ],
-  },
+  // Direct hyper shortcuts (generated from directHyperShortcuts array)
+  createDirectHyperRules(),
 
-  // NOTE: shayb | 08-01-26 | use 1,2,3 these get confused with downstream hyper keys
-  // Direct Hyper+1 for calendar (instant, uses actual modifiers)
-  {
-    description: "Hyper+1 for Calendar",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "1",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          {
-            shell_command:
-              "open 'https://calendar.google.com/calendar/u/2/r?pli=1'",
-          },
-        ],
-      },
-    ],
-  },
-
-  // Direct Hyper+2 for email (instant, uses actual modifiers)
-  {
-    description: "Hyper+2 for Email",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "2",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          { shell_command: "open 'https://mail.google.com/mail/u/2/#inbox'" },
-        ],
-      },
-    ],
-  },
-
-  // Direct Hyper+3 for ClickUp Inbox
-  {
-    description: "Hyper+3 for ClickUp Inbox",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "3",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          { shell_command: "open 'https://app.clickup.com/3843235/inbox?tab=primary'" },
-        ],
-      },
-    ],
-  },
-
-  // Direct Hyper+` for Noiseless (Raycast)
-  {
-    description: "Hyper+§ for Noiseless",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          // key_code: "grave_accent_and_tilde",
-          key_code: "non_us_backslash",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          { shell_command: "open 'raycast://script-commands/noiseless'" },
-        ],
-      },
-    ],
-  },
-
-  // Direct Hyper+Escape for Meckano
-  {
-    description: "Hyper+Escape for Meckano",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "escape",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          { shell_command: "open 'https://app.meckano.co.il'" },
-        ],
-      },
-    ],
-  },
-
-  // Direct Hyper+F3 for Google Chrome (moved from ◆+O B to avoid mirror pair conflict)
-  {
-    description: "Hyper+F3 for Google Chrome",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "f3",
-          modifiers: {
-            mandatory: [
-              "left_command",
-              "left_control",
-              "left_option",
-              "left_shift",
-            ],
-          },
-        },
-        to: [
-          { shell_command: "open -a 'Google Chrome.app'" },
-        ],
-      },
-    ],
-  },
-  // Double-tap Hyper+O to open Obsidian (requires capslock held, fast double-tap)
-  // {
-  //   description: "Double-tap Hyper+O to open Obsidian",
-  //   manipulators: [
-  //     {
-  //       type: "basic",
-  //       from: {
-  //         key_code: "o",
-  //         modifiers: {
-  //           mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-  //         },
-  //       },
-  //       to: [
-  //         {
-  //           set_variable: {
-  //             name: "hyper_o_pressed",
-  //             value: 1,
-  //           },
-  //         },
-  //       ],
-  //       to_delayed_action: {
-  //         to_if_invoked: [
-  //           {
-  //             set_variable: {
-  //               name: "hyper_o_pressed",
-  //               value: 0,
-  //             },
-  //           },
-  //         ],
-  //         to_if_canceled: [
-  //           {
-  //             set_variable: {
-  //               name: "hyper_o_pressed",
-  //               value: 1,
-  //             },
-  //           },
-  //         ],
-  //       },
-  //       conditions: [
-  //         {
-  //           type: "variable_if",
-  //           name: "hyper_o_pressed",
-  //           value: 0,
-  //         },
-  //       ],
-  //       parameters: {
-  //         "basic.to_delayed_action_delay_milliseconds": DOUBLE_TAP_DELAY_MS, // double-tap window
-  //       },
-  //     },
-  //     {
-  //       type: "basic",
-  //       from: {
-  //         key_code: "o",
-  //         modifiers: {
-  //           mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-  //         },
-  //       },
-  //       to: [
-  //         {
-  //           shell_command: "open -a 'Obsidian.app'",
-  //         },
-  //         {
-  //           set_variable: {
-  //             name: "hyper_o_pressed",
-  //             value: 0,
-  //           },
-  //         },
-  //       ],
-  //       conditions: [
-  //         {
-  //           type: "variable_if",
-  //           name: "hyper_o_pressed",
-  //           value: 1,
-  //         },
-  //         {
-  //           type: "variable_if",
-  //           name: "hyper",
-  //           value: 1,
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
-  // Double-tap Hyper+B to open browser bookmarks (requires capslock held, fast double-tap)
-  // {
-  //   description: "Double-tap Hyper+B to open browser bookmarks",
-  //   manipulators: [
-  //     {
-  //       type: "basic",
-  //       from: {
-  //         key_code: "b",
-  //         modifiers: {
-  //           mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-  //         },
-  //       },
-  //       to: [
-  //         {
-  //           set_variable: {
-  //             name: "hyper_b_pressed",
-  //             value: 1,
-  //           },
-  //         },
-  //       ],
-  //       to_delayed_action: {
-  //         to_if_invoked: [
-  //           {
-  //             set_variable: {
-  //               name: "hyper_b_pressed",
-  //               value: 0,
-  //             },
-  //           },
-  //         ],
-  //         to_if_canceled: [
-  //           {
-  //             set_variable: {
-  //               name: "hyper_b_pressed",
-  //               value: 1,
-  //             },
-  //           },
-  //         ],
-  //       },
-  //       conditions: [
-  //         {
-  //           type: "variable_if",
-  //           name: "hyper_b_pressed",
-  //           value: 0,
-  //         },
-  //       ],
-  //       parameters: {
-  //         "basic.to_delayed_action_delay_milliseconds": DOUBLE_TAP_DELAY_MS, // double-tap window
-  //       },
-  //     },
-  //     {
-  //       type: "basic",
-  //       from: {
-  //         key_code: "b",
-  //         modifiers: {
-  //           mandatory: ["left_command", "left_control", "left_option", "left_shift"],
-  //         },
-  //       },
-  //       to: [
-  //         {
-  //           shell_command: "open raycast://extensions/raycast/browser-bookmarks/index",
-  //         },
-  //         {
-  //           set_variable: {
-  //             name: "hyper_b_pressed",
-  //             value: 0,
-  //           },
-  //         },
-  //       ],
-  //       conditions: [
-  //         {
-  //           type: "variable_if",
-  //           name: "hyper_b_pressed",
-  //           value: 1,
-  //         },
-  //         {
-  //           type: "variable_if",
-  //           name: "hyper",
-  //           value: 1,
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
   // Require double-tap cmd+q to quit apps (prevents accidental quits)
   {
     description: "Double-tap Cmd+Q to quit",
@@ -626,176 +396,7 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
-  ...createHyperSubLayers({
-    // Note: Arrow keys for window management are handled above with simultaneous detection (instant, no delay)
-
-    // spacebar: open(
-    //   "raycast://extensions/stellate/mxstbr-commands/create-notion-todo"
-    // ),
-    // NOTE: shayb | 08-01-26 | we are using this for
-
-    // NOTE: shayb | 08-01-26 | we use caps-lock+F to Bring all windows to front in our System Settings -> Keyboard shortcuts
-    // see https://gemini.google.com/u/1/app/bc1eb29aedd643ec?pageId=none
-
-    // b = "B"rowse
-    b: {
-      c: open("https://calendar.google.com/calendar/u/2/r?pli=1"), // Google NeuroHelp "C"alendar
-      r: open("https://reddit.com"),
-      h: open("https://www.youtube.com/feed/history"), // YouTube "H"istory
-
-      y: open("https://www.youtube.com"), // "Y"outube
-
-      x: open("https://x.com"),
-      // m: open("https://music.youtube.com"),                     // YouTube "M"usic
-
-      u: open("https://app.clickup.com/3843235/v/b/7-3843235-2"), // Click"U"p
-      t: open("https://my.timeless.day/"),
-      // b: open("raycast://extensions/raycast/browser-bookmarks/index"), // Moved to double-tap hyper+b rule
-      p: open("https://neurohelp-pitch.vercel.app/?log=debug"), // NeuroHelp Pitch (e"X"perimental)
-
-      o: open("https://chat.openai.com/chat"), // "C"hatGPT
-      g: open("https://gemini.google.com/u/1/app?pageId=none"), // Gemini
-      d: open("app.dropbox.com"),
-    },
-    // q = "Q"uery
-    // Should all be deep links
-    q: {
-      g: open("raycast://extensions/mblode/google-search/index"), // "G"oogle Search
-      e: open(
-        "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
-      ), // "E"moji Search
-      l: {
-        description: "Find: LastPass",
-        to: [
-          {
-            key_code: "5",
-            modifiers: ["left_control", "left_shift"],
-          },
-        ],
-      },
-      f: open("raycast://extensions/raycast/file-search/search-files"), // "F"ind Files
-    },
-    // o = "Open" applications
-    o: {
-      a: app("Safari"),
-      l: app("LastPass for Desktop"),
-      // b: app("Google Chrome"),
-      // Local
-      d: open("~/Downloads"), // "O"pen Downloads
-      // c: app("Calendar"),
-      c: app("ChatGPT"),
-      // v: app("Zed"),
-      // d: app("Discord"),
-      s: app("Slack"),
-      // e: app("Superhuman"),
-      // n: app("Notion"),
-      t: app("Ghostty"),
-      // Open todo list managed via *H*ypersonic
-      // h: open(
-      //   "notion://www.notion.so/stellatehq/7b33b924746647499d906c55f89d5026"
-      // ),
-      z: app("zoom.us"),
-      // "M"arkdown (Reflect.app)
-      // m: app("Reflect"),
-      // r: app("Reflect"),
-      // f: app("Finder"),
-      f: app("raycast://script-commands/new-finder-instance"),
-      // "i"Message
-      // i: app("Texts"),
-      m: app("Spotify"),
-      // a: app("iA Presenter"),
-      w: app("WhatsApp"),
-      // o: app("Obsidian"), // Moved to double-tap hyper+o rule
-      y: shell`open -a Safari https://music.youtube.com`, // "Y"outube Music (Safari)
-
-      i: app("raycast://script-commands/run-vlc-with-iptv"),
-      v: app("VLC"),
-
-      // l: open(
-      //   "raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink"
-      // ),
-    },
-
-    // w = "Window"
-    w: {
-      d: window("next-display"),
-      t: window("top-half"),
-      b: window("bottom-half"),
-      // Arrow keys moved to direct hyper shortcuts (capslock+arrow)
-    },
-
-    // s = "System"
-    s: {
-      // "D"o not disturb toggle
-      d: open(
-        `raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background`
-      ),
-      // "T"heme
-      t: open(`raycast://extensions/raycast/system/toggle-system-appearance`),
-      c: open("raycast://extensions/raycast/system/open-camera"),
-      b: open("raycast://extensions/raycast/system/toggle-bluetooth"), // Toggle "B"luetooth
-    },
-
-    // FUTURE: shayb | 08-01-26 | maybe use this or remove
-    // v = "moVe" which isn't "m" because we want it to be on the left hand
-    // so that hjkl work like they do in vim
-    v: {
-      h: {
-        to: [{ key_code: "left_arrow" }],
-      },
-      j: {
-        to: [{ key_code: "down_arrow" }],
-      },
-      k: {
-        to: [{ key_code: "up_arrow" }],
-      },
-      l: {
-        to: [{ key_code: "right_arrow" }],
-      },
-      // Magicmove via homerow.app
-      m: {
-        to: [{ key_code: "f", modifiers: ["right_control"] }],
-      },
-      // Scroll mode via homerow.app
-      s: {
-        to: [{ key_code: "j", modifiers: ["right_control"] }],
-      },
-      d: {
-        to: [{ key_code: "d", modifiers: ["right_shift", "right_command"] }],
-      },
-      u: {
-        to: [{ key_code: "page_down" }],
-      },
-      i: {
-        to: [{ key_code: "page_up" }],
-      },
-    },
-
-    // r = "Raycast"
-    r: {
-      c: open("raycast://extensions/thomas/color-picker/pick-color"),
-      n: open("raycast://script-commands/dismiss-notifications"),
-      l: open(
-        "raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink"
-      ),
-      e: open(
-        "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
-      ),
-      p: open("raycast://extensions/raycast/raycast/confetti"),
-      // a: open("raycast://extensions/raycast/raycast-ai/ai-chat"),
-      // s: open("raycast://extensions/peduarte/silent-mention/index"),
-      s: open("/Users/shay/.config/raycast/scripts/"), // "R"aycast Scripts (Cursor)
-      h: open(
-        "raycast://extensions/raycast/clipboard-history/clipboard-history"
-      ),
-      // 1: open(
-      //   "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-1"
-      // ),
-      // 2: open(
-      //   "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-2"
-      // ),
-    },
-  }),
+  ...createHyperSubLayers(hyperSubLayers),
 ];
 
 fs.writeFileSync(

@@ -12,6 +12,11 @@
   },
   "scripts": {
     "build": "tsm rules.ts",
-    "watch": "nodemon --exec yarn build -e ts"
+    "watch": "nodemon --exec yarn build -e ts",
+    "map": "tsm generate_map.ts",
+    "map:pdf": "tsm generate_map.ts --pdf"
+  },
+  "dependencies": {
+    "puppeteer": "^24.34.0"
   }
 }
