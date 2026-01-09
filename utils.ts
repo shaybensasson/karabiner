@@ -21,10 +21,43 @@ export interface LayerCommand {
   description?: string;
 }
 
-type HyperKeySublayer = {
+/**
+ * A sublayer with commands mapped to key codes
+ */
+export type HyperKeySublayer = {
   // The ? is necessary, otherwise we'd have to define something for _every_ key code
   [key_code in KeyCode]?: LayerCommand;
 };
+
+/**
+ * A sublayer with metadata (title) for documentation generation
+ */
+export interface SubLayerWithMeta {
+  title: string;
+  commands: HyperKeySublayer;
+}
+
+/**
+ * Input type for createHyperSubLayers - can be:
+ * - LayerCommand (direct command)
+ * - HyperKeySublayer (sublayer without title - legacy)
+ * - SubLayerWithMeta (sublayer with title)
+ */
+export type HyperSubLayerInput = LayerCommand | HyperKeySublayer | SubLayerWithMeta;
+
+/**
+ * Check if input is a SubLayerWithMeta
+ */
+export function isSubLayerWithMeta(input: HyperSubLayerInput): input is SubLayerWithMeta {
+  return "title" in input && "commands" in input;
+}
+
+/**
+ * Check if input is a direct LayerCommand
+ */
+export function isLayerCommand(input: HyperSubLayerInput): input is LayerCommand {
+  return "to" in input;
+}
 
 /**
  * Create a Hyper Key sublayer, where every command is prefixed with a key
@@ -164,14 +197,16 @@ export function createHyperSubLayer(
  * This prevents confusing shortcuts where the order of keys could be mixed up.
  */
 function validateSubLayerKeyConflicts(subLayers: {
-  [key_code in KeyCode]?: HyperKeySublayer | LayerCommand;
+  [key_code in KeyCode]?: HyperSubLayerInput;
 }): void {
   // Build a map of all pairs: leader -> secondary[]
   const pairs = new Map<string, Set<string>>();
   for (const [leaderKey, sublayer] of Object.entries(subLayers)) {
     // Skip direct commands (they have a 'to' property)
-    if ("to" in sublayer) continue;
-    pairs.set(leaderKey, new Set(Object.keys(sublayer)));
+    if (isLayerCommand(sublayer)) continue;
+    // Handle SubLayerWithMeta (has 'commands' property)
+    const commands = isSubLayerWithMeta(sublayer) ? sublayer.commands : sublayer;
+    pairs.set(leaderKey, new Set(Object.keys(commands)));
   }
 
   // Check for mirror pairs
@@ -210,7 +245,7 @@ function validateSubLayerKeyConflicts(subLayers: {
  * activates at a time
  */
 export function createHyperSubLayers(subLayers: {
-  [key_code in KeyCode]?: HyperKeySublayer | LayerCommand;
+  [key_code in KeyCode]?: HyperSubLayerInput;
 }): KarabinerRules[] {
   // Validate that leader keys aren't used as secondary keys
   validateSubLayerKeyConflicts(subLayers);
@@ -219,54 +254,70 @@ export function createHyperSubLayers(subLayers: {
     Object.keys(subLayers) as (keyof typeof subLayers)[]
   ).map((sublayer_key) => generateSubLayerVariableName(sublayer_key));
 
-  return Object.entries(subLayers).map(([key, value]) =>
-    "to" in value
-      ? {
-          description: `Hyper Key + ${key}`,
-          manipulators: [
-            {
-              ...value,
-              // Add cleanup: reset hyper after command execution
-              to: [
-                ...(value.to || []),
-                {
-                  set_variable: {
-                    name: "hyper",
-                    value: 0,
-                  },
-                },
-              ],
-              type: "basic" as const,
-              from: {
-                key_code: key as KeyCode,
-                modifiers: {
-                  optional: ["any"],
+  return Object.entries(subLayers).map(([key, value]) => {
+    // Direct command (has 'to' property)
+    if (isLayerCommand(value)) {
+      return {
+        description: `Hyper Key + ${key}`,
+        manipulators: [
+          {
+            ...value,
+            // Add cleanup: reset hyper after command execution
+            to: [
+              ...(value.to || []),
+              {
+                set_variable: {
+                  name: "hyper",
+                  value: 0,
                 },
               },
-              conditions: [
-                {
-                  type: "variable_if",
-                  name: "hyper",
-                  value: 1,
-                },
-                ...allSubLayerVariables.map((subLayerVariable) => ({
-                  type: "variable_if" as const,
-                  name: subLayerVariable,
-                  value: 0,
-                })),
-              ],
+            ],
+            type: "basic" as const,
+            from: {
+              key_code: key as KeyCode,
+              modifiers: {
+                optional: ["any"],
+              },
             },
-          ],
-        }
-      : {
-          description: `Hyper Key sublayer "${key}"`,
-          manipulators: createHyperSubLayer(
-            key as KeyCode,
-            value,
-            allSubLayerVariables
-          ),
-        }
-  );
+            conditions: [
+              {
+                type: "variable_if",
+                name: "hyper",
+                value: 1,
+              },
+              ...allSubLayerVariables.map((subLayerVariable) => ({
+                type: "variable_if" as const,
+                name: subLayerVariable,
+                value: 0,
+              })),
+            ],
+          },
+        ],
+      };
+    }
+
+    // Sublayer with metadata (has 'title' and 'commands')
+    if (isSubLayerWithMeta(value)) {
+      return {
+        description: `Hyper Key sublayer "${key}" (${value.title})`,
+        manipulators: createHyperSubLayer(
+          key as KeyCode,
+          value.commands,
+          allSubLayerVariables
+        ),
+      };
+    }
+
+    // Legacy sublayer (plain object with commands)
+    return {
+      description: `Hyper Key sublayer "${key}"`,
+      manipulators: createHyperSubLayer(
+        key as KeyCode,
+        value as HyperKeySublayer,
+        allSubLayerVariables
+      ),
+    };
+  });
 }
 
 function generateSubLayerVariableName(key: KeyCode) {
