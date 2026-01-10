@@ -327,12 +327,10 @@ function generateSubLayerVariableName(key: KeyCode) {
 /**
  * Shortcut for "open" shell command
  */
-export function open(...what: string[]): LayerCommand {
+export function open(what: string, description?: string): LayerCommand {
   return {
-    to: what.map((w) => ({
-      shell_command: `open ${w}`,
-    })),
-    description: `Open ${what.join(" & ")}`,
+    to: [{ shell_command: `open ${what}` }],
+    description: description ?? what,
   };
 }
 
@@ -374,24 +372,32 @@ export function shell(
 }
 
 /**
+ * Shortcut for a shell command with description
+ */
+export function shellCmd(command: string, description?: string): LayerCommand {
+  return {
+    to: [{ shell_command: command }],
+    description: description ?? command,
+  };
+}
+
+/**
  * Shortcut for managing window sizing
  */
-export function window(name: string): LayerCommand {
+export function window(name: string, description?: string): LayerCommand {
   return {
     to: [
       {
         shell_command: `open -g raycast://extensions/raycast/window-management/${name}`,
       },
     ],
-    description: `Window: ${name}`,
+    description: description ?? name,
   };
 }
 
 /**
  * Shortcut for "Open an app" command (of which there are a bunch)
  */
-export function app(name: string): LayerCommand {
-  const result = open(`-a '${name}.app'`)
-  osascript(`tell application "${name}" to activate`)
-  return result
+export function app(name: string, description?: string): LayerCommand {
+  return open(`-a '${name}.app'`, description ?? name);
 }

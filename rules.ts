@@ -145,6 +145,8 @@ export const directHyperShortcuts: {
  * These rules have complex structures that don't fit a simple pattern.
  */
 export const generalShortcuts: { keys: string; description: string }[] = [
+  { keys: "⇪ (hold)", description: "Hyper Key (⌃⌥⇧⌘)" },
+  { keys: "⇪ (tap)", description: "Toggle Caps Lock" },
   { keys: "◆ (alone)", description: "Escape" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌥Tab", description: "Previous Tab" },
@@ -182,13 +184,12 @@ function createDirectHyperRules(): KarabinerRules {
 // ============================================================================
 
 const rules: KarabinerRules[] = [
-  // Define the Hyper key itself (leader key style - tap and release, then press next key within timeout)
+  // Caps Lock → Hyper Key (tap alone → toggle Caps Lock)
   {
-    description: "Hyper Key (⌃⌥⇧⌘)",
+    description: "Caps Lock → Hyper Key (tap alone → Caps Lock)",
     manipulators: [
       {
-        description:
-          "Caps Lock -> Hyper Key (leader key style + modifiers for instant arrow keys)",
+        type: "basic",
         from: {
           key_code: "caps_lock",
           modifiers: {
@@ -197,71 +198,20 @@ const rules: KarabinerRules[] = [
         },
         to: [
           {
-            set_variable: {
-              name: "hyper",
-              value: 1,
-            },
-          },
-          // Also send actual hyper modifiers for instant key detection
-          {
             key_code: "left_shift",
-            modifiers: ["left_command", "left_control", "left_option"],
-          },
-        ],
-        // Leader key style: don't reset immediately on key up, use delayed action instead
-        to_delayed_action: {
-          // If timeout expires without pressing another key, reset hyper
-          to_if_invoked: [
-            {
-              set_variable: {
-                name: "hyper",
-                value: 0,
-              },
-            },
-          ],
-          // If another key is pressed, keep hyper active (the sublayer/command will handle cleanup)
-          to_if_canceled: [
-            {
-              set_variable: {
-                name: "hyper",
-                value: 1,
-              },
-            },
-          ],
-        },
-        to_after_key_up: [
-          {
-            set_variable: {
-              name: "hyper",
-              value: 0,
-            },
+            modifiers: ["left_control", "left_option", "left_command"],
           },
         ],
         to_if_alone: [
           {
-            key_code: "escape",
+            key_code: "caps_lock",
+            hold_down_milliseconds: 200,
           },
         ],
         parameters: {
-          "basic.to_delayed_action_delay_milliseconds": LEADER_KEY_TIMEOUT_MS,
+          "basic.to_if_alone_timeout_milliseconds": 200,
         },
-        type: "basic",
       },
-      //      {
-      //        type: "basic",
-      //        description: "Disable CMD + Tab to force Hyper Key usage",
-      //        from: {
-      //          key_code: "tab",
-      //          modifiers: {
-      //            mandatory: ["left_command"],
-      //          },
-      //        },
-      //        to: [
-      //          {
-      //            key_code: "tab",
-      //          },
-      //        ],
-      //      },
     ],
   },
   // Direct hyper shortcuts (generated from directHyperShortcuts array)
