@@ -45,7 +45,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols", "Emoji Search"),
       f: open("raycast://extensions/raycast/file-search/search-files", "File Search"),
       g: open("raycast://extensions/mblode/google-search/index", "Google Search"),
-      l: { description: "LastPass", to: [{ key_code: "5", modifiers: ["left_control", "left_shift"] }] },
+      l: { description: "LastPass", to: [{ key_code: "5", modifiers: ["left_control", "left_command"] }] }, // The lastpass app must be running.
     },
   },
 
@@ -57,13 +57,13 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       f: open("raycast://script-commands/new-finder-instance", "New Finder"),
       i: open("raycast://script-commands/run-vlc-with-iptv", "IPTV"),
       l: app("LastPass for Desktop", "LastPass"),
-      m: app("Spotify"),
+      // m: app("Spotify"), // Replaced by ◆+F8 (direct shortcut)
       s: app("Slack"),
-      t: app("Ghostty"),
+      // t: app("Ghostty"), // Replaced by ◆+0 (window cycling). Could repurpose for Terminal.app
       v: app("VLC"),
       w: app("WhatsApp"),
       y: shellCmd("open -a Safari https://music.youtube.com", "YouTube Music"),
-      z: app("zoom.us", "Zoom"),
+      // z: app("zoom.us", "Zoom"), // Replaced by ◆+F5 (window cycling)
     },
   },
 

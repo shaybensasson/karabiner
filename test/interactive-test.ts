@@ -41,7 +41,7 @@ const testCases: TestCase[] = [
 
   // Open Apps sublayer
   { name: "Open → Slack", keySequence: "Tap ◆, then O, then S", expectedAction: { type: "app", value: "Slack" } },
-  { name: "Open → Ghostty", keySequence: "Tap ◆, then O, then T", expectedAction: { type: "app", value: "Ghostty" } },
+  // Note: Ghostty (◆+O+T) removed - now using window cycling (◆+0)
 
   // Vim sublayer
   { name: "Vim → Left Arrow", keySequence: "Tap ◆, then V, then H", expectedAction: { type: "key", value: "left_arrow" } },
@@ -49,6 +49,12 @@ const testCases: TestCase[] = [
 
   // System sublayer
   { name: "System → Toggle DND", keySequence: "Tap ◆, then S, then D", expectedAction: { type: "raycast", value: "do-not-disturb" } },
+
+  // Window cycling (direct key with state)
+  { name: "Ghostty (1st press)", keySequence: "Hold ◆ (Caps Lock) + Press 0", expectedAction: { type: "app", value: "Ghostty" } },
+  { name: "Ghostty (2nd press - window cycle)", keySequence: "Keep holding ◆ + Press 0 again", expectedAction: { type: "key", value: "non_us_backslash" } },
+  { name: "Chrome (1st press)", keySequence: "Hold ◆ (Caps Lock) + Press F4", expectedAction: { type: "app", value: "Google Chrome" } },
+  { name: "Chrome (2nd press - window cycle)", keySequence: "Keep holding ◆ + Press F4 again", expectedAction: { type: "key", value: "non_us_backslash" } },
 ];
 
 let originalProfile: string | null = null;
