@@ -6,7 +6,6 @@ import {
   open,
   window,
   shellCmd,
-  LEADER_KEY_TIMEOUT_MS,
   HyperSubLayerInput,
 } from "./utils";
 

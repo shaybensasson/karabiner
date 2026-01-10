@@ -1,3 +1,3 @@
 - on start always run `/prime` command for context.
 - you are not allowed to modify the karabiner json - it is a compiled artifact. ALWAYS modify rules.ts for key strokes then `yarn build` it.
-- always run linter on ts files after modifying them.
+- always run eslint on ts files after modifying them.

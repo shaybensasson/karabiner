@@ -1,14 +1,19 @@
 {
   "name": "karabiner",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "author": "Max Stoiber <contact@mxstbr.com>",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/node": "^18.7.19",
+    "eslint": "^9.39.2",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
     "tsm": "^2.2.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0",
     "vitest": "^4.0.16"
   },
   "scripts": {
@@ -16,6 +21,7 @@
     "watch": "nodemon --exec yarn build -e ts",
     "map": "tsm generate_map.ts",
     "map:pdf": "tsm generate_map.ts --pdf",
+    "lint": "eslint '*.ts'",
     "test": "vitest run --config test/vitest.config.ts",
     "test:watch": "vitest --config test/vitest.config.ts",
     "test:interactive": "tsm test/interactive-test.ts",
