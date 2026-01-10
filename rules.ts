@@ -134,13 +134,27 @@ export const directHyperShortcuts: {
   { key: "2", description: "Gmail", action: "open 'https://mail.google.com/mail/u/2/#inbox'" },
   { key: "3", description: "ClickUp Inbox", action: "open 'https://app.clickup.com/3843235/inbox?tab=primary'" },
   { key: "4", description: "Obsidian", action: "open -a 'Obsidian.app'" },
-  // Note: ◆+5 (Cursor), ◆+6 (VSCode), ◆+F4 (Finder) are handled below with smart window switching
   { key: "non_us_backslash", keyDisplay: "§", description: "Noiseless", action: "open 'raycast://script-commands/noiseless'" },
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
   { key: "f1", keyDisplay: "F1", description: "F13", toKeyCode: "f13" },
   { key: "f2", keyDisplay: "F2", description: "F14", toKeyCode: "f14" },
   { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
-  // Note: ◆+0 for Ghostty is handled separately below with smart window switching
+];
+
+/**
+ * Window cycling shortcuts - for documentation only.
+ * These have custom implementations with smart window switching logic.
+ */
+export const windowCyclingShortcuts: {
+  key: KeyCode;
+  keyDisplay?: string;
+  description: string;
+}[] = [
+  { key: "0", description: "Ghostty (cycle windows)" },
+  { key: "5", description: "Cursor (cycle windows)" },
+  { key: "6", description: "VSCode (cycle windows)" },
+  { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)" },
+  { key: "f5", keyDisplay: "F5", description: "Zoom (cycle windows)" },
 ];
 
 /**
