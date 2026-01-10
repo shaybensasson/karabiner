@@ -9,6 +9,7 @@
     "@eslint/js": "^9.39.2",
     "@types/node": "^18.7.19",
     "eslint": "^9.39.2",
+    "husky": "^9.1.7",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
     "tsm": "^2.2.2",
@@ -25,7 +26,8 @@
     "test": "vitest run --config test/vitest.config.ts",
     "test:watch": "vitest --config test/vitest.config.ts",
     "test:interactive": "tsm test/interactive-test.ts",
-    "test:setup": "yarn build && yarn tsm test/utils/test-profile-generator.ts && cd test/tools && ./build.sh"
+    "test:setup": "yarn build && yarn tsm test/utils/test-profile-generator.ts && cd test/tools && ./build.sh",
+    "prepare": "husky"
   },
   "dependencies": {
     "puppeteer": "^24.34.0"
