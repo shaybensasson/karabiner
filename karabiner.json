@@ -8,10 +8,10 @@
       "complex_modifications": {
         "rules": [
           {
-            "description": "Hyper Key (⌃⌥⇧⌘)",
+            "description": "Caps Lock → Hyper Key (tap alone → Caps Lock)",
             "manipulators": [
               {
-                "description": "Caps Lock -> Hyper Key (leader key style + modifiers for instant arrow keys)",
+                "type": "basic",
                 "from": {
                   "key_code": "caps_lock",
                   "modifiers": {
@@ -22,55 +22,23 @@
                 },
                 "to": [
                   {
-                    "set_variable": {
-                      "name": "hyper",
-                      "value": 1
-                    }
-                  },
-                  {
                     "key_code": "left_shift",
                     "modifiers": [
-                      "left_command",
                       "left_control",
-                      "left_option"
+                      "left_option",
+                      "left_command"
                     ]
-                  }
-                ],
-                "to_delayed_action": {
-                  "to_if_invoked": [
-                    {
-                      "set_variable": {
-                        "name": "hyper",
-                        "value": 0
-                      }
-                    }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "hyper",
-                        "value": 1
-                      }
-                    }
-                  ]
-                },
-                "to_after_key_up": [
-                  {
-                    "set_variable": {
-                      "name": "hyper",
-                      "value": 0
-                    }
                   }
                 ],
                 "to_if_alone": [
                   {
-                    "key_code": "escape"
+                    "key_code": "caps_lock",
+                    "hold_down_milliseconds": 200
                   }
                 ],
                 "parameters": {
-                  "basic.to_delayed_action_delay_milliseconds": 500
-                },
-                "type": "basic"
+                  "basic.to_if_alone_timeout_milliseconds": 200
+                }
               }
             ]
           },

@@ -23,6 +23,7 @@ export interface Manipulator {
 export interface Parameters {
   "basic.simultaneous_threshold_milliseconds"?: number;
   "basic.to_delayed_action_delay_milliseconds"?: number;
+  "basic.to_if_alone_timeout_milliseconds"?: number;
 }
 
 type Conditions =
@@ -137,6 +138,7 @@ export interface To {
   key_code?: KeyCode;
   modifiers?: ModifiersKeys[];
   shell_command?: string;
+  hold_down_milliseconds?: number;
   set_variable?: {
     name: string;
     value: boolean | number | string;
