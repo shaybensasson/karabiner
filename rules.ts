@@ -5,7 +5,7 @@ import {
   app,
   open,
   window,
-  shell,
+  shellCmd,
   LEADER_KEY_TIMEOUT_MS,
   HyperSubLayerInput,
 } from "./utils";
@@ -25,30 +25,27 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
   b: {
     title: "Browse",
     commands: {
-      c: open("https://calendar.google.com/calendar/u/2/r?pli=1"),
-      d: open("app.dropbox.com"),
-      g: open("https://gemini.google.com/u/1/app?pageId=none"),
-      h: open("https://www.youtube.com/feed/history"),
-      o: open("https://chat.openai.com/chat"),
-      p: open("https://neurohelp-pitch.vercel.app/?log=debug"),
-      r: open("https://reddit.com"),
-      t: open("https://my.timeless.day/"),
-      u: open("https://app.clickup.com/3843235/v/b/7-3843235-2"),
-      x: open("https://x.com"),
-      y: open("https://www.youtube.com"),
+      c: open("https://calendar.google.com/calendar/u/2/r?pli=1", "Google Calendar"),
+      d: open("https://www.dropbox.com/home", "Dropbox"),
+      g: open("https://gemini.google.com/u/1/app?pageId=none", "Gemini"),
+      h: open("https://www.youtube.com/feed/history", "YouTube History"),
+      o: open("https://chat.openai.com/chat", "ChatGPT (Web)"),
+      p: open("https://neurohelp-pitch.vercel.app/?log=debug", "NeuroHelp Pitch"),
+      r: open("https://reddit.com", "Reddit"),
+      t: open("https://my.timeless.day/", "Timeless"),
+      u: open("https://app.clickup.com/3843235/v/b/7-3843235-2", "ClickUp"),
+      x: open("https://x.com", "X (Twitter)"),
+      y: open("https://www.youtube.com", "YouTube"),
     },
   },
 
   q: {
     title: "Query",
     commands: {
-      e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"),
-      f: open("raycast://extensions/raycast/file-search/search-files"),
-      g: open("raycast://extensions/mblode/google-search/index"),
-      l: {
-        description: "LastPass",
-        to: [{ key_code: "5", modifiers: ["left_control", "left_shift"] }],
-      },q
+      e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols", "Emoji Search"),
+      f: open("raycast://extensions/raycast/file-search/search-files", "File Search"),
+      g: open("raycast://extensions/mblode/google-search/index", "Google Search"),
+      l: { description: "LastPass", to: [{ key_code: "5", modifiers: ["left_control", "left_shift"] }] },
     },
   },
 
@@ -56,36 +53,36 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
     title: "Open Apps",
     commands: {
       c: app("ChatGPT"),
-      d: open("~/Downloads"),
-      f: app("raycast://script-commands/new-finder-instance"),
-      i: app("raycast://script-commands/run-vlc-with-iptv"),
-      l: app("LastPass for Desktop"),
+      d: open("~/Downloads", "Downloads"),
+      f: open("raycast://script-commands/new-finder-instance", "New Finder"),
+      i: open("raycast://script-commands/run-vlc-with-iptv", "IPTV"),
+      l: app("LastPass for Desktop", "LastPass"),
       m: app("Spotify"),
       s: app("Slack"),
       t: app("Ghostty"),
       v: app("VLC"),
       w: app("WhatsApp"),
-      y: shell`open -a Safari https://music.youtube.com`,
-      z: app("zoom.us"),
+      y: shellCmd("open -a Safari https://music.youtube.com", "YouTube Music"),
+      z: app("zoom.us", "Zoom"),
     },
   },
 
   w: {
     title: "Window",
     commands: {
-      b: window("bottom-half"),
-      d: window("next-display"),
-      t: window("top-half"),
+      b: window("bottom-half", "Bottom Half"),
+      d: window("next-display", "Next Display"),
+      t: window("top-half", "Top Half"),
     },
   },
 
   s: {
     title: "System",
     commands: {
-      b: open("raycast://extensions/raycast/system/toggle-bluetooth"),
-      c: open("raycast://extensions/raycast/system/open-camera"),
-      d: open("raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background"),
-      t: open("raycast://extensions/raycast/system/toggle-system-appearance"),
+      b: open("raycast://extensions/raycast/system/toggle-bluetooth", "Toggle Bluetooth"),
+      c: open("raycast://extensions/raycast/system/open-camera", "Open Camera"),
+      d: open("raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background", "Toggle DND"),
+      t: open("raycast://extensions/raycast/system/toggle-system-appearance", "Toggle Dark Mode"),
     },
   },
 
@@ -107,13 +104,13 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
   r: {
     title: "Raycast",
     commands: {
-      c: open("raycast://extensions/thomas/color-picker/pick-color"),
-      e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"),
-      h: open("raycast://extensions/raycast/clipboard-history/clipboard-history"),
-      l: open("raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink"),
-      n: open("raycast://script-commands/dismiss-notifications"),
-      p: open("raycast://extensions/raycast/raycast/confetti"),
-      s: open("/Users/shay/.config/raycast/scripts/"),
+      c: open("raycast://extensions/thomas/color-picker/pick-color", "Color Picker"),
+      e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols", "Emoji Search"),
+      h: open("raycast://extensions/raycast/clipboard-history/clipboard-history", "Clipboard History"),
+      l: open("raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink", "Create Shortlink"),
+      n: open("raycast://script-commands/dismiss-notifications", "Dismiss Notifications"),
+      p: open("raycast://extensions/raycast/raycast/confetti", "Confetti"),
+      s: open("/Users/shay/.config/raycast/scripts/", "Scripts Folder"),
     },
   },
 };
@@ -124,7 +121,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
  */
 export const directHyperShortcuts: {
   key: KeyCode;
-  keyDisplay: string;
+  keyDisplay?: string;
   description: string;
   action: string; // shell_command
 }[] = [
@@ -132,10 +129,13 @@ export const directHyperShortcuts: {
   { key: "right_arrow", keyDisplay: "→", description: "Window Right Half", action: "open -g raycast://extensions/raycast/window-management/right-half" },
   { key: "up_arrow", keyDisplay: "↑", description: "Maximize Window", action: "open -g raycast://extensions/raycast/window-management/maximize" },
   { key: "down_arrow", keyDisplay: "↓", description: "Restore Window", action: "open -g raycast://extensions/raycast/window-management/restore" },
-  { key: "1", keyDisplay: "1", description: "Google Calendar", action: "open 'https://calendar.google.com/calendar/u/2/r?pli=1'" },
-  { key: "2", keyDisplay: "2", description: "Gmail", action: "open 'https://mail.google.com/mail/u/2/#inbox'" },
-  { key: "3", keyDisplay: "3", description: "ClickUp Inbox", action: "open 'https://app.clickup.com/3843235/inbox?tab=primary'" },
-  { key: "f3", keyDisplay: "F3", description: "Google Chrome", action: "open -a 'Google Chrome.app'" },
+  { key: "1", description: "Google Calendar", action: "open 'https://calendar.google.com/calendar/u/2/r?pli=1'" },
+  { key: "2", description: "Gmail", action: "open 'https://mail.google.com/mail/u/2/#inbox'" },
+  { key: "3", description: "ClickUp Inbox", action: "open 'https://app.clickup.com/3843235/inbox?tab=primary'" },
+  { key: "4", description: "Obsidian", action: "open -a 'Obsidian.app'" },
+  { key: "5", description: "Cursor", action: "open -a 'Cursor.app'" },
+  { key: "6", description: "VSCode", action: "open -a 'Visual Studio Code.app'" },
+  { key: "f4", keyDisplay: "F4", description: "Google Chrome", action: "open -a 'Google Chrome.app'" },
   { key: "non_us_backslash", keyDisplay: "§", description: "Noiseless", action: "open 'raycast://script-commands/noiseless'" },
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
 ];
@@ -149,6 +149,8 @@ export const generalShortcuts: { keys: string; description: string }[] = [
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌥Tab", description: "Previous Tab" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
+  { keys: "⇧R (alone)", description: "Move Forward 1 Word" },
+  { keys: "⇧L (alone)", description: "Move Backward 1 Word" },
 ];
 
 /**
@@ -391,6 +393,46 @@ const rules: KarabinerRules[] = [
               "^com\\.microsoft\\.VSCode$",
               "^com\\.todesktop\\.230313mzl4w4u92$", // Cursor
             ],
+          },
+        ],
+      },
+    ],
+  },
+  // Shift keys move by word when tapped alone
+  {
+    description: "Shifts Move Forward and Backward by 1 word",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "right_shift",
+        },
+        to: [
+          {
+            key_code: "right_shift",
+          },
+        ],
+        to_if_alone: [
+          {
+            key_code: "right_arrow",
+            modifiers: ["option"],
+          },
+        ],
+      },
+      {
+        type: "basic",
+        from: {
+          key_code: "left_shift",
+        },
+        to: [
+          {
+            key_code: "left_shift",
+          },
+        ],
+        to_if_alone: [
+          {
+            key_code: "left_arrow",
+            modifiers: ["option"],
           },
         ],
       },
