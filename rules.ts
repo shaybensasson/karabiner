@@ -134,13 +134,12 @@ export const directHyperShortcuts: {
   { key: "2", description: "Gmail", action: "open 'https://mail.google.com/mail/u/2/#inbox'" },
   { key: "3", description: "ClickUp Inbox", action: "open 'https://app.clickup.com/3843235/inbox?tab=primary'" },
   { key: "4", description: "Obsidian", action: "open -a 'Obsidian.app'" },
-  { key: "5", description: "Cursor", action: "open -a 'Cursor.app'" },
-  { key: "6", description: "VSCode", action: "open -a 'Visual Studio Code.app'" },
-  { key: "f4", keyDisplay: "F4", description: "Google Chrome", action: "open -a 'Google Chrome.app'" },
+  // Note: ◆+5 (Cursor), ◆+6 (VSCode), ◆+F4 (Finder) are handled below with smart window switching
   { key: "non_us_backslash", keyDisplay: "§", description: "Noiseless", action: "open 'raycast://script-commands/noiseless'" },
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
   { key: "f1", keyDisplay: "F1", description: "F13", toKeyCode: "f13" },
   { key: "f2", keyDisplay: "F2", description: "F14", toKeyCode: "f14" },
+  { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
   // Note: ◆+0 for Ghostty is handled separately below with smart window switching
 ];
 
@@ -233,6 +232,30 @@ const rules: KarabinerRules[] = [
               value: 0,
             },
           },
+          {
+            set_variable: {
+              name: "cursor_activated",
+              value: 0,
+            },
+          },
+          {
+            set_variable: {
+              name: "vscode_activated",
+              value: 0,
+            },
+          },
+          {
+            set_variable: {
+              name: "chrome_activated",
+              value: 0,
+            },
+          },
+          {
+            set_variable: {
+              name: "zoom_activated",
+              value: 0,
+            },
+          },
         ],
         to_if_alone: [
           {
@@ -283,6 +306,170 @@ const rules: KarabinerRules[] = [
         conditions: [
           { type: "variable_if", name: "hyper", value: 1 },
           { type: "variable_if", name: "ghostty_activated", value: 0 },
+        ],
+      },
+    ],
+  },
+  // Smart app switching: ◆+5 activates Cursor, subsequent presses cycle windows
+  {
+    description: "Hyper+5: Cursor (activate or switch window)",
+    manipulators: [
+      // Second+ press: switch window (when cursor_activated=1)
+      {
+        type: "basic",
+        from: {
+          key_code: "5",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          {
+            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
+            key_code: "non_us_backslash",
+            modifiers: ["command"],
+          },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "cursor_activated", value: 1 },
+        ],
+      },
+      // First press: activate Cursor and set flag
+      {
+        type: "basic",
+        from: {
+          key_code: "5",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          { shell_command: "open -a 'Cursor.app'" },
+          { set_variable: { name: "cursor_activated", value: 1 } },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "cursor_activated", value: 0 },
+        ],
+      },
+    ],
+  },
+  // Smart app switching: ◆+6 activates VSCode, subsequent presses cycle windows
+  {
+    description: "Hyper+6: VSCode (activate or switch window)",
+    manipulators: [
+      // Second+ press: switch window (when vscode_activated=1)
+      {
+        type: "basic",
+        from: {
+          key_code: "6",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          {
+            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
+            key_code: "non_us_backslash",
+            modifiers: ["command"],
+          },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "vscode_activated", value: 1 },
+        ],
+      },
+      // First press: activate VSCode and set flag
+      {
+        type: "basic",
+        from: {
+          key_code: "6",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          { shell_command: "open -a 'Visual Studio Code.app'" },
+          { set_variable: { name: "vscode_activated", value: 1 } },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "vscode_activated", value: 0 },
+        ],
+      },
+    ],
+  },
+  // Smart app switching: ◆+F4 activates Chrome, subsequent presses cycle windows
+  {
+    description: "Hyper+F4: Chrome (activate or switch window)",
+    manipulators: [
+      // Second+ press: switch window (when chrome_activated=1)
+      {
+        type: "basic",
+        from: {
+          key_code: "f4",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          {
+            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
+            key_code: "non_us_backslash",
+            modifiers: ["command"],
+          },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "chrome_activated", value: 1 },
+        ],
+      },
+      // First press: activate Chrome and set flag
+      {
+        type: "basic",
+        from: {
+          key_code: "f4",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          { shell_command: "open -a 'Google Chrome.app'" },
+          { set_variable: { name: "chrome_activated", value: 1 } },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "chrome_activated", value: 0 },
+        ],
+      },
+    ],
+  },
+  // Smart app switching: ◆+F5 activates Zoom, subsequent presses cycle windows
+  {
+    description: "Hyper+F5: Zoom (activate or switch window)",
+    manipulators: [
+      // Second+ press: switch window (when zoom_activated=1)
+      {
+        type: "basic",
+        from: {
+          key_code: "f5",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          {
+            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
+            key_code: "non_us_backslash",
+            modifiers: ["command"],
+          },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "zoom_activated", value: 1 },
+        ],
+      },
+      // First press: activate Zoom and set flag
+      {
+        type: "basic",
+        from: {
+          key_code: "f5",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          { shell_command: "open -a 'zoom.us.app'" },
+          { set_variable: { name: "zoom_activated", value: 1 } },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "zoom_activated", value: 0 },
         ],
       },
     ],
