@@ -1,0 +1,6 @@
+yarn build
+yarn lint
+yarn test
+yarn map
+yarn map:pdf
+git add keyboard-shortcuts.html keyboard-shortcuts.pdf karabiner.json
