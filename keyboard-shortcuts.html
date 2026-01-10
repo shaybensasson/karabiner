@@ -131,6 +131,58 @@
       font-family: 'SF Mono', Monaco, 'Courier New', monospace;
       font-size: 11px;
     }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 10mm;
+      }
+      body {
+        padding: 12px;
+      }
+      .header {
+        margin-bottom: 14px;
+        padding-bottom: 8px;
+      }
+      .logo {
+        width: 38px;
+        height: 38px;
+        font-size: 21px;
+      }
+      .title h1 {
+        font-size: 24px;
+      }
+      .title h2 {
+        font-size: 14px;
+      }
+      .columns {
+        gap: 18px;
+      }
+      .category {
+        margin-bottom: 11px;
+      }
+      .category-title {
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+      .shortcut-row {
+        padding: 2px 4px;
+      }
+      .shortcut-keys {
+        font-size: 11px;
+        min-width: 65px;
+      }
+      .mod {
+        font-size: 15px;
+      }
+      .shortcut-desc {
+        font-size: 11px;
+      }
+      .note {
+        font-size: 10px;
+        margin-top: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -148,6 +200,14 @@
       <div class="category">
         <div class="category-title">General</div>
         <div class="shortcut-row">
+          <span class="shortcut-keys">⇪ (hold)</span>
+          <span class="shortcut-desc">Hyper Key (⌃⌥⇧⌘)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys">⇪ (tap)</span>
+          <span class="shortcut-desc">Toggle Caps Lock</span>
+        </div>
+        <div class="shortcut-row">
           <span class="shortcut-keys"><span class="mod">◆</span> (alone)</span>
           <span class="shortcut-desc">Escape</span>
         </div>
@@ -162,6 +222,14 @@
         <div class="shortcut-row">
           <span class="shortcut-keys"><span class="mod">⌘</span>H</span>
           <span class="shortcut-desc">Disabled (except IDE)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⇧</span>R (alone)</span>
+          <span class="shortcut-desc">Move Forward 1 Word</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">⇧</span>L (alone)</span>
+          <span class="shortcut-desc">Move Backward 1 Word</span>
         </div>
       </div>
 
@@ -200,18 +268,6 @@
           <span class="shortcut-desc">Obsidian</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> 5</span>
-          <span class="shortcut-desc">Cursor</span>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> 6</span>
-          <span class="shortcut-desc">VSCode</span>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> F4</span>
-          <span class="shortcut-desc">Google Chrome</span>
-        </div>
-        <div class="shortcut-row">
           <span class="shortcut-keys"><span class="mod">◆</span> §</span>
           <span class="shortcut-desc">Noiseless</span>
         </div>
@@ -219,53 +275,37 @@
           <span class="shortcut-keys"><span class="mod">◆</span> Esc</span>
           <span class="shortcut-desc">Meckano</span>
         </div>
-      </div>
-
-      <div class="category">
-        <div class="category-title">Browse <span class="leader-key">(<span class="mod">◆</span> B)</span></div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B C</span>
-          <span class="shortcut-desc">Google Calendar</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> F1</span>
+          <span class="shortcut-desc">F13</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B D</span>
-          <span class="shortcut-desc">Dropbox</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> F2</span>
+          <span class="shortcut-desc">F14</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B G</span>
-          <span class="shortcut-desc">Gemini</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> F8</span>
+          <span class="shortcut-desc">Spotify</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B H</span>
-          <span class="shortcut-desc">YouTube History</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> 0</span>
+          <span class="shortcut-desc">Ghostty (cycle windows)</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B O</span>
-          <span class="shortcut-desc">ChatGPT (Web)</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> 5</span>
+          <span class="shortcut-desc">Cursor (cycle windows)</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B P</span>
-          <span class="shortcut-desc">NeuroHelp Pitch</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> 6</span>
+          <span class="shortcut-desc">VSCode (cycle windows)</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B R</span>
-          <span class="shortcut-desc">Reddit</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> F4</span>
+          <span class="shortcut-desc">Chrome (cycle windows)</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B T</span>
-          <span class="shortcut-desc">Timeless</span>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B U</span>
-          <span class="shortcut-desc">ClickUp</span>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B X</span>
-          <span class="shortcut-desc">X (Twitter)</span>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> B Y</span>
-          <span class="shortcut-desc">YouTube</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> F5</span>
+          <span class="shortcut-desc">Zoom (cycle windows)</span>
         </div>
       </div>
     </div>
@@ -315,16 +355,8 @@
           <span class="shortcut-desc">LastPass</span>
         </div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> O M</span>
-          <span class="shortcut-desc">Spotify</span>
-        </div>
-        <div class="shortcut-row">
           <span class="shortcut-keys"><span class="mod">◆</span> O S</span>
           <span class="shortcut-desc">Slack</span>
-        </div>
-        <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> O T</span>
-          <span class="shortcut-desc">Ghostty</span>
         </div>
         <div class="shortcut-row">
           <span class="shortcut-keys"><span class="mod">◆</span> O V</span>
@@ -338,9 +370,53 @@
           <span class="shortcut-keys"><span class="mod">◆</span> O Y</span>
           <span class="shortcut-desc">YouTube Music</span>
         </div>
+      </div>
+
+      <div class="category">
+        <div class="category-title">Browse <span class="leader-key">(<span class="mod">◆</span> B)</span></div>
         <div class="shortcut-row">
-          <span class="shortcut-keys"><span class="mod">◆</span> O Z</span>
-          <span class="shortcut-desc">Zoom</span>
+          <span class="shortcut-keys"><span class="mod">◆</span> B C</span>
+          <span class="shortcut-desc">Google Calendar</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B D</span>
+          <span class="shortcut-desc">Dropbox</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B G</span>
+          <span class="shortcut-desc">Gemini</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B H</span>
+          <span class="shortcut-desc">YouTube History</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B O</span>
+          <span class="shortcut-desc">ChatGPT (Web)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B P</span>
+          <span class="shortcut-desc">NeuroHelp Pitch</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B R</span>
+          <span class="shortcut-desc">Reddit</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B T</span>
+          <span class="shortcut-desc">Timeless</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B U</span>
+          <span class="shortcut-desc">ClickUp</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B X</span>
+          <span class="shortcut-desc">X (Twitter)</span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-keys"><span class="mod">◆</span> B Y</span>
+          <span class="shortcut-desc">YouTube</span>
         </div>
       </div>
     </div>
@@ -422,10 +498,7 @@
           <span class="shortcut-desc">Page Down</span>
         </div>
       </div>
-    </div>
 
-    <!-- Column 4 -->
-    <div>
       <div class="category">
         <div class="category-title">Raycast <span class="leader-key">(<span class="mod">◆</span> R)</span></div>
         <div class="shortcut-row">
@@ -457,6 +530,11 @@
           <span class="shortcut-desc">Scripts Folder</span>
         </div>
       </div>
+    </div>
+
+    <!-- Column 4 -->
+    <div>
+
 
       <div class="category">
         <div class="category-title">Legend</div>
@@ -496,7 +574,7 @@
     </div>
 
     <div class="note">
-      Generated from Karabiner TypeScript config • <span class="mod">◆</span> = Caps Lock acts as Hyper Key (<span class="mod">⌃⌥⇧⌘</span>)
+      Generated from Karabiner TypeScript config on 11/01/2026 00:33 • <span class="mod">◆</span> = Caps Lock acts as Hyper Key (<span class="mod">⌃⌥⇧⌘</span>)
     </div>
   </div>
 </body>

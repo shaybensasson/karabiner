@@ -12,6 +12,7 @@ import path from "path";
 import {
   hyperSubLayers,
   directHyperShortcuts,
+  windowCyclingShortcuts,
   generalShortcuts,
 } from "./rules";
 import {
@@ -66,14 +67,21 @@ function buildCategories(): Category[] {
     })),
   });
 
-  // 2. Direct hyper shortcuts
-  categories.push({
-    title: "Direct Hyper",
-    leaderKey: "◆ + key",
-    shortcuts: directHyperShortcuts.map((s) => ({
+  // 2. Direct hyper shortcuts (including window cycling shortcuts)
+  const allDirectShortcuts = [
+    ...directHyperShortcuts.map((s) => ({
       keys: `◆ ${s.keyDisplay || s.key}`,
       description: s.description,
     })),
+    ...windowCyclingShortcuts.map((s) => ({
+      keys: `◆ ${s.keyDisplay || s.key}`,
+      description: s.description,
+    })),
+  ];
+  categories.push({
+    title: "Direct Hyper",
+    leaderKey: "◆ + key",
+    shortcuts: allDirectShortcuts,
   });
 
   // 3. Sublayers from hyperSubLayers
@@ -134,6 +142,16 @@ function formatKeys(keys: string): string {
   return keys.replace(/([◆⌘⌥⌃⇧←→↑↓])/g, '<span class="mod">$1</span>');
 }
 
+function formatDateTime(date: Date): string {
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  const day = pad(date.getDate());
+  const month = pad(date.getMonth() + 1);
+  const year = date.getFullYear();
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
 function generateShortcutRow(shortcut: Shortcut): string {
   return `        <div class="shortcut-row">
           <span class="shortcut-keys">${formatKeys(shortcut.keys)}</span>
@@ -156,10 +174,10 @@ ${shortcuts}
 
 function generateHTML(categories: Category[]): string {
   // Distribute categories into 4 columns
-  // Column 1: General, Direct Hyper, Browse
-  // Column 2: Query, Open Apps
-  // Column 3: Window, System, Move/Vim
-  // Column 4: Raycast, Legend, How It Works
+  // Column 1: General, Direct Hyper
+  // Column 2: Query, Open Apps, Browse
+  // Column 3: Window, System, Move/Vim, Raycast
+  // Column 4: Legend, How It Works
 
   const findCategory = (title: string) =>
     categories.find((c) => c.title === title);
@@ -167,23 +185,22 @@ function generateHTML(categories: Category[]): string {
   const col1Categories = [
     findCategory("General"),
     findCategory("Direct Hyper"),
-    findCategory("Browse"),
   ].filter(Boolean) as Category[];
 
   const col2Categories = [
     findCategory("Query"),
     findCategory("Open Apps"),
+    findCategory("Browse"),
   ].filter(Boolean) as Category[];
 
   const col3Categories = [
     findCategory("Window"),
     findCategory("System"),
     findCategory("Move / Vim"),
+    findCategory("Raycast"),
   ].filter(Boolean) as Category[];
 
-  const col4Categories = [findCategory("Raycast")].filter(
-    Boolean
-  ) as Category[];
+  const col4Categories = [] as Category[];
 
   const col1Html = col1Categories.map(generateCategory).join("\n\n");
   const col2Html = col2Categories.map(generateCategory).join("\n\n");
@@ -325,6 +342,58 @@ function generateHTML(categories: Category[]): string {
       font-family: 'SF Mono', Monaco, 'Courier New', monospace;
       font-size: 11px;
     }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 10mm;
+      }
+      body {
+        padding: 12px;
+      }
+      .header {
+        margin-bottom: 14px;
+        padding-bottom: 8px;
+      }
+      .logo {
+        width: 38px;
+        height: 38px;
+        font-size: 21px;
+      }
+      .title h1 {
+        font-size: 24px;
+      }
+      .title h2 {
+        font-size: 14px;
+      }
+      .columns {
+        gap: 18px;
+      }
+      .category {
+        margin-bottom: 11px;
+      }
+      .category-title {
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+      .shortcut-row {
+        padding: 2px 4px;
+      }
+      .shortcut-keys {
+        font-size: 11px;
+        min-width: 65px;
+      }
+      .mod {
+        font-size: 15px;
+      }
+      .shortcut-desc {
+        font-size: 11px;
+      }
+      .note {
+        font-size: 10px;
+        margin-top: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -375,7 +444,7 @@ ${legendHtml}
     </div>
 
     <div class="note">
-      Generated from Karabiner TypeScript config • <span class="mod">◆</span> = Caps Lock acts as Hyper Key (<span class="mod">⌃⌥⇧⌘</span>)
+      Generated from Karabiner TypeScript config on ${formatDateTime(new Date())} • <span class="mod">◆</span> = Caps Lock acts as Hyper Key (<span class="mod">⌃⌥⇧⌘</span>)
     </div>
   </div>
 </body>
@@ -400,7 +469,8 @@ async function generatePDF(htmlPath: string, pdfPath: string): Promise<void> {
       format: "A4",
       landscape: true,
       printBackground: true,
-      margin: { top: "15mm", right: "15mm", bottom: "15mm", left: "15mm" },
+      scale: 0.95,
+      margin: { top: "10mm", right: "10mm", bottom: "10mm", left: "10mm" },
     });
 
     await browser.close();
