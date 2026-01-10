@@ -141,6 +141,7 @@ export const directHyperShortcuts: {
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
   { key: "f1", keyDisplay: "F1", description: "F13", toKeyCode: "f13" },
   { key: "f2", keyDisplay: "F2", description: "F14", toKeyCode: "f14" },
+  // Note: ◆+0 for Ghostty is handled separately below with smart window switching
 ];
 
 /**
@@ -226,6 +227,12 @@ const rules: KarabinerRules[] = [
               value: 0,
             },
           },
+          {
+            set_variable: {
+              name: "ghostty_activated",
+              value: 0,
+            },
+          },
         ],
         to_if_alone: [
           {
@@ -236,6 +243,47 @@ const rules: KarabinerRules[] = [
         parameters: {
           "basic.to_if_alone_timeout_milliseconds": 200,
         },
+      },
+    ],
+  },
+  // Smart app switching: ◆+0 activates Ghostty, subsequent presses cycle windows
+  {
+    description: "Hyper+0: Ghostty (activate or switch window)",
+    manipulators: [
+      // Second+ press: switch window (when ghostty_activated=1)
+      {
+        type: "basic",
+        from: {
+          key_code: "0",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          {
+            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
+            key_code: "non_us_backslash",
+            modifiers: ["command"],
+          },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "ghostty_activated", value: 1 },
+        ],
+      },
+      // First press: activate Ghostty and set flag
+      {
+        type: "basic",
+        from: {
+          key_code: "0",
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          { shell_command: "open -a 'Ghostty.app'" },
+          { set_variable: { name: "ghostty_activated", value: 1 } },
+        ],
+        conditions: [
+          { type: "variable_if", name: "hyper", value: 1 },
+          { type: "variable_if", name: "ghostty_activated", value: 0 },
+        ],
       },
     ],
   },
