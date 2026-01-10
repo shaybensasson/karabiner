@@ -123,7 +123,8 @@ export const directHyperShortcuts: {
   key: KeyCode;
   keyDisplay?: string;
   description: string;
-  action: string; // shell_command
+  action?: string; // shell_command
+  toKeyCode?: KeyCode; // key_code to send (alternative to action)
 }[] = [
   { key: "left_arrow", keyDisplay: "←", description: "Window Left Half", action: "open -g raycast://extensions/raycast/window-management/left-half" },
   { key: "right_arrow", keyDisplay: "→", description: "Window Right Half", action: "open -g raycast://extensions/raycast/window-management/right-half" },
@@ -138,6 +139,8 @@ export const directHyperShortcuts: {
   { key: "f4", keyDisplay: "F4", description: "Google Chrome", action: "open -a 'Google Chrome.app'" },
   { key: "non_us_backslash", keyDisplay: "§", description: "Noiseless", action: "open 'raycast://script-commands/noiseless'" },
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
+  { key: "f1", keyDisplay: "F1", description: "F13", toKeyCode: "f13" },
+  { key: "f2", keyDisplay: "F2", description: "F14", toKeyCode: "f14" },
 ];
 
 /**
@@ -170,7 +173,9 @@ function createDirectHyperRules(): KarabinerRules {
         },
       },
       to: [
-        { shell_command: shortcut.action },
+        shortcut.action
+          ? { shell_command: shortcut.action }
+          : { key_code: shortcut.toKeyCode! },
         {
           set_variable: {
             name: "hyper",
