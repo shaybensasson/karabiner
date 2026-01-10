@@ -166,15 +166,25 @@ function createDirectHyperRules(): KarabinerRules {
       from: {
         key_code: shortcut.key,
         modifiers: {
-          mandatory: [
-            "left_command",
-            "left_control",
-            "left_option",
-            "left_shift",
-          ] as const,
+          optional: ["any"],
         },
       },
-      to: [{ shell_command: shortcut.action }],
+      to: [
+        { shell_command: shortcut.action },
+        {
+          set_variable: {
+            name: "hyper",
+            value: 0,
+          },
+        },
+      ],
+      conditions: [
+        {
+          type: "variable_if" as const,
+          name: "hyper",
+          value: 1,
+        },
+      ],
     })),
   };
 }
@@ -198,8 +208,18 @@ const rules: KarabinerRules[] = [
         },
         to: [
           {
-            key_code: "left_shift",
-            modifiers: ["left_control", "left_option", "left_command"],
+            set_variable: {
+              name: "hyper",
+              value: 1,
+            },
+          },
+        ],
+        to_after_key_up: [
+          {
+            set_variable: {
+              name: "hyper",
+              value: 0,
+            },
           },
         ],
         to_if_alone: [
@@ -265,9 +285,6 @@ const rules: KarabinerRules[] = [
             value: 0,
           },
         ],
-        parameters: {
-          "basic.to_delayed_action_delay_milliseconds": 300,
-        },
       },
       {
         type: "basic",
@@ -408,7 +425,7 @@ fs.writeFileSync(
             keyboard_type_v2: "iso",
           },
           parameters: {
-            "basic.to_delayed_action_delay_milliseconds": 500,
+            "basic.to_delayed_action_delay_milliseconds": 300,
           },
         },
       ],
