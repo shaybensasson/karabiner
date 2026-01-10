@@ -213,7 +213,64 @@
               {
                 "type": "basic",
                 "from": {
-                  "key_code": "f3",
+                  "key_code": "4",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command",
+                      "left_control",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'Obsidian.app'"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "5",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command",
+                      "left_control",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'Cursor.app'"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "6",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command",
+                      "left_control",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'Visual Studio Code.app'"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f4",
                   "modifiers": {
                     "mandatory": [
                       "left_command",
@@ -421,6 +478,49 @@
             ]
           },
           {
+            "description": "Shifts Move Forward and Backward by 1 word",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "right_shift"
+                },
+                "to": [
+                  {
+                    "key_code": "right_shift"
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "right_arrow",
+                    "modifiers": [
+                      "option"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_shift"
+                },
+                "to": [
+                  {
+                    "key_code": "left_shift"
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "left_arrow",
+                    "modifiers": [
+                      "option"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Hyper Key sublayer \"b\" (Browse)",
             "manipulators": [
               {
@@ -530,7 +630,7 @@
                     }
                   }
                 ],
-                "description": "Open https://calendar.google.com/calendar/u/2/r?pli=1",
+                "description": "Google Calendar",
                 "type": "basic",
                 "from": {
                   "key_code": "c",
@@ -551,7 +651,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open app.dropbox.com"
+                    "shell_command": "open https://www.dropbox.com/home"
                   },
                   {
                     "set_variable": {
@@ -566,7 +666,7 @@
                     }
                   }
                 ],
-                "description": "Open app.dropbox.com",
+                "description": "Dropbox",
                 "type": "basic",
                 "from": {
                   "key_code": "d",
@@ -602,7 +702,7 @@
                     }
                   }
                 ],
-                "description": "Open https://gemini.google.com/u/1/app?pageId=none",
+                "description": "Gemini",
                 "type": "basic",
                 "from": {
                   "key_code": "g",
@@ -638,7 +738,7 @@
                     }
                   }
                 ],
-                "description": "Open https://www.youtube.com/feed/history",
+                "description": "YouTube History",
                 "type": "basic",
                 "from": {
                   "key_code": "h",
@@ -674,7 +774,7 @@
                     }
                   }
                 ],
-                "description": "Open https://chat.openai.com/chat",
+                "description": "ChatGPT (Web)",
                 "type": "basic",
                 "from": {
                   "key_code": "o",
@@ -710,7 +810,7 @@
                     }
                   }
                 ],
-                "description": "Open https://neurohelp-pitch.vercel.app/?log=debug",
+                "description": "NeuroHelp Pitch",
                 "type": "basic",
                 "from": {
                   "key_code": "p",
@@ -746,7 +846,7 @@
                     }
                   }
                 ],
-                "description": "Open https://reddit.com",
+                "description": "Reddit",
                 "type": "basic",
                 "from": {
                   "key_code": "r",
@@ -782,7 +882,7 @@
                     }
                   }
                 ],
-                "description": "Open https://my.timeless.day/",
+                "description": "Timeless",
                 "type": "basic",
                 "from": {
                   "key_code": "t",
@@ -818,7 +918,7 @@
                     }
                   }
                 ],
-                "description": "Open https://app.clickup.com/3843235/v/b/7-3843235-2",
+                "description": "ClickUp",
                 "type": "basic",
                 "from": {
                   "key_code": "u",
@@ -854,7 +954,7 @@
                     }
                   }
                 ],
-                "description": "Open https://x.com",
+                "description": "X (Twitter)",
                 "type": "basic",
                 "from": {
                   "key_code": "x",
@@ -890,7 +990,7 @@
                     }
                   }
                 ],
-                "description": "Open https://www.youtube.com",
+                "description": "YouTube",
                 "type": "basic",
                 "from": {
                   "key_code": "y",
@@ -1020,7 +1120,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/emoji-symbols/search-emoji-symbols",
+                "description": "Emoji Search",
                 "type": "basic",
                 "from": {
                   "key_code": "e",
@@ -1056,7 +1156,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/file-search/search-files",
+                "description": "File Search",
                 "type": "basic",
                 "from": {
                   "key_code": "f",
@@ -1092,7 +1192,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/mblode/google-search/index",
+                "description": "Google Search",
                 "type": "basic",
                 "from": {
                   "key_code": "g",
@@ -1262,7 +1362,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'ChatGPT.app'",
+                "description": "ChatGPT",
                 "type": "basic",
                 "from": {
                   "key_code": "c",
@@ -1298,7 +1398,7 @@
                     }
                   }
                 ],
-                "description": "Open ~/Downloads",
+                "description": "Downloads",
                 "type": "basic",
                 "from": {
                   "key_code": "d",
@@ -1319,7 +1419,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open -a 'raycast://script-commands/new-finder-instance.app'"
+                    "shell_command": "open raycast://script-commands/new-finder-instance"
                   },
                   {
                     "set_variable": {
@@ -1334,7 +1434,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'raycast://script-commands/new-finder-instance.app'",
+                "description": "New Finder",
                 "type": "basic",
                 "from": {
                   "key_code": "f",
@@ -1355,7 +1455,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open -a 'raycast://script-commands/run-vlc-with-iptv.app'"
+                    "shell_command": "open raycast://script-commands/run-vlc-with-iptv"
                   },
                   {
                     "set_variable": {
@@ -1370,7 +1470,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'raycast://script-commands/run-vlc-with-iptv.app'",
+                "description": "IPTV",
                 "type": "basic",
                 "from": {
                   "key_code": "i",
@@ -1406,7 +1506,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'LastPass for Desktop.app'",
+                "description": "LastPass",
                 "type": "basic",
                 "from": {
                   "key_code": "l",
@@ -1442,7 +1542,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'Spotify.app'",
+                "description": "Spotify",
                 "type": "basic",
                 "from": {
                   "key_code": "m",
@@ -1478,7 +1578,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'Slack.app'",
+                "description": "Slack",
                 "type": "basic",
                 "from": {
                   "key_code": "s",
@@ -1514,7 +1614,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'Ghostty.app'",
+                "description": "Ghostty",
                 "type": "basic",
                 "from": {
                   "key_code": "t",
@@ -1550,7 +1650,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'VLC.app'",
+                "description": "VLC",
                 "type": "basic",
                 "from": {
                   "key_code": "v",
@@ -1586,7 +1686,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'WhatsApp.app'",
+                "description": "WhatsApp",
                 "type": "basic",
                 "from": {
                   "key_code": "w",
@@ -1622,7 +1722,7 @@
                     }
                   }
                 ],
-                "description": "open -a Safari https://music.youtube.com",
+                "description": "YouTube Music",
                 "type": "basic",
                 "from": {
                   "key_code": "y",
@@ -1658,7 +1758,7 @@
                     }
                   }
                 ],
-                "description": "Open -a 'zoom.us.app'",
+                "description": "Zoom",
                 "type": "basic",
                 "from": {
                   "key_code": "z",
@@ -1788,7 +1888,7 @@
                     }
                   }
                 ],
-                "description": "Window: bottom-half",
+                "description": "Bottom Half",
                 "type": "basic",
                 "from": {
                   "key_code": "b",
@@ -1824,7 +1924,7 @@
                     }
                   }
                 ],
-                "description": "Window: next-display",
+                "description": "Next Display",
                 "type": "basic",
                 "from": {
                   "key_code": "d",
@@ -1860,7 +1960,7 @@
                     }
                   }
                 ],
-                "description": "Window: top-half",
+                "description": "Top Half",
                 "type": "basic",
                 "from": {
                   "key_code": "t",
@@ -1990,7 +2090,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/system/toggle-bluetooth",
+                "description": "Toggle Bluetooth",
                 "type": "basic",
                 "from": {
                   "key_code": "b",
@@ -2026,7 +2126,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/system/open-camera",
+                "description": "Open Camera",
                 "type": "basic",
                 "from": {
                   "key_code": "c",
@@ -2062,7 +2162,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background",
+                "description": "Toggle DND",
                 "type": "basic",
                 "from": {
                   "key_code": "d",
@@ -2098,7 +2198,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/system/toggle-system-appearance",
+                "description": "Toggle Dark Mode",
                 "type": "basic",
                 "from": {
                   "key_code": "t",
@@ -2656,7 +2756,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/thomas/color-picker/pick-color",
+                "description": "Color Picker",
                 "type": "basic",
                 "from": {
                   "key_code": "c",
@@ -2692,7 +2792,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/emoji-symbols/search-emoji-symbols",
+                "description": "Emoji Search",
                 "type": "basic",
                 "from": {
                   "key_code": "e",
@@ -2728,7 +2828,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/clipboard-history/clipboard-history",
+                "description": "Clipboard History",
                 "type": "basic",
                 "from": {
                   "key_code": "h",
@@ -2764,7 +2864,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink",
+                "description": "Create Shortlink",
                 "type": "basic",
                 "from": {
                   "key_code": "l",
@@ -2800,7 +2900,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://script-commands/dismiss-notifications",
+                "description": "Dismiss Notifications",
                 "type": "basic",
                 "from": {
                   "key_code": "n",
@@ -2836,7 +2936,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/raycast/confetti",
+                "description": "Confetti",
                 "type": "basic",
                 "from": {
                   "key_code": "p",
@@ -2872,7 +2972,7 @@
                     }
                   }
                 ],
-                "description": "Open /Users/shay/.config/raycast/scripts/",
+                "description": "Scripts Folder",
                 "type": "basic",
                 "from": {
                   "key_code": "s",
