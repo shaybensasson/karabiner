@@ -116,8 +116,15 @@ export function getToKeyCode(manipulator: Manipulator): string | undefined {
  * Check if a shell command opens an app
  */
 export function extractAppName(shellCommand: string): string | undefined {
-  const match = shellCommand.match(/open\s+(?:-[a-z]\s+)*-a\s+['"]?([^'"]+?)(?:\.app)?['"]?(?:\s|$)/);
-  return match?.[1];
+  // Match: open [-g] -a 'App Name.app' or open -a "App Name"
+  // Use greedy matching and explicitly handle .app suffix
+  const match = shellCommand.match(/open\s+(?:-[a-z]\s+)*-a\s+['"]([^'"]+)['"]|open\s+(?:-[a-z]\s+)*-a\s+(\S+)/);
+  let appName = match?.[1] || match?.[2];
+  // Remove .app suffix if present
+  if (appName?.endsWith(".app")) {
+    appName = appName.slice(0, -4);
+  }
+  return appName;
 }
 
 /**
@@ -231,5 +238,135 @@ export function validateSublayerCommand(
     found: true,
     actualAction: actualValue || shellCmd || toKeyCode,
     expectedAction: expectedAction.value,
+  };
+}
+
+// ============================================================================
+// Window Cycling Rule Validators
+// ============================================================================
+
+export interface WindowCyclingRule {
+  keyCode: string;
+  appName: string;
+  variableName: string;
+}
+
+/**
+ * Find the "first press" manipulator for window cycling (activates app, sets variable)
+ */
+export function findWindowCyclingFirstPress(
+  keyCode: string,
+  variableName: string,
+  profileName: string = "Default"
+): Manipulator | undefined {
+  const manipulators = getManipulators(profileName);
+  return manipulators.find(
+    (m) =>
+      m.from.key_code === keyCode &&
+      m.conditions?.some((c) => c.type === "variable_if" && c.name === "hyper" && c.value === 1) &&
+      m.conditions?.some((c) => c.type === "variable_if" && c.name === variableName && c.value === 0) &&
+      m.to?.some((t) => t.set_variable?.name === variableName && t.set_variable?.value === 1)
+  );
+}
+
+/**
+ * Find the "subsequent press" manipulator for window cycling (sends Cmd+§)
+ */
+export function findWindowCyclingSubsequentPress(
+  keyCode: string,
+  variableName: string,
+  profileName: string = "Default"
+): Manipulator | undefined {
+  const manipulators = getManipulators(profileName);
+  return manipulators.find(
+    (m) =>
+      m.from.key_code === keyCode &&
+      m.conditions?.some((c) => c.type === "variable_if" && c.name === "hyper" && c.value === 1) &&
+      m.conditions?.some((c) => c.type === "variable_if" && c.name === variableName && c.value === 1) &&
+      m.to?.some((t) => t.key_code === "non_us_backslash" && t.modifiers?.includes("command"))
+  );
+}
+
+/**
+ * Check if the Caps Lock rule resets a variable on key up
+ */
+export function checkVariableResetOnCapsLockRelease(
+  variableName: string,
+  profileName: string = "Default"
+): boolean {
+  const manipulators = getManipulators(profileName);
+  const capsLockManipulator = manipulators.find(
+    (m) => m.from.key_code === "caps_lock"
+  );
+
+  if (!capsLockManipulator) return false;
+
+  // Check to_after_key_up for variable reset
+  const toAfterKeyUp = (capsLockManipulator as unknown as { to_after_key_up?: To[] }).to_after_key_up;
+  return toAfterKeyUp?.some(
+    (t) => t.set_variable?.name === variableName && t.set_variable?.value === 0
+  ) ?? false;
+}
+
+export interface WindowCyclingValidationResult {
+  valid: boolean;
+  firstPressFound: boolean;
+  subsequentPressFound: boolean;
+  variableResetFound: boolean;
+  appOpened?: string;
+  errors: string[];
+}
+
+/**
+ * Validate a complete window cycling rule for an app
+ */
+export function validateWindowCyclingRule(
+  keyCode: string,
+  expectedApp: string,
+  variableName: string
+): WindowCyclingValidationResult {
+  const errors: string[] = [];
+
+  // Check first press rule
+  const firstPress = findWindowCyclingFirstPress(keyCode, variableName);
+  const firstPressFound = !!firstPress;
+  if (!firstPressFound) {
+    errors.push(`First press rule not found for ${keyCode} with variable ${variableName}`);
+  }
+
+  // Check that first press opens the app
+  let appOpened: string | undefined;
+  if (firstPress) {
+    const shellCmd = getShellCommand(firstPress);
+    if (shellCmd) {
+      appOpened = extractAppName(shellCmd);
+      if (!appOpened?.toLowerCase().includes(expectedApp.toLowerCase())) {
+        errors.push(`First press should open ${expectedApp}, but opens ${appOpened || "unknown"}`);
+      }
+    } else {
+      errors.push(`First press rule has no shell command to open app`);
+    }
+  }
+
+  // Check subsequent press rule
+  const subsequentPress = findWindowCyclingSubsequentPress(keyCode, variableName);
+  const subsequentPressFound = !!subsequentPress;
+  if (!subsequentPressFound) {
+    errors.push(`Subsequent press rule not found for ${keyCode} with variable ${variableName}`);
+  }
+
+  // Check variable reset on Caps Lock release
+  const variableResetFound = checkVariableResetOnCapsLockRelease(variableName);
+  if (!variableResetFound) {
+    errors.push(`Variable ${variableName} is not reset when Caps Lock is released`);
+  }
+
+  return {
+    valid: firstPressFound && subsequentPressFound && variableResetFound && errors.length === 0,
+    firstPressFound,
+    subsequentPressFound,
+    variableResetFound,
+    appOpened,
+    errors,
   };
 }
