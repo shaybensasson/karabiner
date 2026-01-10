@@ -8,11 +8,7 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ O T → opens Ghostty", () => {
-    const result = validateSublayerCommand("o", "t", { type: "app", value: "Ghostty" });
-    expect(result.found).toBe(true);
-    expect(result.valid).toBe(true);
-  });
+  // Note: ◆ O T (Ghostty) removed - now using ◆+0 with window cycling
 
   it("◆ O C → opens ChatGPT", () => {
     const result = validateSublayerCommand("o", "c", { type: "app", value: "ChatGPT" });
@@ -20,11 +16,7 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ O M → opens Spotify", () => {
-    const result = validateSublayerCommand("o", "m", { type: "app", value: "Spotify" });
-    expect(result.found).toBe(true);
-    expect(result.valid).toBe(true);
-  });
+  // Note: ◆ O M (Spotify) removed - now using ◆+F8 direct shortcut
 
   it("◆ O W → opens WhatsApp", () => {
     const result = validateSublayerCommand("o", "w", { type: "app", value: "WhatsApp" });
@@ -38,11 +30,7 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ O Z → opens Zoom", () => {
-    const result = validateSublayerCommand("o", "z", { type: "app", value: "zoom.us" });
-    expect(result.found).toBe(true);
-    expect(result.valid).toBe(true);
-  });
+  // Note: ◆ O Z (Zoom) removed - now using ◆+F5 with window cycling
 
   it("◆ O D → opens Downloads folder", () => {
     const result = validateSublayerCommand("o", "d", { type: "file", value: "Downloads" });
