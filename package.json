@@ -8,13 +8,18 @@
     "@types/node": "^18.7.19",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
-    "tsm": "^2.2.2"
+    "tsm": "^2.2.2",
+    "vitest": "^4.0.16"
   },
   "scripts": {
     "build": "tsm rules.ts",
     "watch": "nodemon --exec yarn build -e ts",
     "map": "tsm generate_map.ts",
-    "map:pdf": "tsm generate_map.ts --pdf"
+    "map:pdf": "tsm generate_map.ts --pdf",
+    "test": "vitest run --config test/vitest.config.ts",
+    "test:watch": "vitest --config test/vitest.config.ts",
+    "test:interactive": "tsm test/interactive-test.ts",
+    "test:setup": "yarn build && yarn tsm test/utils/test-profile-generator.ts && cd test/tools && ./build.sh"
   },
   "dependencies": {
     "puppeteer": "^24.34.0"
