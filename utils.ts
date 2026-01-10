@@ -352,7 +352,7 @@ export function osascript(...scripts: string[]): LayerCommand {
  */
 export function shell(
   strings: TemplateStringsArray,
-  ...values: any[]
+  ...values: unknown[]
 ): LayerCommand {
   const commands = strings.reduce((acc, str, i) => {
     const value = i < values.length ? values[i] : "";
