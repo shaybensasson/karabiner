@@ -1,10 +1,10 @@
-#!/usr/bin/env npx tsm
+#!/usr/bin/env npx tsx
 /**
  * Generate keyboard shortcuts HTML and optionally PDF from Karabiner config.
  *
  * Usage:
- *   npx tsm generate_map.ts              # Generate HTML only
- *   npx tsm generate_map.ts --pdf        # Generate HTML and PDF
+ *   npx tsx generate_map.ts              # Generate HTML only
+ *   npx tsx generate_map.ts --pdf        # Generate HTML and PDF
  */
 
 import fs from "fs";

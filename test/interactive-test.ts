@@ -1,4 +1,4 @@
-#!/usr/bin/env tsm
+#!/usr/bin/env tsx
 
 /**
  * Interactive E2E Test Runner for Karabiner Key Mappings
@@ -119,7 +119,7 @@ function ensureTestProfile(): void {
   if (!profiles.includes("Test")) {
     console.log("⚙️  Test profile not found. Building...");
     execSync("yarn build", { stdio: "inherit" });
-    execSync("yarn tsm test/utils/test-profile-generator.ts", { stdio: "inherit" });
+    execSync("yarn tsx test/utils/test-profile-generator.ts", { stdio: "inherit" });
     console.log("✓ Test profile created\n");
   }
 }

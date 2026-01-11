@@ -52,7 +52,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
   o: {
     title: "Open Apps",
     commands: {
-      c: app("ChatGPT"),
+      c: app("Calendar"),
       d: open("~/Downloads", "Downloads"),
       f: open("raycast://script-commands/new-finder-instance", "New Finder"),
       i: open("raycast://script-commands/run-vlc-with-iptv", "IPTV"),
@@ -645,7 +645,7 @@ fs.writeFileSync(
 const isMainModule = process.argv[1]?.endsWith("rules.ts");
 if (isMainModule) {
   try {
-    execSync("npx tsm generate_map.ts --pdf", { stdio: "inherit" });
+    execSync("yarn tsx generate_map.ts --pdf", { stdio: "inherit" });
   } catch {
     console.error("Warning: Failed to generate HTML/PDF documentation");
   }
