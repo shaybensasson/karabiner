@@ -85,28 +85,27 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
     },
   },
 
-  v: {
-    title: "Move / Vim",
-    commands: {
-      d: { description: "⇧⌘D", to: [{ key_code: "d", modifiers: ["right_shift", "right_command"] }] },
-      h: { description: "← Left Arrow", to: [{ key_code: "left_arrow" }] },
-      i: { description: "Page Up", to: [{ key_code: "page_up" }] },
-      j: { description: "↓ Down Arrow", to: [{ key_code: "down_arrow" }] },
-      k: { description: "↑ Up Arrow", to: [{ key_code: "up_arrow" }] },
-      l: { description: "→ Right Arrow", to: [{ key_code: "right_arrow" }] },
-      m: { description: "Magicmove (Homerow)", to: [{ key_code: "f", modifiers: ["right_control"] }] },
-      s: { description: "Scroll Mode (Homerow)", to: [{ key_code: "j", modifiers: ["right_control"] }] },
-      u: { description: "Page Down", to: [{ key_code: "page_down" }] },
-    },
-  },
+  // v: {
+  //   title: "Move / Vim",
+  //   commands: {
+  //     d: { description: "⇧⌘D", to: [{ key_code: "d", modifiers: ["right_shift", "right_command"] }] },
+  //     h: { description: "← Left Arrow", to: [{ key_code: "left_arrow" }] },
+  //     i: { description: "Page Up", to: [{ key_code: "page_up" }] },
+  //     j: { description: "↓ Down Arrow", to: [{ key_code: "down_arrow" }] },
+  //     k: { description: "↑ Up Arrow", to: [{ key_code: "up_arrow" }] },
+  //     l: { description: "→ Right Arrow", to: [{ key_code: "right_arrow" }] },
+  //     m: { description: "Magicmove (Homerow)", to: [{ key_code: "f", modifiers: ["right_control"] }] },
+  //     s: { description: "Scroll Mode (Homerow)", to: [{ key_code: "j", modifiers: ["right_control"] }] },
+  //     u: { description: "Page Down", to: [{ key_code: "page_down" }] },
+  //   },
+  // },
 
   r: {
     title: "Raycast",
     commands: {
-      c: open("raycast://extensions/thomas/color-picker/pick-color", "Color Picker"),
+      // c: open("raycast://extensions/thomas/color-picker/pick-color", "Color Picker"),
       e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols", "Emoji Search"),
-      h: open("raycast://extensions/raycast/clipboard-history/clipboard-history", "Clipboard History"),
-      l: open("raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink", "Create Shortlink"),
+      c: open("raycast://extensions/raycast/clipboard-history/clipboard-history", "Clipboard History"),
       n: open("raycast://script-commands/dismiss-notifications", "Dismiss Notifications"),
       p: open("raycast://extensions/raycast/raycast/confetti", "Confetti"),
       s: open("/Users/shay/.config/raycast/scripts/", "Scripts Folder"),
@@ -137,6 +136,7 @@ export const directHyperShortcuts: {
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
   { key: "f1", keyDisplay: "F1", description: "F13", toKeyCode: "f13" },
   { key: "f2", keyDisplay: "F2", description: "F14", toKeyCode: "f14" },
+  { key: "f3", keyDisplay: "F3", description: "Keyboard Shortcuts PDF", action: "open '/Users/shay/github/karabiner/keyboard-shortcuts.pdf'" },
   { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
 ];
 
@@ -150,8 +150,7 @@ export const windowCyclingShortcuts: {
   description: string;
 }[] = [
   { key: "0", description: "Ghostty (cycle windows)" },
-  { key: "5", description: "Cursor (cycle windows)" },
-  { key: "6", description: "VSCode (cycle windows)" },
+  { key: "9", description: "Cursor (cycle windows)" },
   { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)" },
   { key: "f5", keyDisplay: "F5", description: "Zoom (cycle windows)" },
 ];
@@ -253,12 +252,6 @@ const rules: KarabinerRules[] = [
           },
           {
             set_variable: {
-              name: "vscode_activated",
-              value: 0,
-            },
-          },
-          {
-            set_variable: {
               name: "chrome_activated",
               value: 0,
             },
@@ -323,15 +316,15 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
-  // Smart app switching: ◆+5 activates Cursor, subsequent presses cycle windows
+  // Smart app switching: ◆+9 activates Cursor, subsequent presses cycle windows
   {
-    description: "Hyper+5: Cursor (activate or switch window)",
+    description: "Hyper+9: Cursor (activate or switch window)",
     manipulators: [
       // Second+ press: switch window (when cursor_activated=1)
       {
         type: "basic",
         from: {
-          key_code: "5",
+          key_code: "9",
           modifiers: { optional: ["any"] },
         },
         to: [
@@ -350,7 +343,7 @@ const rules: KarabinerRules[] = [
       {
         type: "basic",
         from: {
-          key_code: "5",
+          key_code: "9",
           modifiers: { optional: ["any"] },
         },
         to: [
@@ -360,47 +353,6 @@ const rules: KarabinerRules[] = [
         conditions: [
           { type: "variable_if", name: "hyper", value: 1 },
           { type: "variable_if", name: "cursor_activated", value: 0 },
-        ],
-      },
-    ],
-  },
-  // Smart app switching: ◆+6 activates VSCode, subsequent presses cycle windows
-  {
-    description: "Hyper+6: VSCode (activate or switch window)",
-    manipulators: [
-      // Second+ press: switch window (when vscode_activated=1)
-      {
-        type: "basic",
-        from: {
-          key_code: "6",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          {
-            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
-            key_code: "non_us_backslash",
-            modifiers: ["command"],
-          },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "vscode_activated", value: 1 },
-        ],
-      },
-      // First press: activate VSCode and set flag
-      {
-        type: "basic",
-        from: {
-          key_code: "6",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          { shell_command: "open -a 'Visual Studio Code.app'" },
-          { set_variable: { name: "vscode_activated", value: 1 } },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "vscode_activated", value: 0 },
         ],
       },
     ],
