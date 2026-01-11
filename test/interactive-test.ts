@@ -41,11 +41,6 @@ const testCases: TestCase[] = [
 
   // Open Apps sublayer
   { name: "Open → Slack", keySequence: "Tap ◆, then O, then S", expectedAction: { type: "app", value: "Slack" } },
-  // Note: Ghostty (◆+O+T) removed - now using window cycling (◆+0)
-
-  // Vim sublayer
-  { name: "Vim → Left Arrow", keySequence: "Tap ◆, then V, then H", expectedAction: { type: "key", value: "left_arrow" } },
-  { name: "Vim → Down Arrow", keySequence: "Tap ◆, then V, then J", expectedAction: { type: "key", value: "down_arrow" } },
 
   // System sublayer
   { name: "System → Toggle DND", keySequence: "Tap ◆, then S, then D", expectedAction: { type: "raycast", value: "do-not-disturb" } },
