@@ -1,4 +1,5 @@
 import fs from "fs";
+import { execSync } from "child_process";
 import { KarabinerRules, KeyCode } from "./types";
 import {
   createHyperSubLayers,
@@ -639,3 +640,13 @@ fs.writeFileSync(
     2
   )
 );
+
+// Generate HTML and PDF documentation (only when run directly, not when imported)
+const isMainModule = process.argv[1]?.endsWith("rules.ts");
+if (isMainModule) {
+  try {
+    execSync("npx tsm generate_map.ts --pdf", { stdio: "inherit" });
+  } catch {
+    console.error("Warning: Failed to generate HTML/PDF documentation");
+  }
+}
