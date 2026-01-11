@@ -17,9 +17,9 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
     });
   });
 
-  describe("Cursor (◆+5)", () => {
+  describe("Cursor (◆+9)", () => {
     it("has valid window cycling rule", () => {
-      const result = validateWindowCyclingRule("5", "Cursor", "cursor_activated");
+      const result = validateWindowCyclingRule("9", "Cursor", "cursor_activated");
       expect(result.valid).toBe(true);
       expect(result.firstPressFound).toBe(true);
       expect(result.subsequentPressFound).toBe(true);
@@ -27,23 +27,8 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
     });
 
     it("opens Cursor on first press", () => {
-      const result = validateWindowCyclingRule("5", "Cursor", "cursor_activated");
+      const result = validateWindowCyclingRule("9", "Cursor", "cursor_activated");
       expect(result.appOpened?.toLowerCase()).toContain("cursor");
-    });
-  });
-
-  describe("VSCode (◆+6)", () => {
-    it("has valid window cycling rule", () => {
-      const result = validateWindowCyclingRule("6", "Visual Studio Code", "vscode_activated");
-      expect(result.valid).toBe(true);
-      expect(result.firstPressFound).toBe(true);
-      expect(result.subsequentPressFound).toBe(true);
-      expect(result.variableResetFound).toBe(true);
-    });
-
-    it("opens VSCode on first press", () => {
-      const result = validateWindowCyclingRule("6", "Visual Studio Code", "vscode_activated");
-      expect(result.appOpened?.toLowerCase()).toContain("visual studio code");
     });
   });
 
@@ -81,8 +66,7 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
     it("all window cycling apps reset their variables when Caps Lock is released", () => {
       const apps = [
         { key: "0", variable: "ghostty_activated" },
-        { key: "5", variable: "cursor_activated" },
-        { key: "6", variable: "vscode_activated" },
+        { key: "9", variable: "cursor_activated" },
         { key: "f4", variable: "chrome_activated" },
         { key: "f5", variable: "zoom_activated" },
       ];
@@ -96,8 +80,7 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
     it("subsequent presses send Cmd+§ for window switching", () => {
       const apps = [
         { key: "0", variable: "ghostty_activated" },
-        { key: "5", variable: "cursor_activated" },
-        { key: "6", variable: "vscode_activated" },
+        { key: "9", variable: "cursor_activated" },
         { key: "f4", variable: "chrome_activated" },
         { key: "f5", variable: "zoom_activated" },
       ];
