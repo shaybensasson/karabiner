@@ -1766,7 +1766,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open -a 'ChatGPT.app'"
+                    "shell_command": "open -a 'Calendar.app'"
                   },
                   {
                     "set_variable": {
@@ -1781,7 +1781,7 @@
                     }
                   }
                 ],
-                "description": "ChatGPT",
+                "description": "Calendar",
                 "type": "basic",
                 "from": {
                   "key_code": "c",

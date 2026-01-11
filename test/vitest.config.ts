@@ -10,10 +10,9 @@ export default defineConfig({
     setupFiles: ["./setup.ts"],
     // Run tests sequentially since they share Karabiner state
     pool: "forks",
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
+  },
+  // Vitest 4: pool options are now top-level
+  forks: {
+    singleFork: true,
   },
 });

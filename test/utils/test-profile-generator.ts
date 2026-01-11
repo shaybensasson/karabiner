@@ -57,10 +57,17 @@ interface KarabinerConfig {
 function transformShellCommand(cmd: string): string {
   // Parse different command types
   if (cmd.startsWith("open -a ") || cmd.startsWith("open -g -a ")) {
-    // App opening: open -a 'Slack.app' or open -a Slack
-    const match = cmd.match(/open\s+(?:-g\s+)?-a\s+['"]?([^'"]+?)(?:\.app)?['"]?(?:\s|$)/);
+    // App opening: open -a 'Google Chrome.app' or open -a Slack
+    // Handle quoted app names (supports spaces in names)
+    let match = cmd.match(/open\s+(?:-g\s+)?-a\s+(['"])(.+?)\1/);
     if (match) {
-      const appName = match[1].trim();
+      const appName = match[2].trim().replace(/\.app$/i, "");
+      return `echo "ACTION:app:${appName}" >> ${ACTION_LOG_PATH}`;
+    }
+    // Handle unquoted app names (no spaces)
+    match = cmd.match(/open\s+(?:-g\s+)?-a\s+(\S+)/);
+    if (match) {
+      const appName = match[1].trim().replace(/\.app$/i, "");
       return `echo "ACTION:app:${appName}" >> ${ACTION_LOG_PATH}`;
     }
   }
