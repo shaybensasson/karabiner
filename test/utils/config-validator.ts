@@ -168,21 +168,16 @@ export function validateDirectHyperShortcut(
   const toKeyCode = getToKeyCode(manipulator);
 
   let actualValue: string | undefined;
-  let actualType: string;
 
   if (expectedAction.type === "key") {
     actualValue = toKeyCode;
-    actualType = "key";
   } else if (shellCmd) {
     if (expectedAction.type === "app") {
       actualValue = extractAppName(shellCmd);
-      actualType = "app";
     } else if (expectedAction.type === "url") {
       actualValue = extractUrl(shellCmd);
-      actualType = "url";
     } else if (expectedAction.type === "raycast") {
       actualValue = extractRaycastCommand(shellCmd);
-      actualType = "raycast";
     }
   }
 
