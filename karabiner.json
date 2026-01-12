@@ -879,6 +879,55 @@
             ]
           },
           {
+            "description": "Cmd+PageDown -> Cmd+Down, Cmd+PageUp -> Cmd+Up",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "page_down",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "down_arrow",
+                    "modifiers": [
+                      "left_command"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "page_up",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "up_arrow",
+                    "modifiers": [
+                      "left_command"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Disable command-h (except VSCode/Cursor)",
             "manipulators": [
               {
