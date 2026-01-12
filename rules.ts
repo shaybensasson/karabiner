@@ -166,6 +166,8 @@ export const generalShortcuts: { keys: string; description: string }[] = [
   { keys: "◆ (alone)", description: "Escape" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌥Tab", description: "Previous Tab" },
+  { keys: "⌘PageDown", description: "⌘↓ (scroll to bottom)" },
+  { keys: "⌘PageUp", description: "⌘↑ (scroll to top)" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
   { keys: "⇧R (alone)", description: "Move Forward 1 Word" },
   { keys: "⇧L (alone)", description: "Move Backward 1 Word" },
@@ -540,6 +542,44 @@ const rules: KarabinerRules[] = [
           {
             key_code: "tab",
             modifiers: ["left_control", "left_shift"],
+          },
+        ],
+      },
+    ],
+  },
+  // Remap Cmd+PageDown/PageUp to Cmd+Down/Up Arrow (useful for scroll-to-bottom/top shortcuts)
+  {
+    description: "Cmd+PageDown -> Cmd+Down, Cmd+PageUp -> Cmd+Up",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "page_down",
+          modifiers: {
+            mandatory: ["left_command"],
+            optional: ["caps_lock"],
+          },
+        },
+        to: [
+          {
+            key_code: "down_arrow",
+            modifiers: ["left_command"],
+          },
+        ],
+      },
+      {
+        type: "basic",
+        from: {
+          key_code: "page_up",
+          modifiers: {
+            mandatory: ["left_command"],
+            optional: ["caps_lock"],
+          },
+        },
+        to: [
+          {
+            key_code: "up_arrow",
+            modifiers: ["left_command"],
           },
         ],
       },
