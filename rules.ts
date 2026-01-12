@@ -1,6 +1,6 @@
 import fs from "fs";
 import { execSync } from "child_process";
-import { KarabinerRules, KeyCode } from "./types";
+import { KarabinerRules, KeyCode, ModifiersKeys } from "./types";
 import {
   createHyperSubLayers,
   app,
@@ -142,32 +142,45 @@ export const directHyperShortcuts: {
 ];
 
 /**
- * Window cycling shortcuts - for documentation only.
- * These have custom implementations with smart window switching logic.
+ * Window cycling shortcuts - single source of truth for rules AND documentation.
+ * First press activates app, subsequent presses cycle windows.
  */
 export const windowCyclingShortcuts: {
   key: KeyCode;
   keyDisplay?: string;
   description: string;
+  appName: string;
+  variableName: string;
 }[] = [
-  { key: "0", description: "Ghostty (cycle windows)" },
-  { key: "9", description: "Cursor (cycle windows)" },
-  { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)" },
-  { key: "f5", keyDisplay: "F5", description: "Zoom (cycle windows)" },
+  { key: "0", description: "Ghostty (cycle windows)", appName: "Ghostty.app", variableName: "ghostty_activated" },
+  { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated" },
+  { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)", appName: "Google Chrome.app", variableName: "chrome_activated" },
+  { key: "f5", keyDisplay: "F5", description: "Zoom (cycle windows)", appName: "zoom.us.app", variableName: "zoom_activated" },
 ];
 
 /**
- * General (non-hyper) shortcuts - for documentation only.
- * These rules have complex structures that don't fit a simple pattern.
+ * General key remappings - single source of truth for rules AND documentation.
  */
-export const generalShortcuts: { keys: string; description: string }[] = [
+export const generalMappings: {
+  keys: string; // Display key combo for docs
+  description: string;
+  fromKey: KeyCode;
+  fromModifiers: ModifiersKeys[];
+  toKey: KeyCode;
+  toModifiers: ModifiersKeys[];
+}[] = [
+  { keys: "⌥Tab", description: "Previous Tab", fromKey: "tab", fromModifiers: ["left_option"], toKey: "tab", toModifiers: ["left_control", "left_shift"] },
+  { keys: "⌘PageDown", description: "⌘↓ (scroll to bottom)", fromKey: "page_down", fromModifiers: ["left_command"], toKey: "down_arrow", toModifiers: ["left_command"] },
+  { keys: "⌘PageUp", description: "⌘↑ (scroll to top)", fromKey: "page_up", fromModifiers: ["left_command"], toKey: "up_arrow", toModifiers: ["left_command"] },
+];
+
+/**
+ * Static documentation entries for complex rules that can't be easily parameterized.
+ */
+export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "⇪ (hold)", description: "Hyper Key (⌃⌥⇧⌘)" },
   { keys: "⇪ (tap)", description: "Toggle Caps Lock" },
-  { keys: "◆ (alone)", description: "Escape" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
-  { keys: "⌥Tab", description: "Previous Tab" },
-  { keys: "⌘PageDown", description: "⌘↓ (scroll to bottom)" },
-  { keys: "⌘PageUp", description: "⌘↑ (scroll to top)" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
   { keys: "⇧R (alone)", description: "Move Forward 1 Word" },
   { keys: "⇧L (alone)", description: "Move Backward 1 Word" },
@@ -209,6 +222,78 @@ function createDirectHyperRules(): KarabinerRules {
   };
 }
 
+/**
+ * Generate window cycling rules from windowCyclingShortcuts config.
+ * First press activates app, subsequent presses cycle windows.
+ */
+function createWindowCyclingRules(): KarabinerRules[] {
+  return windowCyclingShortcuts.map((shortcut) => ({
+    description: `Hyper+${shortcut.keyDisplay || shortcut.key}: ${shortcut.description}`,
+    manipulators: [
+      // Second+ press: switch window (when variable=1)
+      {
+        type: "basic" as const,
+        from: {
+          key_code: shortcut.key,
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          {
+            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
+            key_code: "non_us_backslash" as KeyCode,
+            modifiers: ["command"],
+          },
+        ],
+        conditions: [
+          { type: "variable_if" as const, name: "hyper", value: 1 },
+          { type: "variable_if" as const, name: shortcut.variableName, value: 1 },
+        ],
+      },
+      // First press: activate app and set flag
+      {
+        type: "basic" as const,
+        from: {
+          key_code: shortcut.key,
+          modifiers: { optional: ["any"] },
+        },
+        to: [
+          { shell_command: `open -a '${shortcut.appName}'` },
+          { set_variable: { name: shortcut.variableName, value: 1 } },
+        ],
+        conditions: [
+          { type: "variable_if" as const, name: "hyper", value: 1 },
+          { type: "variable_if" as const, name: shortcut.variableName, value: 0 },
+        ],
+      },
+    ],
+  }));
+}
+
+/**
+ * Generate general key remapping rules from generalMappings config.
+ */
+function createGeneralMappingRules(): KarabinerRules {
+  return {
+    description: "General key remappings",
+    manipulators: generalMappings.map((mapping) => ({
+      type: "basic" as const,
+      from: {
+        key_code: mapping.fromKey,
+        modifiers: {
+          mandatory: mapping.fromModifiers,
+          optional: ["caps_lock"],
+        },
+      },
+      to: [
+        {
+          key_code: mapping.toKey,
+          modifiers: mapping.toModifiers,
+        },
+      ],
+    })),
+  };
+}
+
 // ============================================================================
 // Karabiner Rules
 // ============================================================================
@@ -235,36 +320,11 @@ const rules: KarabinerRules[] = [
           },
         ],
         to_after_key_up: [
-          {
-            set_variable: {
-              name: "hyper",
-              value: 0,
-            },
-          },
-          {
-            set_variable: {
-              name: "ghostty_activated",
-              value: 0,
-            },
-          },
-          {
-            set_variable: {
-              name: "cursor_activated",
-              value: 0,
-            },
-          },
-          {
-            set_variable: {
-              name: "chrome_activated",
-              value: 0,
-            },
-          },
-          {
-            set_variable: {
-              name: "zoom_activated",
-              value: 0,
-            },
-          },
+          { set_variable: { name: "hyper", value: 0 } },
+          // Reset all window cycling variables (generated from windowCyclingShortcuts)
+          ...windowCyclingShortcuts.map((s) => ({
+            set_variable: { name: s.variableName, value: 0 },
+          })),
         ],
         to_if_alone: [
           {
@@ -278,170 +338,8 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
-  // Smart app switching: ◆+0 activates Ghostty, subsequent presses cycle windows
-  {
-    description: "Hyper+0: Ghostty (activate or switch window)",
-    manipulators: [
-      // Second+ press: switch window (when ghostty_activated=1)
-      {
-        type: "basic",
-        from: {
-          key_code: "0",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          {
-            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
-            key_code: "non_us_backslash",
-            modifiers: ["command"],
-          },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "ghostty_activated", value: 1 },
-        ],
-      },
-      // First press: activate Ghostty and set flag
-      {
-        type: "basic",
-        from: {
-          key_code: "0",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          { shell_command: "open -a 'Ghostty.app'" },
-          { set_variable: { name: "ghostty_activated", value: 1 } },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "ghostty_activated", value: 0 },
-        ],
-      },
-    ],
-  },
-  // Smart app switching: ◆+9 activates Cursor, subsequent presses cycle windows
-  {
-    description: "Hyper+9: Cursor (activate or switch window)",
-    manipulators: [
-      // Second+ press: switch window (when cursor_activated=1)
-      {
-        type: "basic",
-        from: {
-          key_code: "9",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          {
-            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
-            key_code: "non_us_backslash",
-            modifiers: ["command"],
-          },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "cursor_activated", value: 1 },
-        ],
-      },
-      // First press: activate Cursor and set flag
-      {
-        type: "basic",
-        from: {
-          key_code: "9",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          { shell_command: "open -a 'Cursor.app'" },
-          { set_variable: { name: "cursor_activated", value: 1 } },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "cursor_activated", value: 0 },
-        ],
-      },
-    ],
-  },
-  // Smart app switching: ◆+F4 activates Chrome, subsequent presses cycle windows
-  {
-    description: "Hyper+F4: Chrome (activate or switch window)",
-    manipulators: [
-      // Second+ press: switch window (when chrome_activated=1)
-      {
-        type: "basic",
-        from: {
-          key_code: "f4",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          {
-            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
-            key_code: "non_us_backslash",
-            modifiers: ["command"],
-          },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "chrome_activated", value: 1 },
-        ],
-      },
-      // First press: activate Chrome and set flag
-      {
-        type: "basic",
-        from: {
-          key_code: "f4",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          { shell_command: "open -a 'Google Chrome.app'" },
-          { set_variable: { name: "chrome_activated", value: 1 } },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "chrome_activated", value: 0 },
-        ],
-      },
-    ],
-  },
-  // Smart app switching: ◆+F5 activates Zoom, subsequent presses cycle windows
-  {
-    description: "Hyper+F5: Zoom (activate or switch window)",
-    manipulators: [
-      // Second+ press: switch window (when zoom_activated=1)
-      {
-        type: "basic",
-        from: {
-          key_code: "f5",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          {
-            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
-            key_code: "non_us_backslash",
-            modifiers: ["command"],
-          },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "zoom_activated", value: 1 },
-        ],
-      },
-      // First press: activate Zoom and set flag
-      {
-        type: "basic",
-        from: {
-          key_code: "f5",
-          modifiers: { optional: ["any"] },
-        },
-        to: [
-          { shell_command: "open -a 'zoom.us.app'" },
-          { set_variable: { name: "zoom_activated", value: 1 } },
-        ],
-        conditions: [
-          { type: "variable_if", name: "hyper", value: 1 },
-          { type: "variable_if", name: "zoom_activated", value: 0 },
-        ],
-      },
-    ],
-  },
+  // Window cycling shortcuts (generated from windowCyclingShortcuts)
+  ...createWindowCyclingRules(),
   // Direct hyper shortcuts (generated from directHyperShortcuts array)
   createDirectHyperRules(),
 
@@ -525,66 +423,8 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
-  // Option+Tab for previous tab (useful for switching tabs in VSCode, Cursor, Chrome, etc.)
-  {
-    description: "Option+Tab -> Ctrl+Shift+Tab (Previous Tab)",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "tab",
-          modifiers: {
-            mandatory: ["option"],
-            optional: ["caps_lock"],
-          },
-        },
-        to: [
-          {
-            key_code: "tab",
-            modifiers: ["left_control", "left_shift"],
-          },
-        ],
-      },
-    ],
-  },
-  // Remap Cmd+PageDown/PageUp to Cmd+Down/Up Arrow (useful for scroll-to-bottom/top shortcuts)
-  {
-    description: "Cmd+PageDown -> Cmd+Down, Cmd+PageUp -> Cmd+Up",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "page_down",
-          modifiers: {
-            mandatory: ["left_command"],
-            optional: ["caps_lock"],
-          },
-        },
-        to: [
-          {
-            key_code: "down_arrow",
-            modifiers: ["left_command"],
-          },
-        ],
-      },
-      {
-        type: "basic",
-        from: {
-          key_code: "page_up",
-          modifiers: {
-            mandatory: ["left_command"],
-            optional: ["caps_lock"],
-          },
-        },
-        to: [
-          {
-            key_code: "up_arrow",
-            modifiers: ["left_command"],
-          },
-        ],
-      },
-    ],
-  },
+  // General key remappings (generated from generalMappings)
+  createGeneralMappingRules(),
   // Disable cmd+h (hide app) except in VSCode/Cursor where it's used for search & replace
   {
     description: "Disable command-h (except VSCode/Cursor)",

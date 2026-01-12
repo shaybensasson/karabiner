@@ -73,7 +73,7 @@
             ]
           },
           {
-            "description": "Hyper+0: Ghostty (activate or switch window)",
+            "description": "Hyper+0: Ghostty (cycle windows)",
             "manipulators": [
               {
                 "type": "basic",
@@ -143,7 +143,7 @@
             ]
           },
           {
-            "description": "Hyper+9: Cursor (activate or switch window)",
+            "description": "Hyper+9: Cursor (cycle windows)",
             "manipulators": [
               {
                 "type": "basic",
@@ -213,7 +213,7 @@
             ]
           },
           {
-            "description": "Hyper+F4: Chrome (activate or switch window)",
+            "description": "Hyper+F4: Chrome (cycle windows)",
             "manipulators": [
               {
                 "type": "basic",
@@ -283,7 +283,7 @@
             ]
           },
           {
-            "description": "Hyper+F5: Zoom (activate or switch window)",
+            "description": "Hyper+F5: Zoom (cycle windows)",
             "manipulators": [
               {
                 "type": "basic",
@@ -851,7 +851,7 @@
             ]
           },
           {
-            "description": "Option+Tab -> Ctrl+Shift+Tab (Previous Tab)",
+            "description": "General key remappings",
             "manipulators": [
               {
                 "type": "basic",
@@ -859,7 +859,7 @@
                   "key_code": "tab",
                   "modifiers": {
                     "mandatory": [
-                      "option"
+                      "left_option"
                     ],
                     "optional": [
                       "caps_lock"
@@ -875,12 +875,7 @@
                     ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "description": "Cmd+PageDown -> Cmd+Down, Cmd+PageUp -> Cmd+Up",
-            "manipulators": [
+              },
               {
                 "type": "basic",
                 "from": {
