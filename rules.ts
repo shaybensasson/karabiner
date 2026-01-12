@@ -135,8 +135,8 @@ export const directHyperShortcuts: {
   { key: "4", description: "Obsidian", action: "open -a 'Obsidian.app'" },
   { key: "non_us_backslash", keyDisplay: "§", description: "Noiseless", action: "open 'raycast://script-commands/noiseless'" },
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
-  { key: "f1", keyDisplay: "F1", description: "F13", toKeyCode: "f13" },
-  { key: "f2", keyDisplay: "F2", description: "F14", toKeyCode: "f14" },
+  { key: "f1", keyDisplay: "F1", description: "ChatGPT app", toKeyCode: "f13" },
+  { key: "f2", keyDisplay: "F2", description: "Claude app", toKeyCode: "f14" },
   { key: "f3", keyDisplay: "F3", description: "Keyboard Shortcuts PDF", action: "open '/Users/shay/github/karabiner/keyboard-shortcuts.pdf'" },
   { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
 ];
