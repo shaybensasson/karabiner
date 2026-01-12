@@ -476,8 +476,8 @@ async function generatePDF(htmlPath: string, pdfPath: string): Promise<void> {
       format: "A4",
       landscape: true,
       printBackground: true,
-      scale: 0.95,
-      margin: { top: "10mm", right: "10mm", bottom: "10mm", left: "10mm" },
+      scale: 0.85,
+      margin: { top: "8mm", right: "8mm", bottom: "8mm", left: "8mm" },
     });
 
     await browser.close();
