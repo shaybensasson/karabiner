@@ -13,7 +13,8 @@ import {
   hyperSubLayers,
   directHyperShortcuts,
   windowCyclingShortcuts,
-  generalShortcuts,
+  generalMappings,
+  staticShortcutDocs,
 } from "./rules";
 import {
   isSubLayerWithMeta,
@@ -58,13 +59,19 @@ function getDescription(cmd: LayerCommand): string {
 function buildCategories(): Category[] {
   const categories: Category[] = [];
 
-  // 1. General shortcuts
+  // 1. General shortcuts (combined from static docs and generated mappings)
   categories.push({
     title: "General",
-    shortcuts: generalShortcuts.map((s) => ({
-      keys: s.keys,
-      description: s.description,
-    })),
+    shortcuts: [
+      ...staticShortcutDocs.map((s) => ({
+        keys: s.keys,
+        description: s.description,
+      })),
+      ...generalMappings.map((s) => ({
+        keys: s.keys,
+        description: s.description,
+      })),
+    ],
   });
 
   // 2. Direct hyper shortcuts (including window cycling shortcuts)
