@@ -172,6 +172,8 @@ export const generalMappings: {
   { keys: "⌥Tab", description: "Previous Tab", fromKey: "tab", fromModifiers: ["left_option"], toKey: "tab", toModifiers: ["left_control", "left_shift"] },
   { keys: "⌘PageDown", description: "⌘↓ (scroll to bottom)", fromKey: "page_down", fromModifiers: ["left_command"], toKey: "down_arrow", toModifiers: ["left_command"] },
   { keys: "⌘PageUp", description: "⌘↑ (scroll to top)", fromKey: "page_up", fromModifiers: ["left_command"], toKey: "up_arrow", toModifiers: ["left_command"] },
+  { keys: "⌘⇧PageDown", description: "⌘⇧↓ (select to bottom)", fromKey: "page_down", fromModifiers: ["left_command", "left_shift"], toKey: "down_arrow", toModifiers: ["left_command", "left_shift"] },
+  { keys: "⌘⇧PageUp", description: "⌘⇧↑ (select to top)", fromKey: "page_up", fromModifiers: ["left_command", "left_shift"], toKey: "up_arrow", toModifiers: ["left_command", "left_shift"] },
 ];
 
 /**
