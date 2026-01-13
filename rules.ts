@@ -55,12 +55,12 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       c: app("Calendar"),
       d: open("~/Downloads", "Downloads"),
       f: open("raycast://script-commands/new-finder-instance", "New Finder"),
-      i: open("raycast://script-commands/run-vlc-with-iptv", "IPTV"),
+      v: open("raycast://script-commands/run-vlc-with-iptv", "VLC with IPTV"),
       l: app("LastPass for Desktop", "LastPass"),
       // m: app("Spotify"), // Replaced by ◆+F8 (direct shortcut)
       s: app("Slack"),
       // t: app("Ghostty"), // Replaced by ◆+0 (window cycling). Could repurpose for Terminal.app
-      v: app("VLC"),
+      // v: app("VLC"),
       w: app("WhatsApp"),
       y: shellCmd("open -a Safari https://music.youtube.com", "YouTube Music"),
       // z: app("zoom.us", "Zoom"), // Replaced by ◆+F5 (window cycling)
@@ -494,6 +494,33 @@ const rules: KarabinerRules[] = [
     ],
   },
   ...createHyperSubLayers(hyperSubLayers),
+  // Finder: Forward Delete → Move to Trash (Cmd+Delete)
+  {
+    description: "Finder: Forward Delete → Move to Trash",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "delete_forward",
+          modifiers: {
+            optional: ["caps_lock"],
+          },
+        },
+        to: [
+          {
+            key_code: "delete_or_backspace",
+            modifiers: ["left_command"],
+          },
+        ],
+        conditions: [
+          {
+            type: "frontmost_application_if",
+            bundle_identifiers: ["^com\\.apple\\.finder$"],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 fs.writeFileSync(

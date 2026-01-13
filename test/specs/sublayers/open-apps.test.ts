@@ -24,8 +24,8 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ O V → opens VLC", () => {
-    const result = validateSublayerCommand("o", "v", { type: "app", value: "VLC" });
+  it("◆ O V → opens VLC with IPTV", () => {
+    const result = validateSublayerCommand("o", "v", { type: "raycast", value: "run-vlc-with-iptv" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
