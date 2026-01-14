@@ -56,6 +56,28 @@ interface KarabinerConfig {
  */
 function transformShellCommand(cmd: string): string {
   // Parse different command types
+
+  // New instance: open -na 'App.app' (opens new instance)
+  if (cmd.includes("open -na ")) {
+    // Handle quoted app names
+    let match = cmd.match(/open\s+-na\s+(['"])(.+?)\1/);
+    if (match) {
+      const appName = match[2].trim().replace(/\.app$/i, "");
+      return `echo "ACTION:new_instance:${appName}" >> ${ACTION_LOG_PATH}`;
+    }
+    // Handle unquoted app names
+    match = cmd.match(/open\s+-na\s+(\S+)/);
+    if (match) {
+      const appName = match[1].trim().replace(/\.app$/i, "");
+      return `echo "ACTION:new_instance:${appName}" >> ${ACTION_LOG_PATH}`;
+    }
+  }
+
+  // Cursor CLI: cursor --new-window (with or without full path)
+  if (cmd.includes("cursor --new-window")) {
+    return `echo "ACTION:new_instance:Cursor" >> ${ACTION_LOG_PATH}`;
+  }
+
   if (cmd.startsWith("open -a ") || cmd.startsWith("open -g -a ")) {
     // App opening: open -a 'Google Chrome.app' or open -a Slack
     // Handle quoted app names (supports spaces in names)

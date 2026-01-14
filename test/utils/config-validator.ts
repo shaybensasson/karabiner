@@ -265,7 +265,7 @@ export function findWindowCyclingFirstPress(
 }
 
 /**
- * Find the "subsequent press" manipulator for window cycling (sends Cmd+§)
+ * Find the "subsequent press" manipulator for window cycling (sends Cmd+§ or custom shell command)
  */
 export function findWindowCyclingSubsequentPress(
   keyCode: string,
@@ -278,7 +278,8 @@ export function findWindowCyclingSubsequentPress(
       m.from.key_code === keyCode &&
       m.conditions?.some((c) => c.type === "variable_if" && c.name === "hyper" && c.value === 1) &&
       m.conditions?.some((c) => c.type === "variable_if" && c.name === variableName && c.value === 1) &&
-      m.to?.some((t) => t.key_code === "non_us_backslash" && t.modifiers?.includes("command"))
+      // Accept either Cmd+§ keystroke OR custom shell command for cycling
+      m.to?.some((t) => (t.key_code === "non_us_backslash" && t.modifiers?.includes("command")) || t.shell_command)
   );
 }
 

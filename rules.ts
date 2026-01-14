@@ -60,8 +60,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       l: app("LastPass for Desktop", "LastPass"),
       // m: app("Spotify"), // Replaced by ◆+F8 (direct shortcut)
       s: app("Slack"),
-      // t: app("Ghostty"), // Replaced by ◆+0 (window cycling). Could repurpose for Terminal.app
-      // v: app("VLC"),
+      // t: could repurpose for Terminal.app (Ghostty is ◆+0 window cycling)
       w: app("WhatsApp"),
       y: shellCmd("open -a Safari https://music.youtube.com", "YouTube Music"),
       // z: app("zoom.us", "Zoom"), // Replaced by ◆+F5 (window cycling)
@@ -146,6 +145,7 @@ export const directHyperShortcuts: {
 /**
  * Window cycling shortcuts - single source of truth for rules AND documentation.
  * First press activates app, subsequent presses cycle windows.
+ * Hold key: opens new instance (if newInstanceCommand is defined).
  */
 export const windowCyclingShortcuts: {
   key: KeyCode;
@@ -153,11 +153,32 @@ export const windowCyclingShortcuts: {
   description: string;
   appName: string;
   variableName: string;
+  newInstanceCommand?: string; // Shell command to open new instance (hold key on first press)
+  cycleCommand?: string; // Custom shell command to cycle windows (default: Cmd+`)
+  // Optional: hold-when-frontmost behavior (sends keystroke on hold when app is frontmost)
+  bundleIdentifier?: string; // For frontmost app condition
+  holdKey?: KeyCode; // Key to send on hold (when app is frontmost)
+  holdModifiers?: ModifiersKeys[]; // Modifiers for hold key
 }[] = [
-  { key: "0", description: "Ghostty (cycle windows)", appName: "Ghostty.app", variableName: "ghostty_activated" },
-  { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated" },
-  { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)", appName: "Google Chrome.app", variableName: "chrome_activated" },
+  { key: "0", description: "Ghostty (cycle windows)", appName: "Ghostty.app", variableName: "ghostty_activated", bundleIdentifier: "com.mitchellh.ghostty", holdKey: "n", holdModifiers: ["left_command"] },
+  { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated", newInstanceCommand: "/usr/local/bin/cursor --new-window" },
+  { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)", appName: "Google Chrome.app", variableName: "chrome_activated", newInstanceCommand: "open -na 'Google Chrome.app'" },
   { key: "f5", keyDisplay: "F5", description: "Zoom (cycle windows)", appName: "zoom.us.app", variableName: "zoom_activated" },
+];
+
+/**
+ * Simple app shortcuts - tap to activate, hold to send keystroke (when app is frontmost).
+ */
+export const simpleAppShortcuts: {
+  key: KeyCode;
+  keyDisplay?: string;
+  description: string;
+  appName: string;
+  bundleIdentifier: string;
+  holdKey: KeyCode; // Key to send on hold (when app is frontmost)
+  holdModifiers: ModifiersKeys[]; // Modifiers for hold key
+}[] = [
+  // Ghostty moved to windowCyclingShortcuts for window cycling support
 ];
 
 /**
@@ -189,6 +210,8 @@ export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "⇧R (alone)", description: "Move Forward 1 Word" },
   { keys: "⇧L (alone)", description: "Move Backward 1 Word" },
   { keys: "⌫ (Finder)", description: "Go Back (⌘[)" },
+  { keys: "◆+0 (hold)", description: "New Ghostty Window (⌘N when frontmost)" },
+  { keys: "◆+9/F4 (hold 1st)", description: "New App Instance" },
 ];
 
 /**
@@ -229,45 +252,168 @@ function createDirectHyperRules(): KarabinerRules {
 
 /**
  * Generate window cycling rules from windowCyclingShortcuts config.
- * First press activates app, subsequent presses cycle windows.
+ * First press activates app (hold for new instance), subsequent presses cycle windows.
+ * For apps with holdKey defined: hold sends keystroke when app is frontmost.
  */
 function createWindowCyclingRules(): KarabinerRules[] {
-  return windowCyclingShortcuts.map((shortcut) => ({
-    description: `Hyper+${shortcut.keyDisplay || shortcut.key}: ${shortcut.description}`,
-    manipulators: [
-      // Second+ press: switch window (when variable=1)
-      {
-        type: "basic" as const,
-        from: {
-          key_code: shortcut.key,
-          modifiers: { optional: ["any"] },
-        },
-        to: [
+  return windowCyclingShortcuts.map((shortcut) => {
+    const cycleAction = shortcut.cycleCommand
+      ? { shell_command: shortcut.cycleCommand }
+      : {
+          // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
+          key_code: "non_us_backslash" as KeyCode,
+          modifiers: ["command"] as ModifiersKeys[],
+        };
+
+    const holdConfig =
+      shortcut.holdKey && shortcut.bundleIdentifier
+        ? {
+            to_if_held_down: [
+              {
+                key_code: shortcut.holdKey,
+                modifiers: shortcut.holdModifiers || [],
+              },
+            ],
+            parameters: { "basic.to_if_held_down_threshold_milliseconds": 500 },
+          }
+        : {};
+
+    // For apps with holdKey: need separate rules for frontmost/not-frontmost
+    if (shortcut.holdKey && shortcut.bundleIdentifier) {
+      return {
+        description: `Hyper+${shortcut.keyDisplay || shortcut.key}: ${shortcut.description}`,
+        manipulators: [
+          // Cycle: when variable=1 and app IS frontmost (with hold for keystroke)
           {
-            // ISO keyboard: use non_us_backslash (§) for Cmd+` window switching
-            key_code: "non_us_backslash" as KeyCode,
-            modifiers: ["command"],
+            type: "basic" as const,
+            from: { key_code: shortcut.key, modifiers: { optional: ["any"] } },
+            to: [cycleAction],
+            ...holdConfig,
+            conditions: [
+              { type: "variable_if" as const, name: "hyper", value: 1 },
+              { type: "variable_if" as const, name: shortcut.variableName, value: 1 },
+              { type: "frontmost_application_if" as const, bundle_identifiers: [shortcut.bundleIdentifier] },
+            ],
+          },
+          // Cycle: when variable=1 and app NOT frontmost (no hold)
+          {
+            type: "basic" as const,
+            from: { key_code: shortcut.key, modifiers: { optional: ["any"] } },
+            to: [cycleAction],
+            conditions: [
+              { type: "variable_if" as const, name: "hyper", value: 1 },
+              { type: "variable_if" as const, name: shortcut.variableName, value: 1 },
+              { type: "frontmost_application_unless" as const, bundle_identifiers: [shortcut.bundleIdentifier] },
+            ],
+          },
+          // Activate: when variable=0 and app IS frontmost (with hold for keystroke)
+          {
+            type: "basic" as const,
+            from: { key_code: shortcut.key, modifiers: { optional: ["any"] } },
+            to: [
+              { shell_command: `open -a '${shortcut.appName}'` },
+              { set_variable: { name: shortcut.variableName, value: 1 } },
+            ],
+            ...holdConfig,
+            conditions: [
+              { type: "variable_if" as const, name: "hyper", value: 1 },
+              { type: "variable_if" as const, name: shortcut.variableName, value: 0 },
+              { type: "frontmost_application_if" as const, bundle_identifiers: [shortcut.bundleIdentifier] },
+            ],
+          },
+          // Activate: when variable=0 and app NOT frontmost (no hold)
+          {
+            type: "basic" as const,
+            from: { key_code: shortcut.key, modifiers: { optional: ["any"] } },
+            to: [
+              { shell_command: `open -a '${shortcut.appName}'` },
+              { set_variable: { name: shortcut.variableName, value: 1 } },
+            ],
+            conditions: [
+              { type: "variable_if" as const, name: "hyper", value: 1 },
+              { type: "variable_if" as const, name: shortcut.variableName, value: 0 },
+              { type: "frontmost_application_unless" as const, bundle_identifiers: [shortcut.bundleIdentifier] },
+            ],
           },
         ],
-        conditions: [
-          { type: "variable_if" as const, name: "hyper", value: 1 },
-          { type: "variable_if" as const, name: shortcut.variableName, value: 1 },
-        ],
-      },
-      // First press: activate app and set flag
+      };
+    }
+
+    // Standard window cycling (no hold-when-frontmost)
+    return {
+      description: `Hyper+${shortcut.keyDisplay || shortcut.key}: ${shortcut.description}`,
+      manipulators: [
+        // Second+ press: switch window (when variable=1)
+        {
+          type: "basic" as const,
+          from: { key_code: shortcut.key, modifiers: { optional: ["any"] } },
+          to: [cycleAction],
+          conditions: [
+            { type: "variable_if" as const, name: "hyper", value: 1 },
+            { type: "variable_if" as const, name: shortcut.variableName, value: 1 },
+          ],
+        },
+        // First press: activate app and set flag, hold for new instance
+        {
+          type: "basic" as const,
+          from: { key_code: shortcut.key, modifiers: { optional: ["any"] } },
+          to: [
+            { shell_command: `open -a '${shortcut.appName}'` },
+            { set_variable: { name: shortcut.variableName, value: 1 } },
+          ],
+          // Hold key to open new instance (only on first press)
+          ...(shortcut.newInstanceCommand && {
+            to_if_held_down: [{ shell_command: shortcut.newInstanceCommand }],
+            parameters: { "basic.to_if_held_down_threshold_milliseconds": 500 },
+          }),
+          conditions: [
+            { type: "variable_if" as const, name: "hyper", value: 1 },
+            { type: "variable_if" as const, name: shortcut.variableName, value: 0 },
+          ],
+        },
+      ],
+    };
+  });
+}
+
+/**
+ * Generate simple app shortcut rules from simpleAppShortcuts config.
+ * Tap to activate app, hold to send keystroke (when app is frontmost).
+ */
+function createSimpleAppShortcutRules(): KarabinerRules[] {
+  return simpleAppShortcuts.map((shortcut) => ({
+    description: `Hyper+${shortcut.keyDisplay || shortcut.key}: ${shortcut.description}`,
+    manipulators: [
       {
         type: "basic" as const,
         from: {
           key_code: shortcut.key,
           modifiers: { optional: ["any"] },
         },
-        to: [
-          { shell_command: `open -a '${shortcut.appName}'` },
-          { set_variable: { name: shortcut.variableName, value: 1 } },
+        to: [{ shell_command: `open -a '${shortcut.appName}'` }],
+        to_if_held_down: [
+          {
+            key_code: shortcut.holdKey,
+            modifiers: shortcut.holdModifiers,
+          },
         ],
+        parameters: { "basic.to_if_held_down_threshold_milliseconds": 500 },
         conditions: [
           { type: "variable_if" as const, name: "hyper", value: 1 },
-          { type: "variable_if" as const, name: shortcut.variableName, value: 0 },
+          { type: "frontmost_application_if" as const, bundle_identifiers: [shortcut.bundleIdentifier] },
+        ],
+      },
+      // When app is NOT frontmost, just activate (no hold action)
+      {
+        type: "basic" as const,
+        from: {
+          key_code: shortcut.key,
+          modifiers: { optional: ["any"] },
+        },
+        to: [{ shell_command: `open -a '${shortcut.appName}'` }],
+        conditions: [
+          { type: "variable_if" as const, name: "hyper", value: 1 },
+          { type: "frontmost_application_unless" as const, bundle_identifiers: [shortcut.bundleIdentifier] },
         ],
       },
     ],
@@ -345,6 +491,8 @@ const rules: KarabinerRules[] = [
   },
   // Window cycling shortcuts (generated from windowCyclingShortcuts)
   ...createWindowCyclingRules(),
+  // Simple app shortcuts (generated from simpleAppShortcuts)
+  ...createSimpleAppShortcutRules(),
   // Direct hyper shortcuts (generated from directHyperShortcuts array)
   createDirectHyperRules(),
 
