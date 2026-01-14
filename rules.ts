@@ -265,6 +265,7 @@ function createWindowCyclingRules(): KarabinerRules[] {
           modifiers: ["command"] as ModifiersKeys[],
         };
 
+    const holdSentVar = `${shortcut.variableName}_hold_sent`;
     const holdConfig =
       shortcut.holdKey && shortcut.bundleIdentifier
         ? {
@@ -273,6 +274,7 @@ function createWindowCyclingRules(): KarabinerRules[] {
                 key_code: shortcut.holdKey,
                 modifiers: shortcut.holdModifiers || [],
               },
+              { set_variable: { name: holdSentVar, value: 1 } }, // Prevent repeat
             ],
             parameters: { "basic.to_if_held_down_threshold_milliseconds": 500 },
           }
@@ -280,6 +282,9 @@ function createWindowCyclingRules(): KarabinerRules[] {
 
     // For apps with holdKey: need separate rules for frontmost/not-frontmost
     if (shortcut.holdKey && shortcut.bundleIdentifier) {
+      // Common condition to prevent hold from repeating
+      const holdNotSentCondition = { type: "variable_if" as const, name: holdSentVar, value: 0 };
+
       return {
         description: `Hyper+${shortcut.keyDisplay || shortcut.key}: ${shortcut.description}`,
         manipulators: [
@@ -293,6 +298,7 @@ function createWindowCyclingRules(): KarabinerRules[] {
               { type: "variable_if" as const, name: "hyper", value: 1 },
               { type: "variable_if" as const, name: shortcut.variableName, value: 1 },
               { type: "frontmost_application_if" as const, bundle_identifiers: [shortcut.bundleIdentifier] },
+              holdNotSentCondition,
             ],
           },
           // Cycle: when variable=1 and app NOT frontmost (no hold)
@@ -319,6 +325,7 @@ function createWindowCyclingRules(): KarabinerRules[] {
               { type: "variable_if" as const, name: "hyper", value: 1 },
               { type: "variable_if" as const, name: shortcut.variableName, value: 0 },
               { type: "frontmost_application_if" as const, bundle_identifiers: [shortcut.bundleIdentifier] },
+              holdNotSentCondition,
             ],
           },
           // Activate: when variable=0 and app NOT frontmost (no hold)
@@ -476,6 +483,12 @@ const rules: KarabinerRules[] = [
           ...windowCyclingShortcuts.map((s) => ({
             set_variable: { name: s.variableName, value: 0 },
           })),
+          // Reset hold-sent variables for shortcuts with holdKey (prevents repeat on hold)
+          ...windowCyclingShortcuts
+            .filter((s) => s.holdKey)
+            .map((s) => ({
+              set_variable: { name: `${s.variableName}_hold_sent`, value: 0 },
+            })),
         ],
         to_if_alone: [
           {

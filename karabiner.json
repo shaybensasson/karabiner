@@ -58,6 +58,12 @@
                       "name": "zoom_activated",
                       "value": 0
                     }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "ghostty_activated_hold_sent",
+                      "value": 0
+                    }
                   }
                 ],
                 "to_if_alone": [
@@ -99,6 +105,12 @@
                     "modifiers": [
                       "left_command"
                     ]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "ghostty_activated_hold_sent",
+                      "value": 1
+                    }
                   }
                 ],
                 "parameters": {
@@ -120,6 +132,11 @@
                     "bundle_identifiers": [
                       "com.mitchellh.ghostty"
                     ]
+                  },
+                  {
+                    "type": "variable_if",
+                    "name": "ghostty_activated_hold_sent",
+                    "value": 0
                   }
                 ]
               },
@@ -187,6 +204,12 @@
                     "modifiers": [
                       "left_command"
                     ]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "ghostty_activated_hold_sent",
+                      "value": 1
+                    }
                   }
                 ],
                 "parameters": {
@@ -208,6 +231,11 @@
                     "bundle_identifiers": [
                       "com.mitchellh.ghostty"
                     ]
+                  },
+                  {
+                    "type": "variable_if",
+                    "name": "ghostty_activated_hold_sent",
+                    "value": 0
                   }
                 ]
               },
