@@ -2,6 +2,12 @@ import { describe, it, expect } from "vitest";
 import { validateSublayerCommand, findSublayerCommand, getToKeyCode } from "../../utils/config-validator";
 
 describe("Query Sublayer (◆ Q) - Config Validation", () => {
+  it("◆ Q C → Cursor Recent Projects", () => {
+    const result = validateSublayerCommand("q", "c", { type: "raycast", value: "cursor-recent-projects" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
   it("◆ Q E → Emoji Search", () => {
     const result = validateSublayerCommand("q", "e", { type: "raycast", value: "emoji-symbols" });
     expect(result.found).toBe(true);

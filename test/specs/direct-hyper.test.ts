@@ -67,4 +67,13 @@ describe("Direct Hyper Shortcuts (◆ + key) - Config Validation", () => {
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
+
+  it("◆ + F12 → Select Audio Output", () => {
+    const result = validateDirectHyperShortcut("f12", {
+      type: "raycast",
+      value: "audio-device/set-output-device",
+    });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
 });
