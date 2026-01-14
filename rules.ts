@@ -42,6 +42,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
   q: {
     title: "Query",
     commands: {
+      c: open("raycast://extensions/degouville/cursor-recent-projects/index", "Cursor Recent Projects"),
       e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols", "Emoji Search"),
       f: open("raycast://extensions/raycast/file-search/search-files", "File Search"),
       g: open("raycast://extensions/mblode/google-search/index", "Google Search"),
@@ -139,6 +140,7 @@ export const directHyperShortcuts: {
   { key: "f2", keyDisplay: "F2", description: "Claude app", toKeyCode: "f14" },
   { key: "f3", keyDisplay: "F3", description: "Keyboard Shortcuts PDF", action: "open '/Users/shay/github/karabiner/keyboard-shortcuts.pdf'" },
   { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
+  { key: "f12", keyDisplay: "F12", description: "Select Audio Output", action: "open 'raycast://extensions/benvp/audio-device/set-output-device'" },
 ];
 
 /**
