@@ -353,52 +353,53 @@ function generateHTML(categories: Category[]): string {
     @media print {
       @page {
         size: A4 landscape;
-        margin: 10mm;
+        margin: 8mm;
       }
       body {
-        padding: 12px;
+        padding: 10px;
+        font-size: 11px;
       }
       .header {
-        margin-bottom: 14px;
-        padding-bottom: 8px;
+        margin-bottom: 12px;
+        padding-bottom: 6px;
       }
       .logo {
-        width: 38px;
-        height: 38px;
-        font-size: 21px;
+        width: 34px;
+        height: 34px;
+        font-size: 19px;
       }
       .title h1 {
-        font-size: 24px;
+        font-size: 22px;
       }
       .title h2 {
-        font-size: 14px;
+        font-size: 13px;
       }
       .columns {
-        gap: 18px;
+        gap: 16px;
       }
       .category {
-        margin-bottom: 11px;
+        margin-bottom: 9px;
       }
       .category-title {
-        font-size: 13px;
-        margin-bottom: 5px;
+        font-size: 12px;
+        margin-bottom: 4px;
       }
       .shortcut-row {
-        padding: 2px 4px;
+        padding: 1px 3px;
       }
       .shortcut-keys {
-        font-size: 11px;
-        min-width: 65px;
+        font-size: 10.5px;
+        min-width: 60px;
       }
       .mod {
-        font-size: 15px;
+        font-size: 14px;
       }
       .shortcut-desc {
-        font-size: 11px;
+        font-size: 10.5px;
       }
       .note {
-        font-size: 10px;
-        margin-top: 12px;
+        font-size: 9px;
+        margin-top: 10px;
       }
     }
   </style>
