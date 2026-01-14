@@ -141,6 +141,11 @@ export interface To {
   modifiers?: ModifiersKeys[];
   shell_command?: string;
   hold_down_milliseconds?: number;
+  /**
+   * If true, stops the automatic key repeat for this event.
+   * Useful for to_if_held_down when you want a single keypress instead of repeat.
+   */
+  halt?: boolean;
   set_variable?: {
     name: string;
     value: boolean | number | string;
