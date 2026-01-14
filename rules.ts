@@ -186,6 +186,7 @@ export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "⌘H", description: "Disabled (except IDE)" },
   { keys: "⇧R (alone)", description: "Move Forward 1 Word" },
   { keys: "⇧L (alone)", description: "Move Backward 1 Word" },
+  { keys: "⌫ (Finder)", description: "Go Back (⌘[)" },
 ];
 
 /**
@@ -509,6 +510,33 @@ const rules: KarabinerRules[] = [
         to: [
           {
             key_code: "delete_or_backspace",
+            modifiers: ["left_command"],
+          },
+        ],
+        conditions: [
+          {
+            type: "frontmost_application_if",
+            bundle_identifiers: ["^com\\.apple\\.finder$"],
+          },
+        ],
+      },
+    ],
+  },
+  // Finder: Backspace (alone) → Go Back (Cmd+[)
+  {
+    description: "Finder: Backspace → Go Back",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "delete_or_backspace",
+          modifiers: {
+            optional: ["caps_lock"],
+          },
+        },
+        to: [
+          {
+            key_code: "open_bracket",
             modifiers: ["left_command"],
           },
         ],
