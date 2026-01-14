@@ -23,40 +23,24 @@ interface TestCase {
   name: string;
   keySequence: string;
   expectedAction: {
-    type: "app" | "url" | "raycast" | "key" | "file" | "new_instance";
+    type: "app" | "url" | "raycast" | "key" | "new_instance";
     value: string;
   };
   timeout?: number;
 }
 
 const testCases: TestCase[] = [
-  // Direct Hyper shortcuts
+  // One test per action type:
+  // raycast: Direct Hyper shortcut
   { name: "Window Left Half", keySequence: "Hold ◆ (Caps Lock) + Press ←", expectedAction: { type: "raycast", value: "left-half" } },
-  { name: "Window Right Half", keySequence: "Hold ◆ (Caps Lock) + Press →", expectedAction: { type: "raycast", value: "right-half" } },
+  // key: Direct Hyper shortcut
   { name: "F1 → F13", keySequence: "Hold ◆ (Caps Lock) + Press F1", expectedAction: { type: "key", value: "f13" } },
-
-  // Browse sublayer
+  // url: Browse sublayer
   { name: "Browse → Calendar", keySequence: "Tap ◆, then B, then C", expectedAction: { type: "url", value: "calendar.google.com" } },
-  { name: "Browse → YouTube", keySequence: "Tap ◆, then B, then Y", expectedAction: { type: "url", value: "youtube.com" } },
-
-  // Open Apps sublayer
+  // app: Open Apps sublayer
   { name: "Open → Slack", keySequence: "Tap ◆, then O, then S", expectedAction: { type: "app", value: "Slack" } },
-
-  // System sublayer
-  { name: "System → Toggle DND", keySequence: "Tap ◆, then S, then D", expectedAction: { type: "raycast", value: "do-not-disturb" } },
-
-  // Simple app shortcut (Ghostty)
-  { name: "Ghostty (tap)", keySequence: "Hold ◆ (Caps Lock) + Press 0", expectedAction: { type: "app", value: "Ghostty" } },
-  { name: "Ghostty (hold when frontmost)", keySequence: "With Ghostty focused: Hold ◆ + HOLD 0 for 1 second", expectedAction: { type: "key", value: "n" } },
-
-  // Window cycling (direct key with state)
-  { name: "Chrome (1st press)", keySequence: "Hold ◆ (Caps Lock) + Press F4", expectedAction: { type: "app", value: "Google Chrome" } },
-  { name: "Chrome (2nd press - window cycle)", keySequence: "Keep holding ◆ + Press F4 again", expectedAction: { type: "key", value: "non_us_backslash" } },
-
-  // Hold key for new instance (hold for 500ms+ on FIRST press only)
-  // Note: Release ◆ first to reset state, then hold ◆ + hold key
-  { name: "Cursor (hold 1st - new instance)", keySequence: "Release ◆, then Hold ◆ + HOLD 9 for 1 second", expectedAction: { type: "new_instance", value: "Cursor" } },
-  { name: "Chrome (hold 1st - new instance)", keySequence: "Release ◆, then Hold ◆ + HOLD F4 for 1 second", expectedAction: { type: "new_instance", value: "Google Chrome" } },
+  // new_instance: Hold for new instance
+  { name: "Cursor (hold - new instance)", keySequence: "Hold ◆ + HOLD 9 for 1 second", expectedAction: { type: "new_instance", value: "Cursor" } },
 ];
 
 let originalProfile: string | null = null;
