@@ -83,6 +83,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       c: open("raycast://extensions/raycast/system/open-camera", "Open Camera"),
       d: open("raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background", "Toggle DND"),
       t: open("raycast://extensions/raycast/system/toggle-system-appearance", "Toggle Dark Mode"),
+      w: app("Weather"),
     },
   },
 
