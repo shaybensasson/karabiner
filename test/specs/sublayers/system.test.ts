@@ -25,4 +25,10 @@ describe("System Sublayer (◆ S) - Config Validation", () => {
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
+
+  it("◆ S W → opens Weather", () => {
+    const result = validateSublayerCommand("s", "w", { type: "app", value: "Weather" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
 });
