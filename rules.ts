@@ -98,7 +98,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
   //     l: { description: "→ Right Arrow", to: [{ key_code: "right_arrow" }] },
   //     m: { description: "Magicmove (Homerow)", to: [{ key_code: "f", modifiers: ["right_control"] }] },
   //     s: { description: "Scroll Mode (Homerow)", to: [{ key_code: "j", modifiers: ["right_control"] }] },
-  //     u: { description: "Page Down", to: [{ key_code: "page_down" }] },
+      u: { description: "Page Down", to: [{ key_code: "page_down" }] },
   //   },
   // },
 
@@ -111,6 +111,18 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       n: open("raycast://script-commands/dismiss-notifications", "Dismiss Notifications"),
       p: open("raycast://extensions/raycast/raycast/confetti", "Confetti"),
       s: open("/Users/shay/.config/raycast/scripts/", "Scripts Folder"),
+    },
+  },
+
+  a: {
+    title: "AI",
+    commands: {
+      s: open("raycast://extensions/ShayBenSasson/rayeye/simplify", "Simplify"),
+      l: open("raycast://extensions/ShayBenSasson/rayeye/create-list", "Create List"),
+      p: open("raycast://extensions/ShayBenSasson/rayeye/make-professional", "Professionalize"),
+      g: open("raycast://extensions/ShayBenSasson/rayeye/fix-grammar", "Fix Grammar"),
+      c: open("raycast://extensions/ShayBenSasson/rayeye/make-concise", "Make Concise"),
+      t: open("raycast://extensions/ShayBenSasson/rayeye/translate-to-hebrew", "Translate to Hebrew"),
     },
   },
 };
