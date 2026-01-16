@@ -30,7 +30,11 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  // Note: ◆ O Z (Zoom) removed - now using ◆+F5 with window cycling
+  it("◆ O Z → starts Zoom meeting", () => {
+    const result = validateSublayerCommand("o", "z", { type: "raycast", value: "zoom/start-meeting" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
 
   it("◆ O D → opens Downloads folder", () => {
     const result = validateSublayerCommand("o", "d", { type: "file", value: "Downloads" });
