@@ -42,11 +42,15 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
   q: {
     title: "Query",
     commands: {
+      b: open("raycast://extensions/Codely/google-chrome/search-all", "Browser Search"),
       c: open("raycast://extensions/degouville/cursor-recent-projects/index", "Cursor Recent Projects"),
       e: open("raycast://extensions/raycast/emoji-symbols/search-emoji-symbols", "Emoji Search"),
       f: open("raycast://extensions/raycast/file-search/search-files", "File Search"),
       g: open("raycast://extensions/mblode/google-search/index", "Google Search"),
+      i: open("raycast://extensions/destiner/iconify/view-icons", "Icon Search"),
       l: { description: "LastPass", to: [{ key_code: "5", modifiers: ["left_control", "left_command"] }] }, // The lastpass app must be running.
+      m: open("raycast://extensions/raycast/navigation/search-menu-items", "Menu Items Search"),
+      o: open("raycast://extensions/marcjulian/obsidian/searchNoteCommand", "Obsidian Note Search"),
     },
   },
 
