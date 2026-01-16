@@ -102,7 +102,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
   //     l: { description: "→ Right Arrow", to: [{ key_code: "right_arrow" }] },
   //     m: { description: "Magicmove (Homerow)", to: [{ key_code: "f", modifiers: ["right_control"] }] },
   //     s: { description: "Scroll Mode (Homerow)", to: [{ key_code: "j", modifiers: ["right_control"] }] },
-      u: { description: "Page Down", to: [{ key_code: "page_down" }] },
+//     u: { description: "Page Down", to: [{ key_code: "page_down" }] },
   //   },
   // },
 
@@ -179,6 +179,7 @@ export const windowCyclingShortcuts: {
 }[] = [
   { key: "0", description: "Ghostty (cycle windows)", appName: "Ghostty.app", variableName: "ghostty_activated", bundleIdentifier: "com.mitchellh.ghostty", holdKey: "n", holdModifiers: ["left_command"] },
   { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated", newInstanceCommand: "/usr/local/bin/cursor --new-window" },
+  { key: "8", description: "VSCode (cycle windows)", appName: "Visual Studio Code.app", variableName: "vscode_activated", newInstanceCommand: "/Users/shay/.local/bin/vscode --new-window" },
   { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)", appName: "Google Chrome.app", variableName: "chrome_activated", newInstanceCommand: "open -na 'Google Chrome.app'" },
   { key: "f5", keyDisplay: "F5", description: "Zoom (cycle windows)", appName: "zoom.us.app", variableName: "zoom_activated" },
 ];

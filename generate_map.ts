@@ -183,7 +183,7 @@ function generateHTML(categories: Category[]): string {
   // Distribute categories into 4 columns
   // Column 1: General, Direct Hyper
   // Column 2: Query, Open Apps, Browse, Window
-  // Column 3: Raycast, System, AI, Any remaining categories
+  // Column 3: AI, Raycast, System, Any remaining categories
   // Column 4: Legend, How It Works
 
   const findCategory = (title: string) =>
@@ -192,7 +192,7 @@ function generateHTML(categories: Category[]): string {
   // Explicitly placed categories
   const col1Titles = ["General", "Direct Hyper"];
   const col2Titles = ["Query", "Open Apps", "Browse", "Window"];
-  const col3Titles = ["Raycast", "System", "AI"];
+  const col3Titles = ["AI", "Raycast", "System"];
 
   const col1Categories = col1Titles
     .map(findCategory)

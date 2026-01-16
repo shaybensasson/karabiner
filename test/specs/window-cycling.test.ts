@@ -17,6 +17,21 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
     });
   });
 
+  describe("VSCode (◆+8)", () => {
+    it("has valid window cycling rule", () => {
+      const result = validateWindowCyclingRule("8", "Visual Studio Code", "vscode_activated");
+      expect(result.valid).toBe(true);
+      expect(result.firstPressFound).toBe(true);
+      expect(result.subsequentPressFound).toBe(true);
+      expect(result.variableResetFound).toBe(true);
+    });
+
+    it("opens VSCode on first press", () => {
+      const result = validateWindowCyclingRule("8", "Visual Studio Code", "vscode_activated");
+      expect(result.appOpened?.toLowerCase()).toContain("visual studio code");
+    });
+  });
+
   describe("Chrome (◆+F4)", () => {
     it("has valid window cycling rule", () => {
       const result = validateWindowCyclingRule("f4", "Google Chrome", "chrome_activated");
@@ -67,6 +82,7 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
       const apps = [
         { key: "0", variable: "ghostty_activated" },
         { key: "9", variable: "cursor_activated" },
+        { key: "8", variable: "vscode_activated" },
         { key: "f4", variable: "chrome_activated" },
         { key: "f5", variable: "zoom_activated" },
       ];
@@ -81,6 +97,7 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
       const apps = [
         { key: "0", variable: "ghostty_activated" },
         { key: "9", variable: "cursor_activated" },
+        { key: "8", variable: "vscode_activated" },
         { key: "f4", variable: "chrome_activated" },
         { key: "f5", variable: "zoom_activated" },
       ];
