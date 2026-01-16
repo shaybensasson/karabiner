@@ -78,6 +78,11 @@ function transformShellCommand(cmd: string): string {
     return `echo "ACTION:new_instance:Cursor" >> ${ACTION_LOG_PATH}`;
   }
 
+  // VSCode CLI: code --new-window (with or without full path)
+  if (cmd.includes("code --new-window")) {
+    return `echo "ACTION:new_instance:Visual Studio Code" >> ${ACTION_LOG_PATH}`;
+  }
+
   if (cmd.startsWith("open -a ") || cmd.startsWith("open -g -a ")) {
     // App opening: open -a 'Google Chrome.app' or open -a Slack
     // Handle quoted app names (supports spaces in names)

@@ -41,6 +41,7 @@ const testCases: TestCase[] = [
   { name: "Open → Slack", keySequence: "Tap ◆, then O, then S", expectedAction: { type: "app", value: "Slack" } },
   // new_instance: Hold for new instance
   { name: "Cursor (hold - new instance)", keySequence: "Hold ◆ + HOLD 9 for 1 second", expectedAction: { type: "new_instance", value: "Cursor" } },
+  { name: "VSCode (hold - new instance)", keySequence: "Hold ◆ + HOLD 8 for 1 second", expectedAction: { type: "new_instance", value: "Visual Studio Code" } },
 ];
 
 let originalProfile: string | null = null;
