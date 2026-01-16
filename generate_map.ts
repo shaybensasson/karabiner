@@ -182,30 +182,36 @@ ${shortcuts}
 function generateHTML(categories: Category[]): string {
   // Distribute categories into 4 columns
   // Column 1: General, Direct Hyper
-  // Column 2: Query, Open Apps, Browse
-  // Column 3: Window, System, Move/Vim, Raycast
+  // Column 2: Query, Open Apps, Browse, Window
+  // Column 3: Raycast, System, AI, Any remaining categories
   // Column 4: Legend, How It Works
 
   const findCategory = (title: string) =>
     categories.find((c) => c.title === title);
 
-  const col1Categories = [
-    findCategory("General"),
-    findCategory("Direct Hyper"),
-  ].filter(Boolean) as Category[];
+  // Explicitly placed categories
+  const col1Titles = ["General", "Direct Hyper"];
+  const col2Titles = ["Query", "Open Apps", "Browse", "Window"];
+  const col3Titles = ["Raycast", "System", "AI"];
 
-  const col2Categories = [
-    findCategory("Query"),
-    findCategory("Open Apps"),
-    findCategory("Browse"),
-  ].filter(Boolean) as Category[];
+  const col1Categories = col1Titles
+    .map(findCategory)
+    .filter(Boolean) as Category[];
+
+  const col2Categories = col2Titles
+    .map(findCategory)
+    .filter(Boolean) as Category[];
+
+  // Collect any categories not explicitly assigned to ensure nothing is missed
+  const assignedTitles = new Set([...col1Titles, ...col2Titles, ...col3Titles]);
+  const remainingCategories = categories.filter(
+    (c) => !assignedTitles.has(c.title)
+  );
 
   const col3Categories = [
-    findCategory("Window"),
-    findCategory("System"),
-    findCategory("Move / Vim"),
-    findCategory("Raycast"),
-  ].filter(Boolean) as Category[];
+    ...col3Titles.map(findCategory).filter(Boolean),
+    ...remainingCategories,
+  ] as Category[];
 
   const col4Categories = [] as Category[];
 
