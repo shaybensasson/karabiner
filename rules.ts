@@ -703,33 +703,34 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
+  // NOTE: shayb | 18-01-26 | causes problems downstream on e.g. raycast or when renaming files in Finder
   // Finder: Backspace (alone) → Go Back (Cmd+[)
-  {
-    description: "Finder: Backspace → Go Back",
-    manipulators: [
-      {
-        type: "basic",
-        from: {
-          key_code: "delete_or_backspace",
-          modifiers: {
-            optional: ["caps_lock"],
-          },
-        },
-        to: [
-          {
-            key_code: "open_bracket",
-            modifiers: ["left_command"],
-          },
-        ],
-        conditions: [
-          {
-            type: "frontmost_application_if",
-            bundle_identifiers: ["^com\\.apple\\.finder$"],
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   description: "Finder: Backspace → Go Back",
+  //   manipulators: [
+  //     {
+  //       type: "basic",
+  //       from: {
+  //         key_code: "delete_or_backspace",
+  //         modifiers: {
+  //           optional: ["caps_lock"],
+  //         },
+  //       },
+  //       to: [
+  //         {
+  //           key_code: "open_bracket",
+  //           modifiers: ["left_command"],
+  //         },
+  //       ],
+  //       conditions: [
+  //         {
+  //           type: "frontmost_application_if",
+  //           bundle_identifiers: ["^com\\.apple\\.finder$"],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 ];
 
 fs.writeFileSync(
