@@ -313,6 +313,72 @@ export interface WindowCyclingValidationResult {
   errors: string[];
 }
 
+// ============================================================================
+// Reset Variables Rule Validators
+// ============================================================================
+
+export interface ResetVariablesValidationResult {
+  valid: boolean;
+  found: boolean;
+  variablesReset: string[];
+  errors: string[];
+}
+
+/**
+ * Find the reset all variables manipulator (fn + escape)
+ */
+export function findResetVariablesRule(
+  profileName: string = "Default"
+): Manipulator | undefined {
+  const manipulators = getManipulators(profileName);
+  return manipulators.find(
+    (m) =>
+      m.from.key_code === "escape" &&
+      m.from.modifiers?.mandatory?.includes("fn")
+  );
+}
+
+/**
+ * Validate that the reset variables rule exists and resets the expected variables
+ */
+export function validateResetVariablesRule(
+  expectedVariables: string[]
+): ResetVariablesValidationResult {
+  const errors: string[] = [];
+  const manipulator = findResetVariablesRule();
+
+  if (!manipulator) {
+    return {
+      valid: false,
+      found: false,
+      variablesReset: [],
+      errors: ["Reset variables rule (fn + escape) not found"],
+    };
+  }
+
+  // Get all variables that are reset
+  const variablesReset: string[] = [];
+  for (const to of manipulator.to || []) {
+    if (to.set_variable?.name && to.set_variable?.value === 0) {
+      variablesReset.push(to.set_variable.name);
+    }
+  }
+
+  // Check that all expected variables are reset
+  for (const expected of expectedVariables) {
+    if (!variablesReset.includes(expected)) {
+      errors.push(`Expected variable "${expected}" to be reset, but it wasn't`);
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    found: true,
+    variablesReset,
+    errors,
+  };
+}
+
 /**
  * Validate a complete window cycling rule for an app
  */

@@ -8,6 +8,117 @@
       "complex_modifications": {
         "rules": [
           {
+            "description": "Reset all variables (fn + escape)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "escape",
+                  "modifiers": {
+                    "mandatory": [
+                      "fn"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_b",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_q",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_o",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_w",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_s",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_r",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_a",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "ghostty_activated",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "cursor_activated",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "vscode_activated",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "chrome_activated",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "zoom_activated",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "ghostty_activated_hold_sent",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "cmd_q_pressed",
+                      "value": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Caps Lock → Hyper Key (tap alone → Caps Lock)",
             "manipulators": [
               {

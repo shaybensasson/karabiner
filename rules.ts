@@ -223,6 +223,7 @@ export const generalMappings: {
 export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "⇪ (hold)", description: "Hyper Key (⌃⌥⇧⌘)" },
   { keys: "⇪ (tap)", description: "Toggle Caps Lock" },
+  { keys: "fn+Esc", description: "Reset All Variables" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
   { keys: "⇧R (alone)", description: "Move Forward 1 Word" },
@@ -474,7 +475,47 @@ function createGeneralMappingRules(): KarabinerRules {
 // Karabiner Rules
 // ============================================================================
 
+/**
+ * Generate all variable names that need to be reset.
+ * This includes hyper, all sublayer variables, window cycling variables, and hold-sent variables.
+ */
+function getAllVariableNames(): string[] {
+  const sublayerKeys = Object.keys(hyperSubLayers) as KeyCode[];
+  const sublayerVariables = sublayerKeys.map((key) => `hyper_sublayer_${key}`);
+  const windowCyclingVariables = windowCyclingShortcuts.map((s) => s.variableName);
+  const holdSentVariables = windowCyclingShortcuts
+    .filter((s) => s.holdKey)
+    .map((s) => `${s.variableName}_hold_sent`);
+
+  return [
+    "hyper",
+    ...sublayerVariables,
+    ...windowCyclingVariables,
+    ...holdSentVariables,
+    "cmd_q_pressed",
+  ];
+}
+
 const rules: KarabinerRules[] = [
+  // Reset all variables (fn + escape) - useful when state gets stuck
+  {
+    description: "Reset all variables (fn + escape)",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "escape",
+          modifiers: {
+            mandatory: ["fn"],
+            optional: ["caps_lock"],
+          },
+        },
+        to: getAllVariableNames().map((name) => ({
+          set_variable: { name, value: 0 },
+        })),
+      },
+    ],
+  },
   // Caps Lock → Hyper Key (tap alone → toggle Caps Lock)
   {
     description: "Caps Lock → Hyper Key (tap alone → Caps Lock)",
