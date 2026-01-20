@@ -228,9 +228,7 @@ export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "⌘H", description: "Disabled (except IDE)" },
   { keys: "⇧L+⇧R", description: "Move Forward 1 Word (hold L, tap R)" },
   { keys: "⇧R+⇧L", description: "Move Backward 1 Word (hold R, tap L)" },
-  { keys: "⌫ (Finder)", description: "Go Back (⌘[)" },
-  { keys: "◆+0 (hold)", description: "New Ghostty Window (⌘N when frontmost)" },
-  { keys: "◆+9/F4 (hold 1st)", description: "New App Instance" },
+  // { keys: "⌫ (Finder)", description: "Go Back (⌘[)" },
 ];
 
 /**
