@@ -1383,19 +1383,19 @@
             ]
           },
           {
-            "description": "Shifts Move Forward and Backward by 1 word",
+            "description": "Shifts Move Forward and Backward by 1 word (when other shift held)",
             "manipulators": [
               {
                 "type": "basic",
                 "from": {
-                  "key_code": "right_shift"
+                  "key_code": "right_shift",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ]
+                  }
                 },
                 "to": [
-                  {
-                    "key_code": "right_shift"
-                  }
-                ],
-                "to_if_alone": [
                   {
                     "key_code": "right_arrow",
                     "modifiers": [
@@ -1407,14 +1407,14 @@
               {
                 "type": "basic",
                 "from": {
-                  "key_code": "left_shift"
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_shift"
+                    ]
+                  }
                 },
                 "to": [
-                  {
-                    "key_code": "left_shift"
-                  }
-                ],
-                "to_if_alone": [
                   {
                     "key_code": "left_arrow",
                     "modifiers": [
