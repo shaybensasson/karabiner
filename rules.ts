@@ -226,8 +226,8 @@ export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "fn+Esc", description: "Reset All Variables" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
-  { keys: "⇧R (alone)", description: "Move Forward 1 Word" },
-  { keys: "⇧L (alone)", description: "Move Backward 1 Word" },
+  { keys: "⇧L+⇧R", description: "Move Forward 1 Word (hold L, tap R)" },
+  { keys: "⇧R+⇧L", description: "Move Backward 1 Word (hold R, tap L)" },
   { keys: "⌫ (Finder)", description: "Go Back (⌘[)" },
   { keys: "◆+0 (hold)", description: "New Ghostty Window (⌘N when frontmost)" },
   { keys: "◆+9/F4 (hold 1st)", description: "New App Instance" },
@@ -676,21 +676,19 @@ const rules: KarabinerRules[] = [
       },
     ],
   },
-  // Shift keys move by word when tapped alone
+  // Shift keys move by word when other shift is held
   {
-    description: "Shifts Move Forward and Backward by 1 word",
+    description: "Shifts Move Forward and Backward by 1 word (when other shift held)",
     manipulators: [
       {
         type: "basic",
         from: {
           key_code: "right_shift",
+          modifiers: {
+            mandatory: ["left_shift"],
+          },
         },
         to: [
-          {
-            key_code: "right_shift",
-          },
-        ],
-        to_if_alone: [
           {
             key_code: "right_arrow",
             modifiers: ["option"],
@@ -701,13 +699,11 @@ const rules: KarabinerRules[] = [
         type: "basic",
         from: {
           key_code: "left_shift",
+          modifiers: {
+            mandatory: ["right_shift"],
+          },
         },
         to: [
-          {
-            key_code: "left_shift",
-          },
-        ],
-        to_if_alone: [
           {
             key_code: "left_arrow",
             modifiers: ["option"],
