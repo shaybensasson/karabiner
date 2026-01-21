@@ -16,7 +16,11 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  // Note: ◆ O M (Spotify) removed - now using ◆+F8 direct shortcut
+  it("◆ O M → opens Superhuman", () => {
+    const result = validateSublayerCommand("o", "m", { type: "app", value: "Superhuman" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
 
   it("◆ O W → opens WhatsApp", () => {
     const result = validateSublayerCommand("o", "w", { type: "app", value: "WhatsApp" });
