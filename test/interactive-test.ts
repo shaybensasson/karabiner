@@ -33,8 +33,8 @@ const testCases: TestCase[] = [
   // One test per action type:
   // raycast: Direct Hyper shortcut
   { name: "Window Left Half", keySequence: "Hold ◆ (Caps Lock) + Press ←", expectedAction: { type: "raycast", value: "left-half" } },
-  // key: Direct Hyper shortcut
-  { name: "F1 → F13", keySequence: "Hold ◆ (Caps Lock) + Press F1", expectedAction: { type: "key", value: "f13" } },
+  // url: Direct Hyper shortcut
+  { name: "F1 → Gemini Web", keySequence: "Hold ◆ (Caps Lock) + Press F1", expectedAction: { type: "url", value: "gemini.google.com" } },
   // url: Browse sublayer
   { name: "Browse → Calendar", keySequence: "Tap ◆, then B, then C", expectedAction: { type: "url", value: "calendar.google.com" } },
   // app: Open Apps sublayer

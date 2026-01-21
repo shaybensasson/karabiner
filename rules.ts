@@ -51,6 +51,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       l: { description: "LastPass", to: [{ key_code: "5", modifiers: ["left_control", "left_command"] }] }, // The lastpass app must be running.
       m: open("raycast://extensions/raycast/navigation/search-menu-items", "Menu Items Search"),
       o: open("raycast://extensions/marcjulian/obsidian/searchNoteCommand", "Obsidian Note Search"),
+      d: open("raycast://extensions/chyroc/the-blue-cloud/search-dropbox-files", "Dropbox Search"),
     },
   },
 
@@ -152,8 +153,8 @@ export const directHyperShortcuts: {
   { key: "4", description: "Obsidian", action: "open -a 'Obsidian.app'" },
   { key: "non_us_backslash", keyDisplay: "§", description: "Noiseless", action: "open 'raycast://script-commands/noiseless'" },
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
-  { key: "f1", keyDisplay: "F1", description: "ChatGPT app", toKeyCode: "f13" },
-  { key: "f2", keyDisplay: "F2", description: "Claude app", toKeyCode: "f14" },
+  { key: "f1", keyDisplay: "F1", description: "Browse Gemini Web", action: "open 'https://gemini.google.com/u/1/app?pageId=none'" },
+  { key: "f2", keyDisplay: "F2", description: "Browse ChatGPT Web", action: "open 'https://chat.openai.com/chat'" },
   { key: "f3", keyDisplay: "F3", description: "Keyboard Shortcuts PDF", action: "open '/Users/shay/github/karabiner/keyboard-shortcuts.pdf'" },
   { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
   { key: "f12", keyDisplay: "F12", description: "Select Audio Output", action: "open 'raycast://extensions/benvp/audio-device/set-output-device'" },
