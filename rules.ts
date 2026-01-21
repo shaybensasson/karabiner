@@ -63,7 +63,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       f: open("raycast://script-commands/new-finder-instance", "New Finder"),
       v: open("raycast://script-commands/run-vlc-with-iptv", "VLC with IPTV"),
       l: app("LastPass for Desktop", "LastPass"),
-      // m: app("Spotify"), // Replaced by ◆+F8 (direct shortcut)
+      m: app("Superhuman"),
       s: app("Slack"),
       // t: could repurpose for Terminal.app (Ghostty is ◆+0 window cycling)
       w: app("WhatsApp"),

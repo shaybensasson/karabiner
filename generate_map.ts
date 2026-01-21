@@ -191,8 +191,8 @@ function generateHTML(categories: Category[]): string {
 
   // Explicitly placed categories
   const col1Titles = ["General", "Direct Hyper"];
-  const col2Titles = ["Query", "Open Apps", "Browse", "Window"];
-  const col3Titles = ["AI", "Raycast", "System"];
+  const col2Titles = ["Query", "Open Apps", "Browse"];
+  const col3Titles = ["AI", "Raycast", "System", "Window"];
 
   const col1Categories = col1Titles
     .map(findCategory)
