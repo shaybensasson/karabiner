@@ -38,14 +38,14 @@ describe("Direct Hyper Shortcuts (◆ + key) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ + F1 → sends F13", () => {
-    const result = validateDirectHyperShortcut("f1", { type: "key", value: "f13" });
+  it("◆ + F1 → opens Gemini Web", () => {
+    const result = validateDirectHyperShortcut("f1", { type: "url", value: "gemini.google.com" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
 
-  it("◆ + F2 → sends F14", () => {
-    const result = validateDirectHyperShortcut("f2", { type: "key", value: "f14" });
+  it("◆ + F2 → opens ChatGPT Web", () => {
+    const result = validateDirectHyperShortcut("f2", { type: "url", value: "chat.openai.com" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
