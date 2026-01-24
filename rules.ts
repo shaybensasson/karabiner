@@ -496,22 +496,47 @@ function getAllVariableNames(): string[] {
 }
 
 const rules: KarabinerRules[] = [
-  // Reset all variables (fn + escape) - useful when state gets stuck
+  // Reset all variables (double tap escape) - useful when state gets stuck
   {
-    description: "Reset all variables (fn + escape)",
+    description: "Reset all variables (double tap escape)",
     manipulators: [
+      // Second tap: if escape_pressed is set, reset all variables
       {
         type: "basic",
         from: {
           key_code: "escape",
           modifiers: {
-            mandatory: ["fn"],
             optional: ["caps_lock"],
           },
         },
-        to: getAllVariableNames().map((name) => ({
-          set_variable: { name, value: 0 },
-        })),
+        conditions: [{ type: "variable_if", name: "escape_pressed", value: 1 }],
+        to: [
+          { set_variable: { name: "escape_pressed", value: 0 } },
+          ...getAllVariableNames().map((name) => ({
+            set_variable: { name, value: 0 },
+          })),
+        ],
+      },
+      // First tap: set escape_pressed, send escape, start timer
+      {
+        type: "basic",
+        from: {
+          key_code: "escape",
+          modifiers: {
+            optional: ["caps_lock"],
+          },
+        },
+        to: [
+          { set_variable: { name: "escape_pressed", value: 1 } },
+          { key_code: "escape" },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [{ set_variable: { name: "escape_pressed", value: 0 } }],
+          to_if_canceled: [{ set_variable: { name: "escape_pressed", value: 0 } }],
+        },
+        parameters: {
+          "basic.to_delayed_action_delay_milliseconds": 300,
+        },
       },
     ],
   },
