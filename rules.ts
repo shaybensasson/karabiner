@@ -224,7 +224,7 @@ export const generalMappings: {
 export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "⇪ (hold)", description: "Hyper Key (⌃⌥⇧⌘)" },
   { keys: "⇪ (tap)", description: "Toggle Caps Lock" },
-  { keys: "fn+Esc", description: "Reset All Variables" },
+  { keys: "Esc Esc", description: "Reset All Variables" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
   { keys: "⇧L+⇧R", description: "Move Forward 1 Word (hold L, tap R)" },
