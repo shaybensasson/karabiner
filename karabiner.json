@@ -20,6 +20,13 @@
                     ]
                   }
                 },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper",
+                    "value": 0
+                  }
+                ],
                 "to": [
                   {
                     "set_variable": {

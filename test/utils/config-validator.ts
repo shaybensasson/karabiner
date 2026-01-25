@@ -332,11 +332,11 @@ export function findResetVariablesRule(
 ): Manipulator | undefined {
   const manipulators = getManipulators(profileName);
   // Find the escape manipulator that resets all variables
-  // It should set multiple variables to 0 and pass through escape
+  // It fires when hyper is NOT active, resets variables, and passes through escape
   return manipulators.find(
     (m) =>
       m.from.key_code === "escape" &&
-      !m.conditions?.length && // No conditions - fires on every escape
+      m.conditions?.some((c) => c.type === "variable_if" && c.name === "hyper" && c.value === 0) &&
       m.to?.some((t) => t.set_variable?.value === 0) && // Resets variables
       m.to?.some((t) => t.key_code === "escape") // Passes through escape
   );
