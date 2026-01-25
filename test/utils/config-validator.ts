@@ -325,23 +325,20 @@ export interface ResetVariablesValidationResult {
 }
 
 /**
- * Find the reset all variables manipulator (double tap escape)
+ * Find the reset all variables manipulator (escape key)
  */
 export function findResetVariablesRule(
   profileName: string = "Default"
 ): Manipulator | undefined {
   const manipulators = getManipulators(profileName);
-  // Find the second-tap manipulator that resets all variables
-  // It checks for escape_pressed condition and resets variables
+  // Find the escape manipulator that resets all variables
+  // It should set multiple variables to 0 and pass through escape
   return manipulators.find(
     (m) =>
       m.from.key_code === "escape" &&
-      m.conditions?.some(
-        (c) =>
-          c.type === "variable_if" &&
-          c.name === "escape_pressed" &&
-          c.value === 1
-      )
+      !m.conditions?.length && // No conditions - fires on every escape
+      m.to?.some((t) => t.set_variable?.value === 0) && // Resets variables
+      m.to?.some((t) => t.key_code === "escape") // Passes through escape
   );
 }
 
@@ -359,7 +356,7 @@ export function validateResetVariablesRule(
       valid: false,
       found: false,
       variablesReset: [],
-      errors: ["Reset variables rule (double tap escape) not found"],
+      errors: ["Reset variables rule (escape) not found"],
     };
   }
 
