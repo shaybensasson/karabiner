@@ -224,7 +224,7 @@ export const generalMappings: {
 export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "⇪ (hold)", description: "Hyper Key (⌃⌥⇧⌘)" },
   { keys: "⇪ (tap)", description: "Toggle Caps Lock" },
-  { keys: "Esc Esc", description: "Reset All Variables" },
+  { keys: "Esc", description: "Reset All Variables" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
   { keys: "⇧L+⇧R", description: "Move Forward 1 Word (hold L, tap R)" },
@@ -496,11 +496,10 @@ function getAllVariableNames(): string[] {
 }
 
 const rules: KarabinerRules[] = [
-  // Reset all variables (double tap escape) - useful when state gets stuck
+  // Reset all variables on escape - passes through escape to OS
   {
-    description: "Reset all variables (double tap escape)",
+    description: "Reset all variables (escape)",
     manipulators: [
-      // Second tap: if escape_pressed is set, reset all variables
       {
         type: "basic",
         from: {
@@ -509,34 +508,14 @@ const rules: KarabinerRules[] = [
             optional: ["caps_lock"],
           },
         },
-        conditions: [{ type: "variable_if", name: "escape_pressed", value: 1 }],
         to: [
-          { set_variable: { name: "escape_pressed", value: 0 } },
+          // Reset all variables first
           ...getAllVariableNames().map((name) => ({
             set_variable: { name, value: 0 },
           })),
-        ],
-      },
-      // First tap: set escape_pressed, send escape, start timer
-      {
-        type: "basic",
-        from: {
-          key_code: "escape",
-          modifiers: {
-            optional: ["caps_lock"],
-          },
-        },
-        to: [
-          { set_variable: { name: "escape_pressed", value: 1 } },
+          // Then pass through escape to OS
           { key_code: "escape" },
         ],
-        to_delayed_action: {
-          to_if_invoked: [{ set_variable: { name: "escape_pressed", value: 0 } }],
-          to_if_canceled: [{ set_variable: { name: "escape_pressed", value: 0 } }],
-        },
-        parameters: {
-          "basic.to_delayed_action_delay_milliseconds": 300,
-        },
       },
     ],
   },

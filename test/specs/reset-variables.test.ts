@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { validateResetVariablesRule } from "../utils/config-validator";
 
-describe("Reset All Variables (double tap escape) - Config Validation", () => {
+describe("Reset All Variables (escape) - Config Validation", () => {
   it("rule exists and resets hyper variable", () => {
     const result = validateResetVariablesRule(["hyper"]);
     expect(result.found).toBe(true);

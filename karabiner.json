@@ -8,7 +8,7 @@
       "complex_modifications": {
         "rules": [
           {
-            "description": "Reset all variables (double tap escape)",
+            "description": "Reset all variables (escape)",
             "manipulators": [
               {
                 "type": "basic",
@@ -20,20 +20,7 @@
                     ]
                   }
                 },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "escape_pressed",
-                    "value": 1
-                  }
-                ],
                 "to": [
-                  {
-                    "set_variable": {
-                      "name": "escape_pressed",
-                      "value": 0
-                    }
-                  },
                   {
                     "set_variable": {
                       "name": "hyper",
@@ -123,51 +110,11 @@
                       "name": "cmd_q_pressed",
                       "value": 0
                     }
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "caps_lock"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "set_variable": {
-                      "name": "escape_pressed",
-                      "value": 1
-                    }
                   },
                   {
                     "key_code": "escape"
                   }
-                ],
-                "to_delayed_action": {
-                  "to_if_invoked": [
-                    {
-                      "set_variable": {
-                        "name": "escape_pressed",
-                        "value": 0
-                      }
-                    }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "escape_pressed",
-                        "value": 0
-                      }
-                    }
-                  ]
-                },
-                "parameters": {
-                  "basic.to_delayed_action_delay_milliseconds": 300
-                }
+                ]
               }
             ]
           },
