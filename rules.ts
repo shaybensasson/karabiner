@@ -497,6 +497,7 @@ function getAllVariableNames(): string[] {
 
 const rules: KarabinerRules[] = [
   // Reset all variables on escape - passes through escape to OS
+  // Only when hyper is NOT active (so Hyper+Escape still works for Meckano)
   {
     description: "Reset all variables (escape)",
     manipulators: [
@@ -508,6 +509,7 @@ const rules: KarabinerRules[] = [
             optional: ["caps_lock"],
           },
         },
+        conditions: [{ type: "variable_if", name: "hyper", value: 0 }],
         to: [
           // Reset all variables first
           ...getAllVariableNames().map((name) => ({
