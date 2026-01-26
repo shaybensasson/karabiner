@@ -227,6 +227,7 @@ export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "Esc", description: "Reset All Variables" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
+  { keys: "F11", description: "IDE: F11 | Other: F19" },
   { keys: "⇧L+⇧R", description: "Move Forward 1 Word (hold L, tap R)" },
   { keys: "⇧R+⇧L", description: "Move Backward 1 Word (hold R, tap L)" },
   // { keys: "⌫ (Finder)", description: "Go Back (⌘[)" },
@@ -655,6 +656,43 @@ const rules: KarabinerRules[] = [
   },
   // General key remappings (generated from generalMappings)
   createGeneralMappingRules(),
+  // F11: passthrough in IDE, F19 (Show Desktop) elsewhere
+  {
+    description: "F11 → F19 (except VSCode/Cursor)",
+    manipulators: [
+      // F11 passes through in VSCode/Cursor
+      {
+        type: "basic",
+        from: {
+          key_code: "f11",
+          modifiers: {
+            optional: ["any"],
+          },
+        },
+        to: [{ key_code: "f11" }],
+        conditions: [
+          {
+            type: "frontmost_application_if",
+            bundle_identifiers: [
+              "^com\\.microsoft\\.VSCode$",
+              "^com\\.todesktop\\.230313mzl4w4u92$", // Cursor
+            ],
+          },
+        ],
+      },
+      // F11 → F19 in all other apps
+      {
+        type: "basic",
+        from: {
+          key_code: "f11",
+          modifiers: {
+            optional: ["any"],
+          },
+        },
+        to: [{ key_code: "f19" }],
+      },
+    ],
+  },
   // Disable cmd+h (hide app) except in VSCode/Cursor where it's used for search & replace
   {
     description: "Disable command-h (except VSCode/Cursor)",
