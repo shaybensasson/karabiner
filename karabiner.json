@@ -1357,6 +1357,52 @@
             ]
           },
           {
+            "description": "F11 → F19 (except VSCode/Cursor)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f11",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "f11"
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f11",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "f19"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Disable command-h (except VSCode/Cursor)",
             "manipulators": [
               {
