@@ -680,14 +680,12 @@ const rules: KarabinerRules[] = [
           },
         ],
       },
-      // F11 → F19 in all other apps
+      // F11 → F19 in all other apps (only when no modifiers held)
+      // Modifier+F11 falls through to OS default (e.g., fn+F11 for media keys)
       {
         type: "basic",
         from: {
           key_code: "f11",
-          modifiers: {
-            optional: ["any"],
-          },
         },
         to: [{ key_code: "f19" }],
       },
