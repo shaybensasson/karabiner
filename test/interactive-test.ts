@@ -33,6 +33,8 @@ const testCases: TestCase[] = [
   // One test per action type:
   // raycast: Direct Hyper shortcut
   { name: "Window Left Half", keySequence: "Hold ◆ (Caps Lock) + Press ←", expectedAction: { type: "raycast", value: "left-half" } },
+  // raycast: Window quarters
+  { name: "Window Top Right Quarter", keySequence: "Hold ◆ (Caps Lock) + Press PageUp", expectedAction: { type: "raycast", value: "top-right-quarter" } },
   // url: Direct Hyper shortcut
   { name: "F1 → Gemini Web", keySequence: "Hold ◆ (Caps Lock) + Press F1", expectedAction: { type: "url", value: "gemini.google.com" } },
   // url: Browse sublayer

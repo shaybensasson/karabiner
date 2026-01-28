@@ -38,6 +38,42 @@ describe("Direct Hyper Shortcuts (◆ + key) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
+  it("◆ + PageUp → window top right quarter", () => {
+    const result = validateDirectHyperShortcut("page_up", {
+      type: "raycast",
+      value: "window-management/top-right-quarter",
+    });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
+  it("◆ + PageDown → window bottom right quarter", () => {
+    const result = validateDirectHyperShortcut("page_down", {
+      type: "raycast",
+      value: "window-management/bottom-right-quarter",
+    });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
+  it("◆ + Home → window top left quarter", () => {
+    const result = validateDirectHyperShortcut("home", {
+      type: "raycast",
+      value: "window-management/top-left-quarter",
+    });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
+  it("◆ + End → window bottom left quarter", () => {
+    const result = validateDirectHyperShortcut("end", {
+      type: "raycast",
+      value: "window-management/bottom-left-quarter",
+    });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
   it("◆ + F1 → opens Gemini Web", () => {
     const result = validateDirectHyperShortcut("f1", { type: "url", value: "gemini.google.com" });
     expect(result.found).toBe(true);
