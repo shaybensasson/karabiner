@@ -62,6 +62,21 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
     });
   });
 
+  describe("Obsidian (◆+4)", () => {
+    it("has valid window cycling rule", () => {
+      const result = validateWindowCyclingRule("4", "Obsidian", "obsidian_activated");
+      expect(result.valid).toBe(true);
+      expect(result.firstPressFound).toBe(true);
+      expect(result.subsequentPressFound).toBe(true);
+      expect(result.variableResetFound).toBe(true);
+    });
+
+    it("opens Obsidian on first press", () => {
+      const result = validateWindowCyclingRule("4", "Obsidian", "obsidian_activated");
+      expect(result.appOpened?.toLowerCase()).toContain("obsidian");
+    });
+  });
+
   describe("Ghostty (◆+0)", () => {
     it("has valid window cycling rule", () => {
       const result = validateWindowCyclingRule("0", "Ghostty", "ghostty_activated");
@@ -83,6 +98,7 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
         { key: "0", variable: "ghostty_activated" },
         { key: "9", variable: "cursor_activated" },
         { key: "8", variable: "vscode_activated" },
+        { key: "4", variable: "obsidian_activated" },
         { key: "f4", variable: "chrome_activated" },
         { key: "f5", variable: "zoom_activated" },
       ];
@@ -98,6 +114,7 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
         { key: "0", variable: "ghostty_activated" },
         { key: "9", variable: "cursor_activated" },
         { key: "8", variable: "vscode_activated" },
+        { key: "4", variable: "obsidian_activated" },
         { key: "f4", variable: "chrome_activated" },
         { key: "f5", variable: "zoom_activated" },
       ];

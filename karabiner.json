@@ -96,6 +96,12 @@
                   },
                   {
                     "set_variable": {
+                      "name": "obsidian_activated",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
                       "name": "chrome_activated",
                       "value": 0
                     }
@@ -168,6 +174,12 @@
                   {
                     "set_variable": {
                       "name": "vscode_activated",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "obsidian_activated",
                       "value": 0
                     }
                   },
@@ -555,6 +567,84 @@
                   {
                     "type": "variable_if",
                     "name": "vscode_activated",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Hyper+4: Obsidian (cycle windows)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "4",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "non_us_backslash",
+                    "modifiers": [
+                      "command"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper",
+                    "value": 1
+                  },
+                  {
+                    "type": "variable_if",
+                    "name": "obsidian_activated",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "4",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'Obsidian.app'"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "obsidian_activated",
+                      "value": 1
+                    }
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "shell_command": "open -na 'Obsidian.app'"
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_held_down_threshold_milliseconds": 500
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper",
+                    "value": 1
+                  },
+                  {
+                    "type": "variable_if",
+                    "name": "obsidian_activated",
                     "value": 0
                   }
                 ]
@@ -1015,35 +1105,6 @@
                 "to": [
                   {
                     "shell_command": "open 'https://app.clickup.com/3843235/inbox?tab=primary'"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "hyper",
-                      "value": 0
-                    }
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "4",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "open -a 'Obsidian.app'"
                   },
                   {
                     "set_variable": {

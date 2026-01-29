@@ -154,7 +154,6 @@ export const directHyperShortcuts: {
   { key: "1", description: "Google Calendar", action: "open 'https://calendar.google.com/calendar/u/2/r?pli=1'" },
   { key: "2", description: "Gmail", action: "open 'https://mail.google.com/mail/u/2/#inbox'" },
   { key: "3", description: "ClickUp Inbox", action: "open 'https://app.clickup.com/3843235/inbox?tab=primary'" },
-  { key: "4", description: "Obsidian", action: "open -a 'Obsidian.app'" },
   { key: "non_us_backslash", keyDisplay: "§", description: "Noiseless", action: "open 'raycast://script-commands/noiseless'" },
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
   { key: "f1", keyDisplay: "F1", description: "Browse Gemini Web", action: "open 'https://gemini.google.com/u/1/app?pageId=none'" },
@@ -185,6 +184,7 @@ export const windowCyclingShortcuts: {
   { key: "0", description: "Ghostty (cycle windows)", appName: "Ghostty.app", variableName: "ghostty_activated", bundleIdentifier: "com.mitchellh.ghostty", holdKey: "n", holdModifiers: ["left_command"] },
   { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated", newInstanceCommand: "/usr/local/bin/cursor --new-window" },
   { key: "8", description: "VSCode (cycle windows)", appName: "Visual Studio Code.app", variableName: "vscode_activated", newInstanceCommand: "/Users/shay/.local/bin/vscode --new-window" },
+  { key: "4", description: "Obsidian (cycle windows)", appName: "Obsidian.app", variableName: "obsidian_activated", newInstanceCommand: "open -na 'Obsidian.app'" },
   { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)", appName: "Google Chrome.app", variableName: "chrome_activated", newInstanceCommand: "open -na 'Google Chrome.app'" },
   { key: "f5", keyDisplay: "F5", description: "Zoom (cycle windows)", appName: "zoom.us.app", variableName: "zoom_activated" },
 ];
