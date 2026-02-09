@@ -67,6 +67,10 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       s: app("Slack"),
       // t: could repurpose for Terminal.app (Ghostty is ◆+0 window cycling)
       w: app("WhatsApp"),
+      r: open(
+        "/System/Library/CoreServices/Finder.app/Contents/Resources/MyLibraries/myDocuments.cannedSearch",
+        "Finder Recents",
+      ),
       y: shellCmd("open -a Safari https://music.youtube.com", "YouTube Music"),
       z: open("raycast://extensions/raycast/zoom/start-meeting", "Start Zoom Meeting"),
     },
