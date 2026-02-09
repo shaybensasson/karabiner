@@ -30,7 +30,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       g: open("https://gemini.google.com/u/1/app?pageId=none", "Gemini"),
       h: open("https://www.youtube.com/feed/history", "YouTube History"),
       o: open("https://chat.openai.com/chat", "ChatGPT (Web)"),
-      p: open("https://neurohelp-pitch.vercel.app/?log=debug", "NeuroHelp Pitch"),
+      p: open("http://localhost:4200/", "Prefect (localOW) Server"),
       r: open("https://reddit.com", "Reddit"),
       t: open("https://my.timeless.day/", "Timeless"),
       u: open("https://app.clickup.com/3843235/v/b/7-3843235-2", "ClickUp"),
