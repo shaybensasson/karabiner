@@ -51,4 +51,10 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
+
+  it("◆ O R → opens Finder Recents", () => {
+    const result = validateSublayerCommand("o", "r", { type: "file", value: "Finder" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
 });
