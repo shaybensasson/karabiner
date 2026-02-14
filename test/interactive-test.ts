@@ -41,9 +41,9 @@ const testCases: TestCase[] = [
   { name: "Browse → Calendar", keySequence: "Tap ◆, then B, then C", expectedAction: { type: "url", value: "calendar.google.com" } },
   // app: Open Apps sublayer
   { name: "Open → Slack", keySequence: "Tap ◆, then O, then S", expectedAction: { type: "app", value: "Slack" } },
-  // new_instance: Hold for new instance
-  { name: "Cursor (hold - new instance)", keySequence: "Hold ◆ + HOLD 9 for 1 second", expectedAction: { type: "new_instance", value: "Cursor" } },
-  { name: "VSCode (hold - new instance)", keySequence: "Hold ◆ + HOLD 8 for 1 second", expectedAction: { type: "new_instance", value: "Visual Studio Code" } },
+  // new_instance: First press uses new instance command
+  { name: "Cursor (first press - new instance)", keySequence: "Hold ◆ (Caps Lock) + Tap 9", expectedAction: { type: "new_instance", value: "Cursor" } },
+  { name: "VSCode (first press - new instance)", keySequence: "Hold ◆ (Caps Lock) + Tap 8", expectedAction: { type: "new_instance", value: "Visual Studio Code" } },
 ];
 
 let originalProfile: string | null = null;
