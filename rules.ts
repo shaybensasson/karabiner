@@ -52,6 +52,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       m: open("raycast://extensions/raycast/navigation/search-menu-items", "Menu Items Search"),
       o: open("raycast://extensions/marcjulian/obsidian/searchNoteCommand", "Obsidian Note Search"),
       d: open("raycast://extensions/chyroc/the-blue-cloud/search-dropbox-files", "Dropbox Search"),
+      r: open("raycast://extensions/ewlcheng/reddit-search/index", "Reddit Search"),
     },
   },
 
