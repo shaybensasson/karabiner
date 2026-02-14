@@ -116,15 +116,21 @@ export function getToKeyCode(manipulator: Manipulator): string | undefined {
  * Check if a shell command opens an app
  */
 export function extractAppName(shellCommand: string): string | undefined {
-  // Match: open [-g] -a 'App Name.app' or open -a "App Name"
+  // Match: open [-g] -a 'App Name.app' or open -na 'App Name.app' or open -a "App Name"
   // Use greedy matching and explicitly handle .app suffix
-  const match = shellCommand.match(/open\s+(?:-[a-z]\s+)*-a\s+['"]([^'"]+)['"]|open\s+(?:-[a-z]\s+)*-a\s+(\S+)/);
+  const match = shellCommand.match(/open\s+(?:-[a-z]+\s+)*-n?a\s+['"]([^'"]+)['"]|open\s+(?:-[a-z]+\s+)*-n?a\s+(\S+)/);
   let appName = match?.[1] || match?.[2];
   // Remove .app suffix if present
   if (appName?.endsWith(".app")) {
     appName = appName.slice(0, -4);
   }
-  return appName;
+  if (appName) return appName;
+
+  // Fallback: extract binary name from CLI commands (e.g., /usr/local/bin/cursor --new-window)
+  const cliMatch = shellCommand.match(/(?:^|\/)([^/\s]+)\s+--new-window/);
+  if (cliMatch) return cliMatch[1];
+
+  return undefined;
 }
 
 /**
