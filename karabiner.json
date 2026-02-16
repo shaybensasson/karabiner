@@ -619,7 +619,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "[ -n \"$(lsappinfo find name='Obsidian')\" ] && open -a 'Obsidian.app' || open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'"
+                    "shell_command": "APP_ASN=$(lsappinfo find name='Obsidian'); [ -n \"$APP_ASN\" ] && lsappinfo visibleProcessList | grep -q \"$APP_ASN\" && open -a 'Obsidian.app' || open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'"
                   },
                   {
                     "set_variable": {

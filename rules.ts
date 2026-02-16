@@ -179,6 +179,7 @@ export const windowCyclingShortcuts: {
   appName: string;
   variableName: string;
   newInstanceCommand?: string; // Shell command to open new instance (used on first press)
+  useVisibleWindowCheck?: boolean; // Check visible windows instead of lsappinfo registration (for apps that run in background without windows)
   cycleCommand?: string; // Custom shell command to cycle windows (default: Cmd+`)
   // Optional: hold-when-frontmost behavior (sends keystroke on hold when app is frontmost)
   bundleIdentifier?: string; // For frontmost app condition
@@ -188,7 +189,7 @@ export const windowCyclingShortcuts: {
   { key: "0", description: "Ghostty (cycle windows)", appName: "Ghostty.app", variableName: "ghostty_activated", bundleIdentifier: "com.mitchellh.ghostty", holdKey: "n", holdModifiers: ["left_command"] },
   { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated", newInstanceCommand: "/usr/local/bin/cursor --new-window" },
   { key: "8", description: "VSCode (cycle windows)", appName: "Visual Studio Code.app", variableName: "vscode_activated", newInstanceCommand: "/Users/shay/.local/bin/vscode --new-window" },
-  { key: "4", description: "Obsidian (cycle windows)", appName: "Obsidian.app", variableName: "obsidian_activated", newInstanceCommand: "open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'" },
+  { key: "4", description: "Obsidian (cycle windows)", appName: "Obsidian.app", variableName: "obsidian_activated", newInstanceCommand: "open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'", useVisibleWindowCheck: true },
   { key: "f4", keyDisplay: "F4", description: "Chrome (cycle windows)", appName: "Google Chrome.app", variableName: "chrome_activated", newInstanceCommand: "open -na 'Google Chrome.app'" },
   { key: "f5", keyDisplay: "F5", description: "Zoom (cycle windows)", appName: "zoom.us.app", variableName: "zoom_activated" },
 ];
@@ -292,12 +293,18 @@ function createWindowCyclingRules(): KarabinerRules[] {
           modifiers: ["command"] as ModifiersKeys[],
         };
 
-    // First press command: if newInstanceCommand is defined, check if app is registered
-    // with Launch Services (lsappinfo). Unlike pgrep, lsappinfo ignores shadow/helper processes.
-    // Registered: activate existing instance. Not registered: use newInstanceCommand.
+    // First press command: if newInstanceCommand is defined, check if app should be activated or launched fresh.
+    // useVisibleWindowCheck: check if app has visible windows via lsappinfo visibleProcessList
+    // (for apps that run in background without windows, e.g. Obsidian).
+    // Default: check Launch Services registration via lsappinfo find (ignores shadow/helper processes).
+    // Matched: activate existing instance. Not matched: use newInstanceCommand.
     const firstPressCommand = (() => {
       if (!shortcut.newInstanceCommand) return `open -a '${shortcut.appName}'`;
       const appDisplayName = shortcut.appName.replace(/\.app$/, '');
+      if (shortcut.useVisibleWindowCheck) {
+        // Get app's ASN and check if it appears in the visible process list (no Automation permission needed)
+        return `APP_ASN=$(lsappinfo find name='${appDisplayName}'); [ -n "$APP_ASN" ] && lsappinfo visibleProcessList | grep -q "$APP_ASN" && open -a '${shortcut.appName}' || ${shortcut.newInstanceCommand}`;
+      }
       return `[ -n "$(lsappinfo find name='${appDisplayName}')" ] && open -a '${shortcut.appName}' || ${shortcut.newInstanceCommand}`;
     })();
 
