@@ -619,7 +619,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "APP_ASN=$(lsappinfo find name='Obsidian'); [ -n \"$APP_ASN\" ] && lsappinfo visibleProcessList | grep -q \"$APP_ASN\" && open -a 'Obsidian.app' || open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'"
+                    "shell_command": "APP_ASN=$(lsappinfo find name='Obsidian'); [ -n \"$APP_ASN\" ] && WIN_COUNT=$(osascript -e 'tell application \"System Events\" to (count windows of (first process whose name is \"Obsidian\"))' 2>/dev/null) && [ \"${WIN_COUNT:-0}\" -gt 0 ] 2>/dev/null && open -a 'Obsidian.app' || open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'"
                   },
                   {
                     "set_variable": {

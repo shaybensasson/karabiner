@@ -294,16 +294,17 @@ function createWindowCyclingRules(): KarabinerRules[] {
         };
 
     // First press command: if newInstanceCommand is defined, check if app should be activated or launched fresh.
-    // useVisibleWindowCheck: check if app has visible windows via lsappinfo visibleProcessList
-    // (for apps that run in background without windows, e.g. Obsidian).
+    // useVisibleWindowCheck: count visible windows via osascript/System Events
+    // (for apps that keep a daemon running with no windows, e.g. Obsidian).
     // Default: check Launch Services registration via lsappinfo find (ignores shadow/helper processes).
     // Matched: activate existing instance. Not matched: use newInstanceCommand.
     const firstPressCommand = (() => {
       if (!shortcut.newInstanceCommand) return `open -a '${shortcut.appName}'`;
       const appDisplayName = shortcut.appName.replace(/\.app$/, '');
       if (shortcut.useVisibleWindowCheck) {
-        // Get app's ASN and check if it appears in the visible process list (no Automation permission needed)
-        return `APP_ASN=$(lsappinfo find name='${appDisplayName}'); [ -n "$APP_ASN" ] && lsappinfo visibleProcessList | grep -q "$APP_ASN" && open -a '${shortcut.appName}' || ${shortcut.newInstanceCommand}`;
+        // Count actual visible windows via System Events (lsappinfo visibleProcessList only checks if
+        // the app is a foreground-type process, not whether it has open windows)
+        return `APP_ASN=$(lsappinfo find name='${appDisplayName}'); [ -n "$APP_ASN" ] && WIN_COUNT=$(osascript -e 'tell application "System Events" to (count windows of (first process whose name is "${appDisplayName}"))' 2>/dev/null) && [ "\${WIN_COUNT:-0}" -gt 0 ] 2>/dev/null && open -a '${shortcut.appName}' || ${shortcut.newInstanceCommand}`;
       }
       return `[ -n "$(lsappinfo find name='${appDisplayName}')" ] && open -a '${shortcut.appName}' || ${shortcut.newInstanceCommand}`;
     })();
