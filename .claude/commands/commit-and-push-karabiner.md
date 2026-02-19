@@ -1,3 +1,8 @@
+---
+description: Commits all files and pushes to remote.
+model: haiku # or sonnet, opus
+---
+
 # Commit and Push
 
 Commit all changes using conventional commits format and push to remote.
