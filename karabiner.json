@@ -1534,6 +1534,44 @@
             ]
           },
           {
+            "description": "Ctrl+C: tap → Ctrl+D, hold → Ctrl+C",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "c",
+                  "modifiers": {
+                    "mandatory": [
+                      "control"
+                    ],
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to_if_alone": [
+                  {
+                    "key_code": "d",
+                    "modifiers": [
+                      "left_control"
+                    ]
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "key_code": "c",
+                    "modifiers": [
+                      "left_control"
+                    ]
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_held_down_threshold_milliseconds": 500
+                }
+              }
+            ]
+          },
+          {
             "description": "F11 → F19 (except VSCode/Cursor)",
             "manipulators": [
               {

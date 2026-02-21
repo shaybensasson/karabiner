@@ -239,6 +239,8 @@ export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "F11", description: "IDE: F11 | Other: F19" },
   { keys: "⇧L+⇧R", description: "Move Forward 1 Word (hold L, tap R)" },
   { keys: "⇧R+⇧L", description: "Move Backward 1 Word (hold R, tap L)" },
+  { keys: "⌃C (tap)", description: "Ctrl+D (EOF)" },
+  { keys: "⌃C (hold)", description: "Ctrl+C (interrupt)" },
   // { keys: "⌫ (Finder)", description: "Go Back (⌘[)" },
 ];
 
@@ -681,6 +683,37 @@ const rules: KarabinerRules[] = [
   },
   // General key remappings (generated from generalMappings)
   createGeneralMappingRules(),
+  // Ctrl+C: tap sends Ctrl+D (EOF), hold sends original Ctrl+C (interrupt)
+  {
+    description: "Ctrl+C: tap → Ctrl+D, hold → Ctrl+C",
+    manipulators: [
+      {
+        type: "basic",
+        from: {
+          key_code: "c",
+          modifiers: {
+            mandatory: ["control"],
+            optional: ["caps_lock"],
+          },
+        },
+        to_if_alone: [
+          {
+            key_code: "d",
+            modifiers: ["left_control"],
+          },
+        ],
+        to_if_held_down: [
+          {
+            key_code: "c",
+            modifiers: ["left_control"],
+          },
+        ],
+        parameters: {
+          "basic.to_if_held_down_threshold_milliseconds": 500,
+        },
+      },
+    ],
+  },
   // F11: passthrough in IDE, F19 (Show Desktop) elsewhere
   {
     description: "F11 → F19 (except VSCode/Cursor)",
