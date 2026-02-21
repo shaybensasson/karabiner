@@ -41,6 +41,8 @@ const testCases: TestCase[] = [
   { name: "Browse → Calendar", keySequence: "Tap ◆, then B, then C", expectedAction: { type: "url", value: "calendar.google.com" } },
   // app: Open Apps sublayer
   { name: "Open → Slack", keySequence: "Tap ◆, then O, then S", expectedAction: { type: "app", value: "Slack" } },
+  // key: Ctrl+C tap sends Ctrl+D
+  { name: "Ctrl+C tap → Ctrl+D", keySequence: "Tap Ctrl+C (quick press and release)", expectedAction: { type: "key", value: "d" } },
   // new_instance: First press uses new instance command
   { name: "Cursor (first press - new instance)", keySequence: "Hold ◆ (Caps Lock) + Tap 9", expectedAction: { type: "new_instance", value: "Cursor" } },
   { name: "VSCode (first press - new instance)", keySequence: "Hold ◆ (Caps Lock) + Tap 8", expectedAction: { type: "new_instance", value: "Visual Studio Code" } },

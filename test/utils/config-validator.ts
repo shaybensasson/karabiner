@@ -18,6 +18,8 @@ interface Manipulator {
   type: string;
   from: { key_code?: string; modifiers?: { mandatory?: string[]; optional?: string[] } };
   to?: To[];
+  to_if_alone?: To[];
+  to_if_held_down?: To[];
   conditions?: Array<{ type: string; name: string; value: number | string | boolean }>;
   description?: string;
 }
@@ -387,6 +389,22 @@ export function validateResetVariablesRule(
     variablesReset,
     errors,
   };
+}
+
+/**
+ * Find a manipulator by from key_code and mandatory modifiers
+ */
+export function findManipulatorByFrom(
+  keyCode: string,
+  mandatoryModifiers: string[],
+  profileName: string = "Default"
+): Manipulator | undefined {
+  const manipulators = getManipulators(profileName);
+  return manipulators.find(
+    (m) =>
+      m.from.key_code === keyCode &&
+      mandatoryModifiers.every((mod) => m.from.modifiers?.mandatory?.includes(mod))
+  );
 }
 
 /**

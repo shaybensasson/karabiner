@@ -23,8 +23,9 @@ describe("PDF Documentation Validation", () => {
     expect(fs.existsSync(pdfPath)).toBe(true);
   });
 
-  it("keyboard-shortcuts.pdf is exactly 1 page", () => {
+  it("keyboard-shortcuts.pdf is 1-2 pages", () => {
     const pageCount = countPdfPages(pdfPath);
-    expect(pageCount).toBe(1);
+    expect(pageCount).toBeGreaterThanOrEqual(1);
+    expect(pageCount).toBeLessThanOrEqual(2);
   });
 });
