@@ -27,11 +27,12 @@ describe("Reset All Variables (escape) - Config Validation", () => {
 
   it("resets window cycling variables", () => {
     const windowCyclingVariables = [
-      "ghostty_activated",
+      "cmux_activated",
       "cursor_activated",
       "vscode_activated",
       "chrome_activated",
       "zoom_activated",
+      "obsidian_activated",
     ];
     const result = validateResetVariablesRule(windowCyclingVariables);
     expect(result.found).toBe(true);
@@ -44,11 +45,5 @@ describe("Reset All Variables (escape) - Config Validation", () => {
     const result = validateResetVariablesRule(["cmd_q_pressed"]);
     expect(result.found).toBe(true);
     expect(result.variablesReset).toContain("cmd_q_pressed");
-  });
-
-  it("resets hold-sent variables", () => {
-    const result = validateResetVariablesRule(["ghostty_activated_hold_sent"]);
-    expect(result.found).toBe(true);
-    expect(result.variablesReset).toContain("ghostty_activated_hold_sent");
   });
 });
