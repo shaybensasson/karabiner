@@ -78,7 +78,7 @@
                   },
                   {
                     "set_variable": {
-                      "name": "ghostty_activated",
+                      "name": "cmux_activated",
                       "value": 0
                     }
                   },
@@ -109,12 +109,6 @@
                   {
                     "set_variable": {
                       "name": "zoom_activated",
-                      "value": 0
-                    }
-                  },
-                  {
-                    "set_variable": {
-                      "name": "ghostty_activated_hold_sent",
                       "value": 0
                     }
                   },
@@ -161,7 +155,7 @@
                   },
                   {
                     "set_variable": {
-                      "name": "ghostty_activated",
+                      "name": "cmux_activated",
                       "value": 0
                     }
                   },
@@ -194,12 +188,6 @@
                       "name": "zoom_activated",
                       "value": 0
                     }
-                  },
-                  {
-                    "set_variable": {
-                      "name": "ghostty_activated_hold_sent",
-                      "value": 0
-                    }
                   }
                 ],
                 "to_if_alone": [
@@ -215,7 +203,7 @@
             ]
           },
           {
-            "description": "Hyper+0: cmux",
+            "description": "Hyper+0: cmux (cycle windows, hold for new instance)",
             "manipulators": [
               {
                 "type": "basic",
@@ -237,16 +225,7 @@
                 ],
                 "to_if_held_down": [
                   {
-                    "key_code": "n",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  },
-                  {
-                    "set_variable": {
-                      "name": "ghostty_activated_hold_sent",
-                      "value": 1
-                    }
+                    "shell_command": "open -na 'cmux'"
                   }
                 ],
                 "parameters": {
@@ -260,19 +239,8 @@
                   },
                   {
                     "type": "variable_if",
-                    "name": "ghostty_activated",
+                    "name": "cmux_activated",
                     "value": 1
-                  },
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                      "com.mitchellh.ghostty"
-                    ]
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "ghostty_activated_hold_sent",
-                    "value": 0
                   }
                 ]
               },
@@ -288,64 +256,18 @@
                 },
                 "to": [
                   {
-                    "key_code": "non_us_backslash",
-                    "modifiers": [
-                      "command"
-                    ]
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper",
-                    "value": 1
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "ghostty_activated",
-                    "value": 1
-                  },
-                  {
-                    "type": "frontmost_application_unless",
-                    "bundle_identifiers": [
-                      "com.mitchellh.ghostty"
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "0",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "open -a 'Ghostty.app'"
+                    "shell_command": "[ -n \"$(lsappinfo find name='cmux')\" ] && open -a 'cmux' || open -na 'cmux'"
                   },
                   {
                     "set_variable": {
-                      "name": "ghostty_activated",
+                      "name": "cmux_activated",
                       "value": 1
                     }
                   }
                 ],
                 "to_if_held_down": [
                   {
-                    "key_code": "n",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  },
-                  {
-                    "set_variable": {
-                      "name": "ghostty_activated_hold_sent",
-                      "value": 1
-                    }
+                    "shell_command": "open -na 'cmux'"
                   }
                 ],
                 "parameters": {
@@ -359,59 +281,8 @@
                   },
                   {
                     "type": "variable_if",
-                    "name": "ghostty_activated",
+                    "name": "cmux_activated",
                     "value": 0
-                  },
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                      "com.mitchellh.ghostty"
-                    ]
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "ghostty_activated_hold_sent",
-                    "value": 0
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "0",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "open -a 'Ghostty.app'"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "ghostty_activated",
-                      "value": 1
-                    }
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper",
-                    "value": 1
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "ghostty_activated",
-                    "value": 0
-                  },
-                  {
-                    "type": "frontmost_application_unless",
-                    "bundle_identifiers": [
-                      "com.mitchellh.ghostty"
-                    ]
                   }
                 ]
               }

@@ -181,12 +181,13 @@ export const windowCyclingShortcuts: {
   newInstanceCommand?: string; // Shell command to open new instance (used on first press)
   useVisibleWindowCheck?: boolean; // Check visible windows instead of lsappinfo registration (for apps that run in background without windows)
   cycleCommand?: string; // Custom shell command to cycle windows (default: Cmd+`)
+  alwaysHoldNewInstance?: boolean; // Hold always opens new instance (even on cycle presses)
   // Optional: hold-when-frontmost behavior (sends keystroke on hold when app is frontmost)
   bundleIdentifier?: string; // For frontmost app condition
   holdKey?: KeyCode; // Key to send on hold (when app is frontmost)
   holdModifiers?: ModifiersKeys[]; // Modifiers for hold key
 }[] = [
-  { key: "0", description: "cmux", appName: "Ghostty.app", variableName: "ghostty_activated", bundleIdentifier: "com.mitchellh.ghostty", holdKey: "n", holdModifiers: ["left_command"] },
+  { key: "0", description: "cmux (cycle windows, hold for new instance)", appName: "cmux", variableName: "cmux_activated", newInstanceCommand: "open -na 'cmux'", alwaysHoldNewInstance: true },
   { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated", newInstanceCommand: "/usr/local/bin/cursor --new-window" },
   { key: "8", description: "VSCode (cycle windows)", appName: "Visual Studio Code.app", variableName: "vscode_activated", newInstanceCommand: "/Users/shay/.local/bin/vscode --new-window" },
   { key: "4", description: "Obsidian (cycle windows)", appName: "Obsidian.app", variableName: "obsidian_activated", newInstanceCommand: "open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'", useVisibleWindowCheck: true },
@@ -399,6 +400,10 @@ function createWindowCyclingRules(): KarabinerRules[] {
           type: "basic" as const,
           from: { key_code: shortcut.key, modifiers: { optional: ["any"] } },
           to: [cycleAction],
+          ...(shortcut.alwaysHoldNewInstance && shortcut.newInstanceCommand && {
+            to_if_held_down: [{ shell_command: shortcut.newInstanceCommand }],
+            parameters: { "basic.to_if_held_down_threshold_milliseconds": 500 },
+          }),
           conditions: [
             { type: "variable_if" as const, name: "hyper", value: 1 },
             { type: "variable_if" as const, name: shortcut.variableName, value: 1 },
