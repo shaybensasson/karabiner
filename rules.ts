@@ -186,7 +186,7 @@ export const windowCyclingShortcuts: {
   holdKey?: KeyCode; // Key to send on hold (when app is frontmost)
   holdModifiers?: ModifiersKeys[]; // Modifiers for hold key
 }[] = [
-  { key: "0", description: "cmux", appName: "cmux", variableName: "cmux_activated" },
+  { key: "0", description: "cmux", appName: "Ghostty.app", variableName: "ghostty_activated", bundleIdentifier: "com.mitchellh.ghostty", holdKey: "n", holdModifiers: ["left_command"] },
   { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated", newInstanceCommand: "/usr/local/bin/cursor --new-window" },
   { key: "8", description: "VSCode (cycle windows)", appName: "Visual Studio Code.app", variableName: "vscode_activated", newInstanceCommand: "/Users/shay/.local/bin/vscode --new-window" },
   { key: "4", description: "Obsidian (cycle windows)", appName: "Obsidian.app", variableName: "obsidian_activated", newInstanceCommand: "open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'", useVisibleWindowCheck: true },
