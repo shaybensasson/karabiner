@@ -164,6 +164,7 @@ export const directHyperShortcuts: {
   { key: "f1", keyDisplay: "F1", description: "Browse Gemini Web", action: "open 'https://gemini.google.com/u/1/app?pageId=none'" },
   { key: "f2", keyDisplay: "F2", description: "Browse ChatGPT Web", action: "open 'https://chat.openai.com/chat'" },
   { key: "f3", keyDisplay: "F3", description: "Keyboard Shortcuts PDF", action: "open '/Users/shay/github/karabiner/keyboard-shortcuts.pdf'" },
+  { key: "0", description: "cmux", action: "open -a 'cmux'" },
   { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
   { key: "f12", keyDisplay: "F12", description: "Select Audio Output", action: "open 'raycast://extensions/benvp/audio-device/set-output-device'" },
 ];
@@ -187,7 +188,6 @@ export const windowCyclingShortcuts: {
   holdKey?: KeyCode; // Key to send on hold (when app is frontmost)
   holdModifiers?: ModifiersKeys[]; // Modifiers for hold key
 }[] = [
-  { key: "0", description: "cmux (cycle windows, hold for new instance)", appName: "cmux", variableName: "cmux_activated", newInstanceCommand: "open -na 'cmux'", alwaysHoldNewInstance: true },
   { key: "9", description: "Cursor (cycle windows)", appName: "Cursor.app", variableName: "cursor_activated", newInstanceCommand: "/usr/local/bin/cursor --new-window" },
   { key: "8", description: "VSCode (cycle windows)", appName: "Visual Studio Code.app", variableName: "vscode_activated", newInstanceCommand: "/Users/shay/.local/bin/vscode --new-window" },
   { key: "4", description: "Obsidian (cycle windows)", appName: "Obsidian.app", variableName: "obsidian_activated", newInstanceCommand: "open 'raycast://extensions/marcjulian/obsidian/openVaultCommand'", useVisibleWindowCheck: true },

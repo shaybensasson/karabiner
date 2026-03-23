@@ -27,7 +27,6 @@ describe("Reset All Variables (escape) - Config Validation", () => {
 
   it("resets window cycling variables", () => {
     const windowCyclingVariables = [
-      "cmux_activated",
       "cursor_activated",
       "vscode_activated",
       "chrome_activated",
