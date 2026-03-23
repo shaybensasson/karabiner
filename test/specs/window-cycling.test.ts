@@ -77,25 +77,9 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
     });
   });
 
-  describe("cmux (◆+0)", () => {
-    it("has valid window cycling rule", () => {
-      const result = validateWindowCyclingRule("0", "cmux", "cmux_activated");
-      expect(result.valid).toBe(true);
-      expect(result.firstPressFound).toBe(true);
-      expect(result.subsequentPressFound).toBe(true);
-      expect(result.variableResetFound).toBe(true);
-    });
-
-    it("opens cmux on first press", () => {
-      const result = validateWindowCyclingRule("0", "cmux", "cmux_activated");
-      expect(result.appOpened?.toLowerCase()).toContain("cmux");
-    });
-  });
-
   describe("Window cycling behavior", () => {
     it("all window cycling apps reset their variables when Caps Lock is released", () => {
       const apps = [
-        { key: "0", variable: "cmux_activated" },
         { key: "9", variable: "cursor_activated" },
         { key: "8", variable: "vscode_activated" },
         { key: "4", variable: "obsidian_activated" },
@@ -111,7 +95,6 @@ describe("Window Cycling Rules (◆ + key → activate or switch window)", () =>
 
     it("subsequent presses cycle windows (Cmd+§ or custom command)", () => {
       const apps = [
-        { key: "0", variable: "cmux_activated" },
         { key: "9", variable: "cursor_activated" },
         { key: "8", variable: "vscode_activated" },
         { key: "4", variable: "obsidian_activated" },

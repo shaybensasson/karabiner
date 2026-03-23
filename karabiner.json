@@ -78,12 +78,6 @@
                   },
                   {
                     "set_variable": {
-                      "name": "cmux_activated",
-                      "value": 0
-                    }
-                  },
-                  {
-                    "set_variable": {
                       "name": "cursor_activated",
                       "value": 0
                     }
@@ -155,12 +149,6 @@
                   },
                   {
                     "set_variable": {
-                      "name": "cmux_activated",
-                      "value": 0
-                    }
-                  },
-                  {
-                    "set_variable": {
                       "name": "cursor_activated",
                       "value": 0
                     }
@@ -199,92 +187,6 @@
                 "parameters": {
                   "basic.to_if_alone_timeout_milliseconds": 200
                 }
-              }
-            ]
-          },
-          {
-            "description": "Hyper+0: cmux (cycle windows, hold for new instance)",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "0",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "non_us_backslash",
-                    "modifiers": [
-                      "command"
-                    ]
-                  }
-                ],
-                "to_if_held_down": [
-                  {
-                    "shell_command": "open -na 'cmux'"
-                  }
-                ],
-                "parameters": {
-                  "basic.to_if_held_down_threshold_milliseconds": 500
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper",
-                    "value": 1
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "cmux_activated",
-                    "value": 1
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "0",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "[ -n \"$(lsappinfo find name='cmux')\" ] && open -a 'cmux' || open -na 'cmux'"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "cmux_activated",
-                      "value": 1
-                    }
-                  }
-                ],
-                "to_if_held_down": [
-                  {
-                    "shell_command": "open -na 'cmux'"
-                  }
-                ],
-                "parameters": {
-                  "basic.to_if_held_down_threshold_milliseconds": 500
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "hyper",
-                    "value": 1
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "cmux_activated",
-                    "value": 0
-                  }
-                ]
               }
             ]
           },
@@ -1121,6 +1023,35 @@
                 "to": [
                   {
                     "shell_command": "open '/Users/shay/github/karabiner/keyboard-shortcuts.pdf'"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "0",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'cmux'"
                   },
                   {
                     "set_variable": {
