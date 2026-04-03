@@ -62,6 +62,8 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       c: app("Calendar"),
       d: open("~/Downloads", "Downloads"),
       f: open("raycast://script-commands/new-finder-instance", "New Finder"),
+      g: open("raycast://extensions/ShayBenSasson/github-repositories/list-repos", "GitHub Repositories"),
+      p: open("raycast://extensions/ShayBenSasson/github-repositories/my-pull-requests", "My Pull Requests"),
       v: open("raycast://script-commands/run-vlc-with-iptv", "VLC with IPTV"),
       l: app("LastPass for Desktop", "LastPass"),
       m: app("Superhuman"),
