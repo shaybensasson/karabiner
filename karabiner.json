@@ -2747,7 +2747,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open raycast://extensions/ShayBenSasson/github-repositories/list-repos"
+                    "shell_command": "open -a 'Ghostty.app'"
                   },
                   {
                     "set_variable": {
@@ -2762,7 +2762,7 @@
                     }
                   }
                 ],
-                "description": "GitHub Repositories",
+                "description": "Ghostty",
                 "type": "basic",
                 "from": {
                   "key_code": "g",
@@ -2963,7 +2963,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open -a 'Ghostty.app'"
+                    "shell_command": "open -a 'Terminal.app'"
                   },
                   {
                     "set_variable": {
@@ -2978,7 +2978,7 @@
                     }
                   }
                 ],
-                "description": "Ghostty",
+                "description": "Terminal",
                 "type": "basic",
                 "from": {
                   "key_code": "t",
