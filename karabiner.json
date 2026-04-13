@@ -2109,7 +2109,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open raycast://extensions/mblode/google-search/index"
+                    "shell_command": "open raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
                   },
                   {
                     "set_variable": {
@@ -2124,7 +2124,7 @@
                     }
                   }
                 ],
-                "description": "Google Search",
+                "description": "Emoji Search",
                 "type": "basic",
                 "from": {
                   "key_code": "e",
@@ -2164,6 +2164,42 @@
                 "type": "basic",
                 "from": {
                   "key_code": "f",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_q",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "to": [
+                  {
+                    "shell_command": "open raycast://extensions/mblode/google-search/index"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_q",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  }
+                ],
+                "description": "Google Search",
+                "type": "basic",
+                "from": {
+                  "key_code": "w",
                   "modifiers": {
                     "optional": [
                       "any"

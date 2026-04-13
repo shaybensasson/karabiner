@@ -14,8 +14,14 @@ describe("Query Sublayer (◆ Q) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ Q E → Google Search", () => {
-    const result = validateSublayerCommand("q", "e", { type: "raycast", value: "google-search" });
+  it("◆ Q E → Emoji Search", () => {
+    const result = validateSublayerCommand("q", "e", { type: "raycast", value: "emoji-symbols" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
+  it("◆ Q W → Google Search", () => {
+    const result = validateSublayerCommand("q", "w", { type: "raycast", value: "google-search" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
