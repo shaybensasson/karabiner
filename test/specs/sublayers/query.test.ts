@@ -38,6 +38,12 @@ describe("Query Sublayer (◆ Q) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
+  it("◆ Q H → Browser History", () => {
+    const result = validateSublayerCommand("q", "h", { type: "raycast", value: "search-history" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
   it("◆ Q I → Icon Search", () => {
     const result = validateSublayerCommand("q", "i", { type: "raycast", value: "iconify/view-icons" });
     expect(result.found).toBe(true);
