@@ -56,6 +56,7 @@ export const hyperSubLayers: { [key_code in KeyCode]?: HyperSubLayerInput } = {
       d: open("raycast://extensions/chyroc/the-blue-cloud/search-dropbox-files", "Dropbox Search"),
       p: open("raycast://extensions/ShayBenSasson/github-repositories/my-pull-requests", "My Pull Requests"),
       r: open("raycast://extensions/ewlcheng/reddit-search/index", "Reddit Search"),
+      t: open("raycast://extensions/gebeto/translate/quick-translate", "Translate (en→he)"),
     },
   },
 
