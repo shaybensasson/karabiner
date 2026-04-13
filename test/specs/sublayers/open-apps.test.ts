@@ -8,7 +8,17 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  // Note: ◆ O T (Ghostty) removed - now using ◆+0 with window cycling
+  it("◆ O G → opens Ghostty", () => {
+    const result = validateSublayerCommand("o", "g", { type: "app", value: "Ghostty" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
+  it("◆ O T → opens Terminal", () => {
+    const result = validateSublayerCommand("o", "t", { type: "app", value: "Terminal" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
 
   it("◆ O C → opens Calendar", () => {
     const result = validateSublayerCommand("o", "c", { type: "app", value: "Calendar" });
