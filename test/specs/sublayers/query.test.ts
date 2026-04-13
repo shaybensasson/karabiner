@@ -14,8 +14,8 @@ describe("Query Sublayer (◆ Q) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ Q E → Emoji Search", () => {
-    const result = validateSublayerCommand("q", "e", { type: "raycast", value: "emoji-symbols" });
+  it("◆ Q E → Google Search", () => {
+    const result = validateSublayerCommand("q", "e", { type: "raycast", value: "google-search" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
@@ -26,8 +26,8 @@ describe("Query Sublayer (◆ Q) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ Q G → Google Search", () => {
-    const result = validateSublayerCommand("q", "g", { type: "raycast", value: "google-search" });
+  it("◆ Q G → GitHub Repositories", () => {
+    const result = validateSublayerCommand("q", "g", { type: "raycast", value: "github-repositories/list-repos" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
@@ -53,6 +53,12 @@ describe("Query Sublayer (◆ Q) - Config Validation", () => {
 
   it("◆ Q O → Obsidian Note Search", () => {
     const result = validateSublayerCommand("q", "o", { type: "raycast", value: "obsidian/searchNoteCommand" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
+  it("◆ Q P → My Pull Requests", () => {
+    const result = validateSublayerCommand("q", "p", { type: "raycast", value: "my-pull-requests" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });

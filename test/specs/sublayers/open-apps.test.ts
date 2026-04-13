@@ -40,8 +40,8 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("◆ O D → opens Downloads folder", () => {
-    const result = validateSublayerCommand("o", "d", { type: "file", value: "Downloads" });
+  it("◆ O D → opens Documents folder", () => {
+    const result = validateSublayerCommand("o", "d", { type: "file", value: "Documents" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
@@ -54,6 +54,12 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
 
   it("◆ O R → opens Finder Recents", () => {
     const result = validateSublayerCommand("o", "r", { type: "file", value: "Finder" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
+  it("◆ O P → opens Payroll", () => {
+    const result = validateSublayerCommand("o", "p", { type: "file", value: "payroll" });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });

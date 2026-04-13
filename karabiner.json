@@ -2109,7 +2109,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
+                    "shell_command": "open raycast://extensions/mblode/google-search/index"
                   },
                   {
                     "set_variable": {
@@ -2124,7 +2124,7 @@
                     }
                   }
                 ],
-                "description": "Emoji Search",
+                "description": "Google Search",
                 "type": "basic",
                 "from": {
                   "key_code": "e",
@@ -2181,7 +2181,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open raycast://extensions/mblode/google-search/index"
+                    "shell_command": "open raycast://extensions/ShayBenSasson/github-repositories/list-repos"
                   },
                   {
                     "set_variable": {
@@ -2196,7 +2196,7 @@
                     }
                   }
                 ],
-                "description": "Google Search",
+                "description": "GitHub Repositories",
                 "type": "basic",
                 "from": {
                   "key_code": "g",
@@ -2401,6 +2401,42 @@
               {
                 "to": [
                   {
+                    "shell_command": "open raycast://extensions/ShayBenSasson/github-repositories/my-pull-requests"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_q",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  }
+                ],
+                "description": "My Pull Requests",
+                "type": "basic",
+                "from": {
+                  "key_code": "p",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_q",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "to": [
+                  {
                     "shell_command": "open raycast://extensions/ewlcheng/reddit-search/index"
                   },
                   {
@@ -2567,7 +2603,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open ~/Downloads"
+                    "shell_command": "open ~/Documents"
                   },
                   {
                     "set_variable": {
@@ -2582,7 +2618,7 @@
                     }
                   }
                 ],
-                "description": "Downloads",
+                "description": "Documents",
                 "type": "basic",
                 "from": {
                   "key_code": "d",
@@ -2675,7 +2711,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open raycast://extensions/ShayBenSasson/github-repositories/my-pull-requests"
+                    "shell_command": "open ~/Documents/payroll"
                   },
                   {
                     "set_variable": {
@@ -2690,7 +2726,7 @@
                     }
                   }
                 ],
-                "description": "My Pull Requests",
+                "description": "Payroll",
                 "type": "basic",
                 "from": {
                   "key_code": "p",
