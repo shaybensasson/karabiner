@@ -2545,7 +2545,7 @@
               {
                 "to": [
                   {
-                    "shell_command": "open raycast://extensions/gebeto/translate/quick-translate"
+                    "shell_command": "open raycast://extensions/raycast/snippets/search-snippets"
                   },
                   {
                     "set_variable": {
@@ -2560,10 +2560,10 @@
                     }
                   }
                 ],
-                "description": "Translate (en→he)",
+                "description": "Snippets Search",
                 "type": "basic",
                 "from": {
-                  "key_code": "t",
+                  "key_code": "s",
                   "modifiers": {
                     "optional": [
                       "any"
