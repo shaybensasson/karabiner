@@ -1022,7 +1022,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open '/Users/shay/github/karabiner/keyboard-shortcuts.pdf'"
+                    "shell_command": "open -g raycast://extensions/raycast/window-management/next-display"
                   },
                   {
                     "set_variable": {
@@ -2802,6 +2802,42 @@
                 "type": "basic",
                 "from": {
                   "key_code": "g",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_o",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "to": [
+                  {
+                    "shell_command": "open '/Users/shay/github/karabiner/keyboard-shortcuts.pdf'"
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper_sublayer_o",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  }
+                ],
+                "description": "Keyboard Shortcuts PDF",
+                "type": "basic",
+                "from": {
+                  "key_code": "k",
                   "modifiers": {
                     "optional": [
                       "any"

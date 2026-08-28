@@ -86,6 +86,15 @@ describe("Direct Hyper Shortcuts (◆ + key) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
+  it("◆ + F3 → move window to next display", () => {
+    const result = validateDirectHyperShortcut("f3", {
+      type: "raycast",
+      value: "window-management/next-display",
+    });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
   it("◆ + 1 → opens Google Calendar", () => {
     const result = validateDirectHyperShortcut("1", {
       type: "url",
