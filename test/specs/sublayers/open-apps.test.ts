@@ -68,6 +68,12 @@ describe("Open Apps Sublayer (◆ O) - Config Validation", () => {
     expect(result.valid).toBe(true);
   });
 
+  it("◆ O K → opens Keyboard Shortcuts PDF", () => {
+    const result = validateSublayerCommand("o", "k", { type: "file", value: "keyboard-shortcuts.pdf" });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
+
   it("◆ O P → opens Payroll", () => {
     const result = validateSublayerCommand("o", "p", { type: "file", value: "payroll" });
     expect(result.found).toBe(true);
