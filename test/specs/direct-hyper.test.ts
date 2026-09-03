@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { validateDirectHyperShortcut } from "../utils/config-validator";
+import { findDirectHyperShortcut, validateDirectHyperShortcut } from "../utils/config-validator";
 
 describe("Direct Hyper Shortcuts (◆ + key) - Config Validation", () => {
   it("◆ + ← → window left half", () => {
@@ -120,5 +120,32 @@ describe("Direct Hyper Shortcuts (◆ + key) - Config Validation", () => {
     });
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
+  });
+});
+
+describe("Direct Hyper Shortcuts - Repeatable while ◆ is held", () => {
+  it("◆ + F3 keeps hyper active (tap F3 repeatedly without releasing ◆)", () => {
+    const manipulator = findDirectHyperShortcut("f3");
+    expect(manipulator).toBeDefined();
+
+    const resetsHyper = manipulator?.to?.some(
+      (t) => t.set_variable?.name === "hyper" && t.set_variable?.value === 0
+    );
+    expect(resetsHyper).toBe(false);
+  });
+
+  it("◆ + F3 does not fire on macOS key repeat (hold F3 = single move)", () => {
+    const manipulator = findDirectHyperShortcut("f3");
+    const action = manipulator?.to?.[0];
+    expect(action?.shell_command).toContain("window-management/next-display");
+    expect(action?.repeat).toBe(false);
+  });
+
+  it("non-repeatable shortcuts still reset hyper after firing (◆ + F1)", () => {
+    const manipulator = findDirectHyperShortcut("f1");
+    const resetsHyper = manipulator?.to?.some(
+      (t) => t.set_variable?.name === "hyper" && t.set_variable?.value === 0
+    );
+    expect(resetsHyper).toBe(true);
   });
 });

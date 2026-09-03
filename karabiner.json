@@ -1022,13 +1022,8 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open -g raycast://extensions/raycast/window-management/next-display"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "hyper",
-                      "value": 0
-                    }
+                    "shell_command": "open -g raycast://extensions/raycast/window-management/next-display",
+                    "repeat": false
                   }
                 ],
                 "conditions": [
