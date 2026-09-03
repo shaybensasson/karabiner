@@ -587,13 +587,8 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open -g raycast://extensions/raycast/window-management/left-half"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "hyper",
-                      "value": 0
-                    }
+                    "shell_command": "open -g raycast://extensions/raycast/window-management/left-half",
+                    "repeat": false
                   }
                 ],
                 "conditions": [
@@ -616,13 +611,8 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open -g raycast://extensions/raycast/window-management/right-half"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "hyper",
-                      "value": 0
-                    }
+                    "shell_command": "open -g raycast://extensions/raycast/window-management/right-half",
+                    "repeat": false
                   }
                 ],
                 "conditions": [
@@ -645,13 +635,8 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open -g raycast://extensions/raycast/window-management/maximize"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "hyper",
-                      "value": 0
-                    }
+                    "shell_command": "open -g raycast://extensions/raycast/window-management/maximize",
+                    "repeat": false
                   }
                 ],
                 "conditions": [
@@ -674,13 +659,8 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open -g raycast://extensions/raycast/window-management/restore"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "hyper",
-                      "value": 0
-                    }
+                    "shell_command": "open -g raycast://extensions/raycast/window-management/restore",
+                    "repeat": false
                   }
                 ],
                 "conditions": [
