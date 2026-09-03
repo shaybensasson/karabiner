@@ -141,6 +141,25 @@ describe("Direct Hyper Shortcuts - Repeatable while ◆ is held", () => {
     expect(action?.repeat).toBe(false);
   });
 
+  it.each([
+    ["left_arrow", "window-management/left-half"],
+    ["right_arrow", "window-management/right-half"],
+    ["up_arrow", "window-management/maximize"],
+    ["down_arrow", "window-management/restore"],
+  ])("◆ + %s stays active and does not fire on key repeat", (keyCode, raycastCommand) => {
+    const manipulator = findDirectHyperShortcut(keyCode);
+    expect(manipulator).toBeDefined();
+
+    const resetsHyper = manipulator?.to?.some(
+      (t) => t.set_variable?.name === "hyper" && t.set_variable?.value === 0
+    );
+    expect(resetsHyper).toBe(false);
+
+    const action = manipulator?.to?.[0];
+    expect(action?.shell_command).toContain(raycastCommand);
+    expect(action?.repeat).toBe(false);
+  });
+
   it("non-repeatable shortcuts still reset hyper after firing (◆ + F1)", () => {
     const manipulator = findDirectHyperShortcut("f1");
     const resetsHyper = manipulator?.to?.some(

@@ -160,10 +160,10 @@ export const directHyperShortcuts: {
   // while Caps Lock stays held (e.g. cycle displays with ◆ held + F3 F3 F3).
   repeatable?: boolean;
 }[] = [
-  { key: "left_arrow", keyDisplay: "←", description: "Window Left Half", action: "open -g raycast://extensions/raycast/window-management/left-half" },
-  { key: "right_arrow", keyDisplay: "→", description: "Window Right Half", action: "open -g raycast://extensions/raycast/window-management/right-half" },
-  { key: "up_arrow", keyDisplay: "↑", description: "Maximize Window", action: "open -g raycast://extensions/raycast/window-management/maximize" },
-  { key: "down_arrow", keyDisplay: "↓", description: "Restore Window", action: "open -g raycast://extensions/raycast/window-management/restore" },
+  { key: "left_arrow", keyDisplay: "←", description: "Window Left Half", action: "open -g raycast://extensions/raycast/window-management/left-half", repeatable: true },
+  { key: "right_arrow", keyDisplay: "→", description: "Window Right Half", action: "open -g raycast://extensions/raycast/window-management/right-half", repeatable: true },
+  { key: "up_arrow", keyDisplay: "↑", description: "Maximize Window", action: "open -g raycast://extensions/raycast/window-management/maximize", repeatable: true },
+  { key: "down_arrow", keyDisplay: "↓", description: "Restore Window", action: "open -g raycast://extensions/raycast/window-management/restore", repeatable: true },
   { key: "page_up", description: "Window Top Right Quarter", action: "open -g raycast://extensions/raycast/window-management/top-right-quarter" },
   { key: "page_down", description: "Window Bottom Right Quarter", action: "open -g raycast://extensions/raycast/window-management/bottom-right-quarter" },
   { key: "home", description: "Window Top Left Quarter", action: "open -g raycast://extensions/raycast/window-management/top-left-quarter" },
