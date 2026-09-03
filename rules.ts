@@ -156,6 +156,9 @@ export const directHyperShortcuts: {
   description: string;
   action?: string; // shell_command
   toKeyCode?: KeyCode; // key_code to send (alternative to action)
+  // Keep hyper active after firing, so the key can be tapped repeatedly
+  // while Caps Lock stays held (e.g. cycle displays with ◆ held + F3 F3 F3).
+  repeatable?: boolean;
 }[] = [
   { key: "left_arrow", keyDisplay: "←", description: "Window Left Half", action: "open -g raycast://extensions/raycast/window-management/left-half" },
   { key: "right_arrow", keyDisplay: "→", description: "Window Right Half", action: "open -g raycast://extensions/raycast/window-management/right-half" },
@@ -172,7 +175,7 @@ export const directHyperShortcuts: {
   { key: "escape", keyDisplay: "Esc", description: "Meckano", action: "open 'https://app.meckano.co.il'" },
   { key: "f1", keyDisplay: "F1", description: "Browse Gemini Web", action: "open 'https://gemini.google.com/u/1/app?pageId=none'" },
   { key: "f2", keyDisplay: "F2", description: "Browse ChatGPT Web", action: "open 'https://chat.openai.com/chat'" },
-  { key: "f3", keyDisplay: "F3", description: "Next Display", action: "open -g raycast://extensions/raycast/window-management/next-display" },
+  { key: "f3", keyDisplay: "F3", description: "Next Display (tap to cycle)", action: "open -g raycast://extensions/raycast/window-management/next-display", repeatable: true },
   { key: "0", description: "cmux", action: "open -a 'cmux'" },
   { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
   { key: "f12", keyDisplay: "F12", description: "Select Audio Output", action: "open 'raycast://extensions/benvp/audio-device/set-output-device'" },
@@ -258,33 +261,41 @@ export const staticShortcutDocs: { keys: string; description: string }[] = [
 function createDirectHyperRules(): KarabinerRules {
   return {
     description: "Direct Hyper shortcuts (instant)",
-    manipulators: directHyperShortcuts.map((shortcut) => ({
-      type: "basic" as const,
-      from: {
-        key_code: shortcut.key,
-        modifiers: {
-          optional: ["any"],
-        },
-      },
-      to: [
-        shortcut.action
-          ? { shell_command: shortcut.action }
-          : { key_code: shortcut.toKeyCode! },
-        {
-          set_variable: {
-            name: "hyper",
-            value: 0,
+    manipulators: directHyperShortcuts.map((shortcut) => {
+      const action = shortcut.action
+        ? { shell_command: shortcut.action }
+        : { key_code: shortcut.toKeyCode! };
+
+      return {
+        type: "basic" as const,
+        from: {
+          key_code: shortcut.key,
+          modifiers: {
+            optional: ["any"],
           },
         },
-      ],
-      conditions: [
-        {
-          type: "variable_if" as const,
-          name: "hyper",
-          value: 1,
-        },
-      ],
-    })),
+        to: shortcut.repeatable
+          ? // Leave hyper=1 so the shortcut fires again on every tap while Caps Lock is held.
+            // repeat:false keeps macOS key repeat from firing it when the key is held down.
+            [{ ...action, repeat: false }]
+          : [
+              action,
+              {
+                set_variable: {
+                  name: "hyper",
+                  value: 0,
+                },
+              },
+            ],
+        conditions: [
+          {
+            type: "variable_if" as const,
+            name: "hyper",
+            value: 1,
+          },
+        ],
+      };
+    }),
   };
 }
 

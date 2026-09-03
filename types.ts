@@ -146,6 +146,11 @@ export interface To {
    * Useful for to_if_held_down when you want a single keypress instead of repeat.
    */
   halt?: boolean;
+  /**
+   * If false, the event is not re-fired by macOS key repeat while the key is held down.
+   * @see: {@link https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition/to/repeat/}
+   */
+  repeat?: boolean;
   set_variable?: {
     name: string;
     value: boolean | number | string;

@@ -27,6 +27,9 @@ interface TestCase {
     value: string;
   };
   timeout?: number;
+  // How many times the action must be logged (default 1).
+  // Used for shortcuts that repeat while ◆ stays held, e.g. F3 → Next Display.
+  expectedCount?: number;
 }
 
 const testCases: TestCase[] = [
@@ -37,6 +40,8 @@ const testCases: TestCase[] = [
   { name: "Window Top Right Quarter", keySequence: "Hold ◆ (Caps Lock) + Press PageUp", expectedAction: { type: "raycast", value: "top-right-quarter" } },
   // url: Direct Hyper shortcut
   { name: "F1 → Gemini Web", keySequence: "Hold ◆ (Caps Lock) + Press F1", expectedAction: { type: "url", value: "gemini.google.com" } },
+  // raycast: repeatable Direct Hyper shortcut (hyper stays active between taps)
+  { name: "F3 → Next Display (3 taps, ◆ held)", keySequence: "Hold ◆ (Caps Lock) and tap F3 three times WITHOUT releasing ◆", expectedAction: { type: "raycast", value: "next-display" }, expectedCount: 3, timeout: 15000 },
   // url: Browse sublayer
   { name: "Browse → Calendar", keySequence: "Tap ◆, then B, then C", expectedAction: { type: "url", value: "calendar.google.com" } },
   // app: Open Apps sublayer
@@ -75,29 +80,30 @@ function parseLog(): string[] {
   return readFileSync(ACTION_LOG_PATH, "utf-8").trim().split("\n").filter(Boolean);
 }
 
-function checkLogForAction(expectedType: string, expectedValue: string): boolean {
+function countLoggedActions(expectedType: string, expectedValue: string): number {
   const lines = parseLog();
-  return lines.some(line => {
+  return lines.filter(line => {
     const match = line.match(/^ACTION:(\w+):(.+)$/);
     if (match) {
       const [, type, value] = match;
       return type === expectedType && value.includes(expectedValue);
     }
     return false;
-  });
+  }).length;
 }
 
 async function waitForAction(
   expectedType: string,
   expectedValue: string,
-  timeoutMs: number = 10000
+  timeoutMs: number = 10000,
+  expectedCount: number = 1
 ): Promise<boolean> {
   return new Promise((resolve) => {
     const startTime = Date.now();
     const pollInterval = 50;
 
     const check = () => {
-      if (checkLogForAction(expectedType, expectedValue)) {
+      if (countLoggedActions(expectedType, expectedValue) >= expectedCount) {
         resolve(true);
       } else if (Date.now() - startTime > timeoutMs) {
         resolve(false);
@@ -147,14 +153,17 @@ async function runTests() {
     const test = testCases[i];
     console.log(`\n─── Test ${i + 1}/${testCases.length}: ${test.name} ───`);
     console.log(`   👉 ${test.keySequence}`);
-    process.stdout.write(`   ⏳ Waiting for: ${test.expectedAction.type}:${test.expectedAction.value}...`);
+    const expectedCount = test.expectedCount || 1;
+    const countSuffix = expectedCount > 1 ? ` (x${expectedCount})` : "";
+    process.stdout.write(`   ⏳ Waiting for: ${test.expectedAction.type}:${test.expectedAction.value}${countSuffix}...`);
 
     clearLog();
 
     const found = await waitForAction(
       test.expectedAction.type,
       test.expectedAction.value,
-      test.timeout || 10000
+      test.timeout || 10000,
+      expectedCount
     );
 
     if (found) {

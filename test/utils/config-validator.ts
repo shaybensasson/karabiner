@@ -11,6 +11,7 @@ interface To {
   shell_command?: string;
   key_code?: string;
   modifiers?: string[];
+  repeat?: boolean;
   set_variable?: { name: string; value: number | string | boolean };
 }
 
