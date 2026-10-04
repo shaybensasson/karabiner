@@ -1,3 +1,4 @@
 node_modules
 test/tools/keysim
 karabiner.json
+*.code-workspace
