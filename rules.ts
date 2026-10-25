@@ -179,6 +179,7 @@ export const directHyperShortcuts: {
   { key: "0", description: "cmux", action: "open -a 'cmux'" },
   { key: "f8", keyDisplay: "F8", description: "Spotify", action: "open -a 'Spotify.app'" },
   { key: "f12", keyDisplay: "F12", description: "Select Audio Output", action: "open 'raycast://extensions/benvp/audio-device/set-output-device'" },
+  { key: "fn", keyDisplay: "fn", description: "Toggle Private Relay", action: "open 'raycast://script-commands/toggle-private-relay'" },
 ];
 
 /**

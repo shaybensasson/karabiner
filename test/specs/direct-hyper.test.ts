@@ -121,6 +121,15 @@ describe("Direct Hyper Shortcuts (◆ + key) - Config Validation", () => {
     expect(result.found).toBe(true);
     expect(result.valid).toBe(true);
   });
+
+  it("◆ + fn → Toggle Private Relay", () => {
+    const result = validateDirectHyperShortcut("fn", {
+      type: "raycast",
+      value: "script-commands/toggle-private-relay",
+    });
+    expect(result.found).toBe(true);
+    expect(result.valid).toBe(true);
+  });
 });
 
 describe("Direct Hyper Shortcuts - Repeatable while ◆ is held", () => {
