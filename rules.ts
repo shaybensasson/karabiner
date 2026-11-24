@@ -239,6 +239,7 @@ export const generalMappings: {
   { keys: "⌘PageUp", description: "⌘↑ (scroll to top)", fromKey: "page_up", fromModifiers: ["left_command"], toKey: "up_arrow", toModifiers: ["left_command"] },
   { keys: "⌘⇧PageDown", description: "⌘⇧↓ (select to bottom)", fromKey: "page_down", fromModifiers: ["left_command", "left_shift"], toKey: "down_arrow", toModifiers: ["left_command", "left_shift"] },
   { keys: "⌘⇧PageUp", description: "⌘⇧↑ (select to top)", fromKey: "page_up", fromModifiers: ["left_command", "left_shift"], toKey: "up_arrow", toModifiers: ["left_command", "left_shift"] },
+  { keys: "⌥F3", description: "Toggle Display Mirroring (⌘ Brightness Down)", fromKey: "f3", fromModifiers: ["left_option"], toKey: "display_brightness_decrement", toModifiers: ["left_command"] },
 ];
 
 /**
