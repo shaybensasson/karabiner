@@ -15,4 +15,21 @@ describe("General Mappings", () => {
       modifiers: ["left_command"],
     });
   });
+
+  it("F11 in Chrome → ⌃⌘F (toggle full screen)", () => {
+    const manipulator = getManipulators().find(
+      (m) =>
+        m.from.key_code === "f11" &&
+        m.conditions?.some(
+          (c) =>
+            c.type === "frontmost_application_if" &&
+            c.bundle_identifiers?.includes("^com\\.google\\.Chrome$")
+        )
+    );
+    expect(manipulator).toBeDefined();
+    expect(manipulator?.to?.[0]).toMatchObject({
+      key_code: "f",
+      modifiers: ["left_control", "left_command"],
+    });
+  });
 });

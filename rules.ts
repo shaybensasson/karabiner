@@ -251,7 +251,7 @@ export const staticShortcutDocs: { keys: string; description: string }[] = [
   { keys: "Esc", description: "Reset All Variables" },
   { keys: "⌘Q ⌘Q", description: "Quit App (double-tap)" },
   { keys: "⌘H", description: "Disabled (except IDE)" },
-  { keys: "F11", description: "IDE: F11 | Other: F19" },
+  { keys: "F11", description: "IDE: F11 | Chrome: Full Screen | Other: F19" },
   { keys: "⇧L+⇧R", description: "Move Forward 1 Word (hold L, tap R)" },
   { keys: "⇧R+⇧L", description: "Move Backward 1 Word (hold R, tap L)" },
   // { keys: "⌫ (Finder)", description: "Go Back (⌘[)" },
@@ -708,9 +708,9 @@ const rules: KarabinerRules[] = [
   },
   // General key remappings (generated from generalMappings)
   createGeneralMappingRules(),
-  // F11: passthrough in IDE, F19 (Show Desktop) elsewhere
+  // F11: passthrough in IDE, full screen in Chrome, F19 (Show Desktop) elsewhere
   {
-    description: "F11 → F19 (except VSCode/Cursor)",
+    description: "F11 → F19 (except VSCode/Cursor; Chrome: full screen)",
     manipulators: [
       // F11 passes through in VSCode/Cursor
       {
@@ -729,6 +729,20 @@ const rules: KarabinerRules[] = [
               "^com\\.microsoft\\.VSCode$",
               "^com\\.todesktop\\.230313mzl4w4u92$", // Cursor
             ],
+          },
+        ],
+      },
+      // F11 → ⌃⌘F (toggle full screen) in Chrome, like F11 on Windows
+      {
+        type: "basic",
+        from: {
+          key_code: "f11",
+        },
+        to: [{ key_code: "f", modifiers: ["left_control", "left_command"] }],
+        conditions: [
+          {
+            type: "frontmost_application_if",
+            bundle_identifiers: ["^com\\.google\\.Chrome$"],
           },
         ],
       },
